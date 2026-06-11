@@ -61,6 +61,7 @@ The required runtime skills are:
 - `formally-bmad-formal-epics`
 - `formally-bmad-formal-stories`
 - `formally-bmad-formal-contracts`
+- `formally-bmad-contract-stubs`
 - `formally-bmad-code-verification`
 - `formally-bmad-formal-verification`
 
@@ -78,6 +79,7 @@ Correct examples:
 <target-project>/.claude/skills/formally-bmad-setup
 <target-project>/.claude/skills/formally-bmad-formal-prd
 <target-project>/.claude/skills/formally-bmad-formal-contracts
+<target-project>/.claude/skills/formally-bmad-contract-stubs
 <target-project>/.claude/skills/formally-bmad-formal-verification
 ```
 
@@ -136,4 +138,4 @@ After setup completes, expect:
 - Proof assistants are not primary targets; automated provers/solvers are preferred.
 - `black` and `robot` may be installed outside the normal `PATH`; the current setup helper also checks known session-local install paths.
 - Human-readable specs remain BMad-style Markdown, with logic-native companions produced alongside them.
-- When code exists, use `formally-bmad-formal-contracts` to derive explicit contracts and `formally-bmad-code-verification` to collect implementation evidence before final readiness review.
+- When code exists, use `formally-bmad-formal-contracts` to derive explicit contracts, `formally-bmad-contract-stubs` to review code shape before implementation, and `formally-bmad-code-verification` to collect implementation evidence before final readiness review.

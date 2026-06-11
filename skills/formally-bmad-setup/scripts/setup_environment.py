@@ -120,6 +120,7 @@ def ensure_structure(module_root: Path, canonical_path: Path) -> list[str]:
         module_root / "artifacts" / "epics",
         module_root / "artifacts" / "stories",
         module_root / "artifacts" / "contracts",
+        module_root / "artifacts" / "stubs",
         module_root / "exports",
         module_root / "reports",
         module_root / "provenance",

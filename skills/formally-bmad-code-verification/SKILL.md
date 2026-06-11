@@ -36,12 +36,15 @@ If `--headless` or `-H` is invoked, require a contract workspace or explicit imp
 Load or ask for:
 
 - contract workspace or contract inventory;
+- approved contract stubs when they exist;
 - target language: `python`, `c`, or `rust`;
 - implementation paths, crates, modules, or files to verify;
 - relevant upstream requirements, architecture constraints, and story criteria;
 - available toolchain backends detected by setup or known in the environment.
 
 If the selected code lacks explicit contracts and only has comments or pseudocode, stop short of strong verification claims and report that contract generation is incomplete.
+
+If contract stubs exist but real implementation does not, report that the project is still at the stub-review stage rather than pretending code verification has started.
 
 ### Initialize Workspace
 

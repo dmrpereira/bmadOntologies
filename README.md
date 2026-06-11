@@ -8,6 +8,7 @@ The current module is ready to use for a simple project workflow. It supports:
 - formal brainstorming and import
 - PRD, architecture, epics, and stories with formal companions
 - language-aware code contract derivation for Python, C, and Rust
+- contract-bearing stub generation for review before implementation
 - implementation verification against generated contracts
 - checkpoint verification, readiness review, contradiction analysis, and traceability review
 
@@ -21,6 +22,7 @@ It already gives you:
 - a canonical project structure under `_bmad/formally-bmad`
 - a formal artifact flow from idea to stories
 - a contract refinement flow from accepted obligations into code-level contracts
+- a review gate that turns accepted contracts into code skeletons before full generation
 - explicit verification routing for the currently supported toolchain
 - clear degraded-check behavior when a backend is missing
 
@@ -133,6 +135,7 @@ Install these skill directories from [skills](/Users/dmrpereira/Propostas/bmadOn
 - `formally-bmad-formal-epics`
 - `formally-bmad-formal-stories`
 - `formally-bmad-formal-contracts`
+- `formally-bmad-contract-stubs`
 - `formally-bmad-code-verification`
 - `formally-bmad-formal-verification`
 
@@ -166,6 +169,7 @@ Use this sequence:
    - `skills/formally-bmad-formal-epics`
    - `skills/formally-bmad-formal-stories`
    - `skills/formally-bmad-formal-contracts`
+   - `skills/formally-bmad-contract-stubs`
    - `skills/formally-bmad-code-verification`
    - `skills/formally-bmad-formal-verification`
 3. Copy them into the target project's active BMad skills location:
@@ -180,6 +184,7 @@ Each copied directory should land directly under `.claude/skills/`, for example:
 <target-project>/.claude/skills/formally-bmad-setup
 <target-project>/.claude/skills/formally-bmad-agent-steward
 <target-project>/.claude/skills/formally-bmad-formal-contracts
+<target-project>/.claude/skills/formally-bmad-contract-stubs
 <target-project>/.claude/skills/formally-bmad-formal-verification
 ```
 
@@ -215,6 +220,7 @@ If you already have a BMad-enabled target project and want the simplest install 
    - `skills/formally-bmad-formal-epics`
    - `skills/formally-bmad-formal-stories`
    - `skills/formally-bmad-formal-contracts`
+   - `skills/formally-bmad-contract-stubs`
    - `skills/formally-bmad-code-verification`
    - `skills/formally-bmad-formal-verification`
 3. copy them into:
@@ -306,8 +312,9 @@ For a new simple project, use this sequence:
 5. Run `formally-bmad-formal-epics`
 6. Run `formally-bmad-formal-stories`
 7. Run `formally-bmad-formal-contracts` when implementation-facing contracts are needed
-8. Run `formally-bmad-code-verification` when code exists
-9. Run `formally-bmad-formal-verification` at checkpoints and at the end
+8. Run `formally-bmad-contract-stubs` to generate reviewable skeletons before implementation
+9. Run `formally-bmad-code-verification` when code exists
+10. Run `formally-bmad-formal-verification` at checkpoints and at the end
 
 The intended call order is strictly sequential once you are in the planning-to-implementation part of the lifecycle:
 
@@ -316,8 +323,9 @@ The intended call order is strictly sequential once you are in the planning-to-i
 3. `formally-bmad-formal-epics`
 4. `formally-bmad-formal-stories`
 5. `formally-bmad-formal-contracts`
-6. `formally-bmad-code-verification`
-7. `formally-bmad-formal-verification`
+6. `formally-bmad-contract-stubs`
+7. `formally-bmad-code-verification`
+8. `formally-bmad-formal-verification`
 
 `formally-bmad-formal-contracts` does not run in parallel with `formally-bmad-formal-stories`.
 
@@ -325,12 +333,14 @@ Reason:
 
 - `formally-bmad-formal-stories` decides the implementation-facing acceptance criteria and obligations
 - `formally-bmad-formal-contracts` consumes those accepted obligations and refines them into code-level contracts
-- `formally-bmad-code-verification` then checks actual code against those generated contracts
+- `formally-bmad-contract-stubs` projects those contracts into signatures, types, modules, and contract placement for review
+- `formally-bmad-code-verification` then checks actual code against the approved contracts and stub shape
 
 Use this rule of thumb:
 
 - if you are still deciding what implementation must do, stay in `formally-bmad-formal-stories`
 - if you are deciding how an accepted obligation becomes a checkable Python, C, or Rust contract, move to `formally-bmad-formal-contracts`
+- if you want reviewable code shape before implementation, run `formally-bmad-contract-stubs`
 - if code already exists and you want evidence that it satisfies those contracts, run `formally-bmad-code-verification`
 
 Use `formally-bmad-agent-steward` whenever you need:
@@ -351,7 +361,9 @@ A good first run is:
 3. formalize the PRD
 4. run verification immediately
 5. only then continue into architecture and stories
-6. add contract derivation and code verification once implementation begins
+6. add contract derivation once implementation planning begins
+7. review generated contract-bearing stubs before full code generation
+8. run code verification once real implementation exists
 
 That gives you fast feedback on:
 
@@ -399,6 +411,7 @@ First, copy these directories from this repository:
 - `skills/formally-bmad-formal-epics`
 - `skills/formally-bmad-formal-stories`
 - `skills/formally-bmad-formal-contracts`
+- `skills/formally-bmad-contract-stubs`
 - `skills/formally-bmad-code-verification`
 - `skills/formally-bmad-formal-verification`
 
@@ -518,7 +531,24 @@ When this stage begins:
 
 This stage is downstream from stories, not a parallel drafting activity with them.
 
-### 8. Verify Implementation Against Contracts
+### 8. Generate Contract-Bearing Stubs
+
+Run:
+
+```text
+formally-bmad-contract-stubs
+```
+
+This stage should:
+
+- generate signatures, types, files, modules, or traits with accepted contract placement
+- avoid filling in business logic
+- provide a review checkpoint for names, boundaries, and contract attachment
+- make the user approve code shape before full implementation begins
+
+This is the bridge between contract refinement and full implementation.
+
+### 9. Verify Implementation Against Contracts
 
 Run:
 
@@ -532,9 +562,9 @@ This stage should:
 - record whether evidence is deductive, symbolic, bounded, runtime, test-based, or manual-review only
 - report failures, degraded checks, and contracts that still lack faithful implementation evidence
 
-Only run this stage after `formally-bmad-formal-contracts` has produced explicit contracts or exported contract views. If all you have are comments, docstrings, or pseudocode, you are still too early for strong code-verification claims.
+Only run this stage after contract stubs have been reviewed and actual code exists. If all you have are comments, docstrings, pseudocode, or unreviewed skeletons, you are still too early for strong code-verification claims.
 
-### 9. Run Verification at Checkpoints
+### 10. Run Verification at Checkpoints
 
 Run:
 
@@ -547,7 +577,8 @@ Do not wait until the end. The recommended checkpoint cadence is:
 1. after PRD
 2. after architecture
 3. after stories
-4. after contract derivation and code verification when implementation exists
+4. after contract derivation and stub review when implementation planning becomes concrete
+5. after code verification when implementation exists
 
 This gives early signal on:
 

@@ -128,4 +128,4 @@ End with:
 - contract coverage summary by kind and notation family;
 - contracts that remain runtime-only, test-backed, or review-backed, with reasons;
 - steward validation status;
-- recommended next workflow: `formally-bmad-code-verification`.
+- recommended next workflow: `formally-bmad-contract-stubs`.
