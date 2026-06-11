@@ -60,6 +60,8 @@ The required runtime skills are:
 - `formally-bmad-formal-architecture`
 - `formally-bmad-formal-epics`
 - `formally-bmad-formal-stories`
+- `formally-bmad-formal-contracts`
+- `formally-bmad-code-verification`
 - `formally-bmad-formal-verification`
 
 Copy those exact directories from this repository's `skills/` folder into:
@@ -75,6 +77,7 @@ Correct examples:
 ```text
 <target-project>/.claude/skills/formally-bmad-setup
 <target-project>/.claude/skills/formally-bmad-formal-prd
+<target-project>/.claude/skills/formally-bmad-formal-contracts
 <target-project>/.claude/skills/formally-bmad-formal-verification
 ```
 
@@ -111,6 +114,9 @@ Supported families (examples):
 - SAT: `kissat`, `cadical`, `minisat`, `glucose`
 - Temporal: `tlc`, `apalache`, `alloy`
 - Ontology/DL: `robot`, `hermit`, `elk`, `pellet`
+- Python contract verification: `crosshair`
+- C contract verification: `frama-c`, `cbmc`
+- Rust contract verification: `cargo-kani`, `prusti-rustc`, `cargo-creusot`
 
 Additional tooling such as `black` and proof assistants may be detected and reported, but they do not replace the baseline gate.
 
@@ -130,3 +136,4 @@ After setup completes, expect:
 - Proof assistants are not primary targets; automated provers/solvers are preferred.
 - `black` and `robot` may be installed outside the normal `PATH`; the current setup helper also checks known session-local install paths.
 - Human-readable specs remain BMad-style Markdown, with logic-native companions produced alongside them.
+- When code exists, use `formally-bmad-formal-contracts` to derive explicit contracts and `formally-bmad-code-verification` to collect implementation evidence before final readiness review.

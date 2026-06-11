@@ -7,6 +7,8 @@ The current module is ready to use for a simple project workflow. It supports:
 - setup and tool detection
 - formal brainstorming and import
 - PRD, architecture, epics, and stories with formal companions
+- language-aware code contract derivation for Python, C, and Rust
+- implementation verification against generated contracts
 - checkpoint verification, readiness review, contradiction analysis, and traceability review
 
 ## What This MVP Covers
@@ -18,6 +20,7 @@ It already gives you:
 - a setup workflow with enforced validation baseline
 - a canonical project structure under `_bmad/formally-bmad`
 - a formal artifact flow from idea to stories
+- a contract refinement flow from accepted obligations into code-level contracts
 - explicit verification routing for the currently supported toolchain
 - clear degraded-check behavior when a backend is missing
 
@@ -129,6 +132,8 @@ Install these skill directories from [skills](/Users/dmrpereira/Propostas/bmadOn
 - `formally-bmad-formal-architecture`
 - `formally-bmad-formal-epics`
 - `formally-bmad-formal-stories`
+- `formally-bmad-formal-contracts`
+- `formally-bmad-code-verification`
 - `formally-bmad-formal-verification`
 
 Do not copy `skills/reports/`. That folder is project documentation for this module repository, not a runtime dependency of the target project.
@@ -160,6 +165,8 @@ Use this sequence:
    - `skills/formally-bmad-formal-architecture`
    - `skills/formally-bmad-formal-epics`
    - `skills/formally-bmad-formal-stories`
+   - `skills/formally-bmad-formal-contracts`
+   - `skills/formally-bmad-code-verification`
    - `skills/formally-bmad-formal-verification`
 3. Copy them into the target project's active BMad skills location:
 
@@ -172,6 +179,7 @@ Each copied directory should land directly under `.claude/skills/`, for example:
 ```text
 <target-project>/.claude/skills/formally-bmad-setup
 <target-project>/.claude/skills/formally-bmad-agent-steward
+<target-project>/.claude/skills/formally-bmad-formal-contracts
 <target-project>/.claude/skills/formally-bmad-formal-verification
 ```
 
@@ -206,6 +214,8 @@ If you already have a BMad-enabled target project and want the simplest install 
    - `skills/formally-bmad-formal-architecture`
    - `skills/formally-bmad-formal-epics`
    - `skills/formally-bmad-formal-stories`
+   - `skills/formally-bmad-formal-contracts`
+   - `skills/formally-bmad-code-verification`
    - `skills/formally-bmad-formal-verification`
 3. copy them into:
 
@@ -245,6 +255,9 @@ The module can also detect and report:
 - temporal satisfiability tooling: `black`
 - ontology tooling: `robot`
 - temporal/model-checking tooling: `tlc`, `apalache`, `alloy`
+- Python contract verification tooling: `crosshair`
+- C contract verification tooling: `frama-c`, `cbmc`
+- Rust contract verification tooling: `cargo-kani`, `prusti-rustc`, `cargo-creusot`
 - additional ontology reasoners: `hermit`, `elk`, `jfact`, `factplusplus`, `pellet`
 
 ### Important Environment Note
@@ -274,6 +287,12 @@ The MVP verification workflow routes checks conservatively by logic family:
 
 Proof assistants are support-only in the MVP. They are informative, but they are not the primary validation backend.
 
+For implementation-facing verification, the current MVP also supports this contract/tool split:
+
+- Python contracts: prefer `deal` or `icontract` style notation, with `crosshair` as the primary executable verifier
+- C contracts: prefer `ACSL`, with `frama-c` or `cbmc` as executable verification backends
+- Rust contracts: prefer Kani-oriented assertions or proof harnesses, or Prusti/Creusot style specifications, with `cargo-kani`, `prusti-rustc`, or `cargo-creusot` as backends
+
 ## Recommended Starting Workflow
 
 For a new simple project, use this sequence:
@@ -286,7 +305,9 @@ For a new simple project, use this sequence:
 4. Run `formally-bmad-formal-architecture`
 5. Run `formally-bmad-formal-epics`
 6. Run `formally-bmad-formal-stories`
-7. Run `formally-bmad-formal-verification` at checkpoints and at the end
+7. Run `formally-bmad-formal-contracts` when implementation-facing contracts are needed
+8. Run `formally-bmad-code-verification` when code exists
+9. Run `formally-bmad-formal-verification` at checkpoints and at the end
 
 Use `formally-bmad-agent-steward` whenever you need:
 
@@ -306,6 +327,7 @@ A good first run is:
 3. formalize the PRD
 4. run verification immediately
 5. only then continue into architecture and stories
+6. add contract derivation and code verification once implementation begins
 
 That gives you fast feedback on:
 
@@ -352,6 +374,8 @@ First, copy these directories from this repository:
 - `skills/formally-bmad-formal-architecture`
 - `skills/formally-bmad-formal-epics`
 - `skills/formally-bmad-formal-stories`
+- `skills/formally-bmad-formal-contracts`
+- `skills/formally-bmad-code-verification`
 - `skills/formally-bmad-formal-verification`
 
 Copy them into the target project's active BMad skill location, usually:
@@ -445,7 +469,36 @@ These stages should:
 - produce stories with formalized acceptance criteria
 - detect readiness blockers before coding
 
-### 7. Run Verification at Checkpoints
+### 7. Derive Code Contracts
+
+Run:
+
+```text
+formally-bmad-formal-contracts
+```
+
+This stage should:
+
+- translate accepted requirements and story criteria into code-contract surfaces
+- choose language-aware notation for Python, C, or Rust
+- record whether each contract is exact, conservative, partial, or not faithfully expressible
+- generate tool-facing contract views rather than leaving contracts as comments only
+
+### 8. Verify Implementation Against Contracts
+
+Run:
+
+```text
+formally-bmad-code-verification
+```
+
+This stage should:
+
+- check implementation against generated contracts
+- record whether evidence is deductive, symbolic, bounded, runtime, test-based, or manual-review only
+- report failures, degraded checks, and contracts that still lack faithful implementation evidence
+
+### 9. Run Verification at Checkpoints
 
 Run:
 
@@ -458,6 +511,7 @@ Do not wait until the end. The recommended checkpoint cadence is:
 1. after PRD
 2. after architecture
 3. after stories
+4. after contract derivation and code verification when implementation exists
 
 This gives early signal on:
 
@@ -472,6 +526,7 @@ For this version of the module, success looks like:
 
 - setup passes
 - every major artifact gets a formal companion
+- implementation-facing obligations are translated into explicit contracts before strong code-level claims are made
 - verification is run repeatedly, not only at the end
 - degraded checks are reported honestly
 - the canonical model remains the source of truth
@@ -487,6 +542,7 @@ Setup and verification reports should make these things explicit:
 - which contradictions are blocking readiness
 - which obligations are tool-checkable with the current environment
 - which obligations still need a better backend or a cleaner formal encoding
+- which implementation contracts are only runtime/test-backed rather than tool-backed
 
 ## Suggested Workflow For Daily Use
 

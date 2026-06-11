@@ -7,7 +7,7 @@ description: Creates PRDs with formal grounding. Use when the user requests to '
 
 ## Overview
 
-This workflow creates or formalizes a BMad-style PRD while incrementally updating Formally BMAD with rigorous English formalization, candidate/accepted requirements, provenance, validation findings, and downstream verification obligations. Act as a product requirements facilitator with a formal specification layer: keep the PRD readable, but make each accepted requirement traceable and checkable.
+This workflow creates or formalizes a BMad-style PRD while incrementally updating Formally BMAD with rigorous English formalization, candidate/accepted requirements, provenance, validation findings, and downstream verification obligations. Act as a product requirements facilitator with a formal specification layer: keep the PRD readable, but make each accepted requirement traceable, explicit about its verification path, and honest about what is or is not mechanized yet.
 
 ## Conventions
 
@@ -74,6 +74,15 @@ Map PRD content into formalizable units:
 
 Use `candidate` for draft requirements and `accepted` only when the user clearly confirms the requirement as a commitment. Use `open-question` when sound formalization is blocked.
 
+For every requirement, record these classifications explicitly rather than inferring them silently:
+
+- `formalization_status`: `not-yet-formalized`, `rigorous-english`, `logic-shaped`, or `logic-native`;
+- `mechanization_class`: `direct-tool-checkable`, `requires-additional-modeling`, `not-mechanized-in-mvp`, or `blocked-by-ambiguity`;
+- `verification_mode`: one or more of `smt`, `fol`, `sat`, `temporal`, `ontology`, `proof-assistant`, `test`, `manual-review`, or `mixed`;
+- `claim_strength`: `structured-only`, `planned-for-tool-check`, or `tool-backed-validated`.
+
+Do not decide privately that a requirement "is really a test requirement" or "cannot be formalized" without writing that classification and the reason into the companion artifacts.
+
 ### Formalize and Check Ambiguity
 
 For each requirement, write rigorous English that identifies:
@@ -87,6 +96,15 @@ For each requirement, write rigorous English that identifies:
 
 Ask clarifying questions only when ambiguity blocks useful formalization or validation. PRD-stage tolerance is moderate: unresolved questions may remain, but accepted requirements must be coherent.
 
+Where a requirement is not directly tool-checkable with the currently installed MVP toolchain, say which of these is true:
+
+- the requirement is still formalizable, but needs a richer model or translation than the current artifact provides;
+- the requirement is formalizable only after architecture/story refinement;
+- the requirement is presently represented as a test or review obligation for MVP reasons;
+- the requirement is blocked by ambiguity and cannot yet be soundly classified.
+
+Do not claim or imply that a requirement has been formally verified merely because you can imagine a possible future encoding in FOL, SMT, temporal logic, or a proof assistant.
+
 ### Define Verification Obligations
 
 Create initial downstream verification obligations for accepted requirements:
@@ -95,6 +113,15 @@ Create initial downstream verification obligations for accepted requirements:
 - what must later be covered by epics/stories;
 - what automated checks or model properties may be needed;
 - formal coverage status.
+
+Every accepted requirement must also get:
+
+- a named primary verification path for this stage;
+- a fallback path if the preferred mechanized check is not available yet;
+- the concrete reason when the current stage uses `test` or `manual-review` instead of a tool-backed check;
+- the additional artifact, translation, or model detail required to upgrade it later to a stronger mechanized check, if such an upgrade is plausible.
+
+If you downgrade a requirement from a possible mechanized check to a test-backed or review-backed obligation for MVP reasons, state that downgrade explicitly in user-visible output.
 
 ### Submit to Steward
 
@@ -107,10 +134,10 @@ If the steward reports a contradiction, block promotion of the affected accepted
 Maintain the companion folder with:
 
 - `prd.md` — PRD artifact or source link and formal status block;
-- `requirements.md` — requirement inventory and states;
-- `formalization.md` — rigorous English formalization;
+- `requirements.md` — requirement inventory, states, mechanization class, verification mode, and current claim strength;
+- `formalization.md` — rigorous English formalization plus any logic-family placement and explicit non-mechanization rationale;
 - `candidate-delta.md` — canonical assertions and logic-family placement;
-- `verification-obligations.md` — downstream coverage and check obligations;
+- `verification-obligations.md` — downstream coverage and check obligations, including why each obligation is tool-backed, degraded, test-backed, review-backed, or blocked;
 - `provenance.md` — PRD section to assertion mapping;
 - `local-validation.md` — ambiguity, blockers, steward responses, and repair proposals.
 
@@ -121,5 +148,6 @@ End with:
 - PRD path and companion folder;
 - accepted, candidate, and open-question requirements;
 - steward validation status;
-- formal coverage baseline;
+- formal coverage baseline, including counts by mechanization class and verification mode;
+- any accepted requirements that are not yet directly tool-checkable, with the written reason for each;
 - recommended next workflow: `formally-bmad-formal-architecture`, or `formally-bmad-ontology-alignment` if domain concepts need grounding first.

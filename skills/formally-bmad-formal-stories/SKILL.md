@@ -7,7 +7,7 @@ description: Creates stories with formal readiness. Use when the user requests t
 
 ## Overview
 
-This workflow creates or formalizes implementation stories with formal acceptance criteria, traceability, consistency checks, blocker detection, and readiness status. It consumes PRD, architecture, and epic model state and applies strict validation because stories are implementation-facing commitments.
+This workflow creates or formalizes implementation stories with formal acceptance criteria, traceability, consistency checks, blocker detection, and readiness status. It consumes PRD, architecture, and epic model state and applies strict validation because stories are implementation-facing commitments. Story outputs must preserve an honest distinction between structured formalization, planned mechanized checks, and actual tool-backed verification.
 
 ## Conventions
 
@@ -80,6 +80,15 @@ Convert acceptance criteria into checkable formal obligations:
 
 Use `accepted` only for criteria the user confirms as implementation commitments. Use `open-question` for criteria that cannot be checked without clarification.
 
+For each accepted criterion, explicitly record:
+
+- `formalization_status`;
+- `mechanization_class`;
+- `verification_mode`;
+- `claim_strength`.
+
+If a criterion is represented only as a test obligation or manual review obligation, say so plainly. Do not imply that every acceptance criterion is already solver-ready merely because it has rigorous English.
+
 ### Check Alignment
 
 Validate the story against:
@@ -101,6 +110,8 @@ Block readiness for:
 - unresolved architecture constraints;
 - stale source dependencies;
 - unvalidated acceptance criteria;
+- missing mechanization/evidence classification for accepted criteria;
+- any status language that overclaims verification relative to recorded tool evidence;
 - open questions required for implementation.
 
 Produce repair proposals rather than only issue lists.
@@ -116,11 +127,11 @@ If validation reports contradiction, block story readiness until resolved or exp
 Maintain the companion folder with:
 
 - `story.md` — story artifact or source link and formal status block;
-- `acceptance-criteria.md` — criteria inventory and formalization;
-- `formalization.md` — rigorous English formalization;
+- `acceptance-criteria.md` — criteria inventory, formalization, mechanization class, verification mode, and current claim strength;
+- `formalization.md` — rigorous English formalization plus any non-mechanization rationale or required modeling upgrade;
 - `alignment.md` — PRD, architecture, epic, and prior-story alignment;
 - `blockers.md` — contradictions, missing coverage, stale dependencies, and open questions;
-- `readiness.md` — story readiness status and rationale;
+- `readiness.md` — story readiness status and rationale, including any criteria that remain test-backed, review-backed, degraded, or not yet checked;
 - `candidate-delta.md` — canonical assertions and logic-family placement;
 - `provenance.md` — story section to assertion/criterion mapping;
 - `local-validation.md` — steward responses and repair proposals.
@@ -135,4 +146,4 @@ End with:
 - alignment summary;
 - blockers and repair proposals;
 - steward validation status;
-- recommended next workflow: `formally-bmad-formal-verification` for readiness or checkpoint reporting.
+- recommended next workflow: `formally-bmad-formal-contracts` when implementation-facing contracts must be derived, or `formally-bmad-formal-verification` for broader readiness/checkpoint reporting before code exists.

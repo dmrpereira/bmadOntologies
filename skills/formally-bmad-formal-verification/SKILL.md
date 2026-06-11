@@ -58,6 +58,8 @@ Confirm scope unless running headless:
 
 Scope determines which companions, provenance files, status files, and tool-run records to inspect.
 
+If contract-derivation or code-verification artifacts exist, include them in scope rather than treating implementation evidence as out of band.
+
 ### Run Checkpoint Verification
 
 Use `formally-bmad-agent-steward` capabilities `Validate Update Consistency`, `Maintain Provenance and Status`, and `Export Tool Views` as needed.
@@ -119,9 +121,11 @@ Assess readiness using formal coverage thresholds:
 - every accepted requirement has formal assertions;
 - every accepted requirement has provenance;
 - every accepted requirement has at least one verification obligation or justified exemption;
+- implementation-facing requirements have code-contract mappings when code artifacts are already in scope;
 - architecture decisions align with accepted requirements;
 - epics cover accepted requirements intentionally;
 - stories have formalized acceptance criteria and no unresolved implementation blockers;
+- code-verification findings do not contradict the claimed implementation readiness status when contract or implementation artifacts exist;
 - canonical model status is not inconsistent unless the user explicitly accepts the risk.
 
 Readiness should be `ready`, `not-ready`, `blocked`, or `degraded`, with rationale.
@@ -167,6 +171,14 @@ For MVP contradiction handling:
 Measure whether accepted requirements, architecture decisions, epics, stories, and acceptance criteria have enough formal representation and verification obligations for their lifecycle stage.
 
 Coverage review should also say which obligations are currently tool-checkable with the installed MVP toolchain and which are only structurally represented but not yet executable by an available backend.
+
+Treat these as explicit findings, not soft notes:
+
+- an accepted requirement or criterion lacks a recorded mechanization class;
+- an accepted requirement or criterion lacks a recorded verification mode;
+- claim strength in an upstream artifact exceeds the available tool-run evidence;
+- a requirement was silently downgraded from mechanizable to test-backed without a written reason;
+- a requirement is described as "cannot be formally verified" without a scoped justification tied to the current artifact and installed toolchain.
 
 Coverage findings should include recommended repairs: add formal assertion, add provenance, clarify ambiguity, align to ontology concept, add verification obligation, split requirement, or update source artifact.
 

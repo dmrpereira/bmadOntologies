@@ -29,6 +29,9 @@ PROOF_ASSISTANTS = ["coqc", "rocq", "lean", "lake", "isabelle"]
 SPECIALIZED_TOOLS = {
     "temporal_satisfiability": ["black"],
     "ontology_workbench": ["robot"],
+    "python_contract_verification": ["crosshair"],
+    "c_contract_verification": ["frama-c", "cbmc"],
+    "rust_contract_verification": ["cargo-kani", "prusti-rustc", "cargo-creusot"],
 }
 
 DEFAULT_EXTRA_TOOL_DIRS = [
@@ -116,6 +119,7 @@ def ensure_structure(module_root: Path, canonical_path: Path) -> list[str]:
         module_root / "artifacts" / "architecture",
         module_root / "artifacts" / "epics",
         module_root / "artifacts" / "stories",
+        module_root / "artifacts" / "contracts",
         module_root / "exports",
         module_root / "reports",
         module_root / "provenance",

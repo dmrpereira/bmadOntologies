@@ -87,6 +87,9 @@ Also report specialized supporting tools when available:
 
 - temporal satisfiability tooling: `black`;
 - ontology workflow tooling: `robot` as a CLI ontology workbench in addition to its role in the ontology tool family;
+- Python contract verification backends: `crosshair`;
+- C contract verification backends: `frama-c`, `cbmc`;
+- Rust contract verification backends: `cargo-kani`, `prusti-rustc`, `cargo-creusot`;
 - proof assistants: `coqc`, `rocq`, `lean`, `lake`, `isabelle`.
 
 The setup helper searches the normal `PATH`. If session-local tools are installed outside `PATH`, provide extra directories through `FORMALLY_BMAD_EXTRA_TOOL_DIRS` or rely on known local install paths such as `/private/tmp/black-install/bin` and `/private/tmp/robot/bin`.
@@ -95,7 +98,7 @@ The baseline validation requirement is stricter than the total tool count:
 
 - at least one SMT solver must be detected and usable;
 - at least one first-order or SAT solver must also be detected and usable;
-- temporal/model-checking tools, specialized temporal satisfiability tooling, ontology reasoners/tools, and proof assistants are relevant and should be reported, but they do not satisfy the baseline by themselves.
+- temporal/model-checking tools, specialized temporal satisfiability tooling, ontology reasoners/tools, contract-oriented verification backends, and proof assistants are relevant and should be reported, but they do not satisfy the baseline by themselves.
 
 Proof assistants such as Coq/Rocq, Lean, Isabelle, or HOL tools count as relevant formal tooling, but they cannot replace the baseline SMT plus first-order-or-SAT requirement.
 

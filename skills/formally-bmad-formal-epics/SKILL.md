@@ -7,7 +7,7 @@ description: Creates epics with formal coverage. Use when the user requests to '
 
 ## Overview
 
-This workflow creates or formalizes BMad epics as implementation planning structures with formal traceability to accepted PRD requirements, architecture constraints, assumptions, and verification obligations. It ensures epics expose coverage gaps before story writing begins and produce story-level obligations for downstream implementation planning.
+This workflow creates or formalizes BMad epics as implementation planning structures with formal traceability to accepted PRD requirements, architecture constraints, assumptions, and verification obligations. It ensures epics expose coverage gaps before story writing begins and produce story-level obligations for downstream implementation planning without silently weakening upstream verification claims.
 
 ## Conventions
 
@@ -77,6 +77,8 @@ For every accepted PRD requirement, record one coverage status:
 
 Coverage gaps are not automatically contradictions, but implementation-facing epics should not be ready while accepted requirements are unintentionally unmapped.
 
+Preserve each requirement's upstream mechanization class and verification mode in the coverage map. Do not rewrite a PRD requirement that was `requires-additional-modeling` or `not-mechanized-in-mvp` as if the epic had already solved that gap unless the epic actually adds the missing model detail.
+
 ### Check Epic Coherence
 
 Assess each epic for:
@@ -97,6 +99,14 @@ Derive story-level obligations from each epic:
 - verification obligations stories must cover;
 - unresolved questions that must be answered before a story can be ready.
 
+For each carried requirement, say whether the story is expected to:
+
+- preserve an existing mechanized check path;
+- supply the missing model detail needed for later mechanized checking;
+- remain test-backed or review-backed for MVP reasons.
+
+Do not let epics erase the distinction between structurally formalized requirements and tool-backed validated ones.
+
 ### Submit to Steward
 
 Submit epic deltas to `formally-bmad-agent-steward` through `Accept Canonical Delta` and `Validate Update Consistency` where epic commitments are accepted.
@@ -108,9 +118,9 @@ If validation reports contradiction against accepted PRD or architecture commitm
 Maintain the companion folder with:
 
 - `epics.md` — epic set artifact or source link and formal status block;
-- `requirement-coverage.md` — requirement-to-epic coverage map;
+- `requirement-coverage.md` — requirement-to-epic coverage map, including upstream mechanization class, verification mode, and any unresolved upgrade path for each requirement;
 - `epic-coherence.md` — epic purpose, scope, dependencies, and blockers;
-- `story-obligations.md` — obligations for story creation;
+- `story-obligations.md` — obligations for story creation, including which verification gaps stories must close and which are intentionally deferred;
 - `candidate-delta.md` — canonical assertions and logic-family placement;
 - `provenance.md` — epic section to assertion/coverage mapping;
 - `local-validation.md` — ambiguity, coverage gaps, blockers, steward responses, and repair proposals.
