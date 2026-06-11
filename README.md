@@ -309,6 +309,30 @@ For a new simple project, use this sequence:
 8. Run `formally-bmad-code-verification` when code exists
 9. Run `formally-bmad-formal-verification` at checkpoints and at the end
 
+The intended call order is strictly sequential once you are in the planning-to-implementation part of the lifecycle:
+
+1. `formally-bmad-formal-prd`
+2. `formally-bmad-formal-architecture`
+3. `formally-bmad-formal-epics`
+4. `formally-bmad-formal-stories`
+5. `formally-bmad-formal-contracts`
+6. `formally-bmad-code-verification`
+7. `formally-bmad-formal-verification`
+
+`formally-bmad-formal-contracts` does not run in parallel with `formally-bmad-formal-stories`.
+
+Reason:
+
+- `formally-bmad-formal-stories` decides the implementation-facing acceptance criteria and obligations
+- `formally-bmad-formal-contracts` consumes those accepted obligations and refines them into code-level contracts
+- `formally-bmad-code-verification` then checks actual code against those generated contracts
+
+Use this rule of thumb:
+
+- if you are still deciding what implementation must do, stay in `formally-bmad-formal-stories`
+- if you are deciding how an accepted obligation becomes a checkable Python, C, or Rust contract, move to `formally-bmad-formal-contracts`
+- if code already exists and you want evidence that it satisfies those contracts, run `formally-bmad-code-verification`
+
 Use `formally-bmad-agent-steward` whenever you need:
 
 - canonical model status
@@ -469,6 +493,8 @@ These stages should:
 - produce stories with formalized acceptance criteria
 - detect readiness blockers before coding
 
+This is the last stage where you are still defining implementation commitments. Do not start `formally-bmad-formal-contracts` until the relevant stories and acceptance criteria are accepted enough to serve as stable input.
+
 ### 7. Derive Code Contracts
 
 Run:
@@ -484,6 +510,14 @@ This stage should:
 - record whether each contract is exact, conservative, partial, or not faithfully expressible
 - generate tool-facing contract views rather than leaving contracts as comments only
 
+When this stage begins:
+
+- stories should already exist
+- acceptance criteria should already be formalized
+- the target language and target code surface should be known
+
+This stage is downstream from stories, not a parallel drafting activity with them.
+
 ### 8. Verify Implementation Against Contracts
 
 Run:
@@ -497,6 +531,8 @@ This stage should:
 - check implementation against generated contracts
 - record whether evidence is deductive, symbolic, bounded, runtime, test-based, or manual-review only
 - report failures, degraded checks, and contracts that still lack faithful implementation evidence
+
+Only run this stage after `formally-bmad-formal-contracts` has produced explicit contracts or exported contract views. If all you have are comments, docstrings, or pseudocode, you are still too early for strong code-verification claims.
 
 ### 9. Run Verification at Checkpoints
 
