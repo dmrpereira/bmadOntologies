@@ -18,6 +18,8 @@ Decide whether a proposed canonical model delta may be committed to the Formally
 - Unsupported guesses are rejected or downgraded to `candidate`, `provisional`, `open-question`, or `assumption`.
 - Accepted deltas are ready for consistency validation before becoming committed model state.
 
+Structural acceptance is not the same as mechanized validation. An `accepted_for_validation` delta may be well formed, well traced, and ready for checking while still lacking any solver-backed evidence.
+
 ## Required Inputs
 
 - Source artifact reference and relevant excerpt or section identifier.
@@ -35,3 +37,5 @@ Return one of:
 - `rejected`: delta is unsupported by source intent or violates the model contract.
 
 Include affected artifact paths, assertion identifiers, and a short reason for every non-accepted item.
+
+Do not present `accepted_for_validation` as verified, solver-checked, contradiction-free, or ready for implementation unless a later verification workflow has actually run the relevant backends and recorded the result.

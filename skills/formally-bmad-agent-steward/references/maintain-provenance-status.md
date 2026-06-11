@@ -17,6 +17,8 @@ Keep the canonical model auditable by maintaining traceability, status, indexes,
 - Model status accurately reflects consistency, degraded checks, stale artifacts, blockers, and overrides.
 - Verification workflows can build reports from the provenance records without reconstructing history from conversation.
 
+Do not let status or summaries imply mechanized verification when only rigorous English artifacts exist. If no actual tool-run evidence exists yet, status records should say so plainly.
+
 ## Status Vocabulary
 
 Use these statuses consistently when applicable:
@@ -39,3 +41,10 @@ Maintain or update:
 - model version metadata;
 - artifact formal status block data;
 - indexes for artifacts, assertions, reports, and open issues.
+
+When relevant, distinguish clearly between:
+
+- structurally formalized
+- accepted for validation
+- tool-backed validated
+- blocked/degraded/not yet checked

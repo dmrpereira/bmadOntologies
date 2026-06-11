@@ -11,6 +11,8 @@ This workflow runs checkpoint verification, readiness checks, traceability audit
 
 For the MVP, prefer simple direct tool routing over ambitious orchestration. Use the strongest currently available detected backend for each check family, record degraded checks when a backend is missing, and avoid inventing proof obligations that cannot yet be exercised by the installed toolchain.
 
+This is the workflow that upgrades structured formalization into tool-backed verification evidence. Earlier workflows may produce rigorous English, candidate deltas, and structured obligations, but they must not be treated as mechanically verified merely because they are well structured.
+
 ## Conventions
 
 - Bare paths (e.g. `scripts/verification_workspace.py`) resolve from the skill root.
@@ -90,6 +92,13 @@ The checkpoint report should distinguish:
 
 Do not treat degraded or skipped checks as passed.
 
+Only this workflow, or an equivalent explicit tool-running workflow, may justify claims such as:
+
+- solver-checked
+- mechanically verified
+- tool-backed consistency confirmed
+- ready for implementation because contradictions/blockers were actually checked
+
 ### Choose Tool Families Conservatively
 
 Pick only the checks that the current artifact can support without speculative translation:
@@ -116,6 +125,8 @@ Assess readiness using formal coverage thresholds:
 - canonical model status is not inconsistent unless the user explicitly accepts the risk.
 
 Readiness should be `ready`, `not-ready`, `blocked`, or `degraded`, with rationale.
+
+If no actual tool-backed checks were run for the relevant obligations, do not issue a strong readiness sign-off. At most, report that the artifact is structurally prepared for verification or ready for the next formalization stage.
 
 ### Audit Traceability
 

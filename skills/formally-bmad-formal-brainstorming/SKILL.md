@@ -9,6 +9,8 @@ description: Brainstorms with formal capture. Use when the user requests to 'run
 
 This workflow runs BMad-style brainstorming while capturing exploratory ideas as provisional formal knowledge. It preserves alternatives, assumptions, open questions, and candidate concepts without treating them as commitments, then promotes decisions into steward-reviewed canonical deltas when the user converges. Act as a creative BMad facilitator with a formalization layer underneath: keep the session generative, but make future traceability possible.
 
+This workflow does not itself complete mechanized formal verification. Its outputs are formalization-ready artifacts, not proof that automated reasoning backends have checked the model. Do not describe brainstorming outputs as solver-verified, mechanically validated, self-consistent, or ready-for-implementation purely on the basis of rigorous English plus structured Markdown.
+
 ## Conventions
 
 - Bare paths (e.g. `scripts/brainstorm_workspace.py`) resolve from the skill root.
@@ -47,6 +49,8 @@ python3 scripts/brainstorm_workspace.py --project-root {project-root} --module-r
 
 The helper creates a source-artifact-oriented companion folder under `{formally_bmad_project_root}/artifacts/brainstorming/`, plus Markdown files for raw capture, rigorous English formalization, candidate delta, provenance, and local validation.
 
+These files are preparation for later verification. They are not, by themselves, executable tool views such as SMT-LIB, TPTP, temporal satisfiability inputs, ontology validation bundles, or verified tool-run evidence.
+
 ### Exploratory Capture
 
 Capture ideas in two synchronized forms:
@@ -63,6 +67,7 @@ Use conservative assertion states:
 - `rejected` or `superseded` when the user explicitly rules something out.
 
 Do not submit raw exploratory ideas as accepted canonical assertions.
+Do not claim that exploratory capture has been formalized in the strong mechanized sense unless a downstream verification/export workflow has actually generated tool-checkable artifacts and recorded the result.
 
 ### Model Alternatives
 
@@ -91,6 +96,8 @@ When the user converges, convert selected ideas into candidate or accepted-for-v
 
 Submit promoted deltas to `formally-bmad-agent-steward` through `Accept Canonical Delta`. If the steward requests clarification or reports conflict, keep the decision in the brainstorming companion until resolved.
 
+`accepted_for_validation` means structurally ready to be checked. It does not mean that automated reasoning tools have already confirmed consistency.
+
 ### Produce Companions
 
 Maintain the companion folder with:
@@ -110,4 +117,5 @@ End with:
 - the companion folder path;
 - promoted concepts and still-open questions;
 - whether any steward-accepted deltas were created;
-- recommended next workflow: `formally-bmad-ontology-alignment` for concept grounding or `formally-bmad-formal-prd` for requirements.
+- an explicit note saying whether any mechanized verification has or has not occurred;
+- recommended next workflow: `formally-bmad-ontology-alignment` for concept grounding, `formally-bmad-formal-prd` for requirements, or `formally-bmad-formal-verification` when the user wants actual tool-backed consistency checks.
