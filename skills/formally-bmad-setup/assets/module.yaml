@@ -7,7 +7,7 @@ module_greeting: >
   Formally BMAD is configured. Start with setup validation, then use formal import or formal brainstorming to begin building the evolving canonical model.
 
 agents:
-  - code: agent-steward
+  - code: formally-bmad-agent-steward
     name: ""
     title: Canonical Model Steward
     icon: "§"
@@ -56,7 +56,7 @@ variables:
     result_template: "{answer}"
     user_setting: true
   - key: formally_bmad_min_required_tools
-    prompt: "What is the minimum number of supported automated reasoning tools required for setup to proceed?"
+    prompt: "What is the minimum total number of supported formal tools to require after the baseline validation gate is satisfied?"
     default: "1"
     regex: "^[1-9][0-9]*$"
     result_template: "{answer}"
@@ -74,4 +74,4 @@ variables:
     user_setting: true
 
 post-install-notes: >
-  Setup requires at least one supported automated reasoning tool. Missing optional backends may degrade individual checks, but a tool-less install is blocked.
+  Setup requires the baseline validation gate: at least one supported SMT solver and at least one supported first-order or SAT solver. Proof assistants and other tool families are relevant, but they do not replace that baseline. Missing optional backends may degrade individual checks, and installs without the baseline gate are blocked.

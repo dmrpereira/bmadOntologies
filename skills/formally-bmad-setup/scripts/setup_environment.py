@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import shutil
 import subprocess
 import sys
@@ -18,11 +19,22 @@ from pathlib import Path
 SUPPORTED_TOOLS = {
     "smt": ["z3", "cvc5", "cvc4"],
     "first_order": ["vampire", "eprover", "prover9", "mace4"],
+    "sat": ["kissat", "cadical", "minisat", "glucose"],
     "temporal": ["tlc", "apalache", "alloy"],
     "ontology": ["robot", "hermit", "elk", "jfact", "factplusplus", "pellet"],
 }
 
 PROOF_ASSISTANTS = ["coqc", "rocq", "lean", "lake", "isabelle"]
+
+SPECIALIZED_TOOLS = {
+    "temporal_satisfiability": ["black"],
+    "ontology_workbench": ["robot"],
+}
+
+DEFAULT_EXTRA_TOOL_DIRS = [
+    "/private/tmp/black-install/bin",
+    "/private/tmp/robot/bin",
+]
 
 BMAD_ARTIFACT_PATTERNS = [
     "*brainstorm*.md",
@@ -43,13 +55,25 @@ def resolve_path(raw: str, project_root: Path) -> Path:
     return Path(raw.replace("{project-root}", str(project_root))).expanduser().resolve()
 
 
-def detect_tool(name: str) -> dict[str, object]:
-    path = shutil.which(name)
+def resolve_tool_search_dirs() -> list[str]:
+    configured = os.environ.get("FORMALLY_BMAD_EXTRA_TOOL_DIRS", "")
+    configured_dirs = [part for part in configured.split(os.pathsep) if part]
+    candidate_dirs = configured_dirs + DEFAULT_EXTRA_TOOL_DIRS
+    return [directory for directory in candidate_dirs if Path(directory).is_dir()]
+
+
+def build_tool_search_path(extra_dirs: list[str]) -> str:
+    path_parts = extra_dirs + [os.environ.get("PATH", "")]
+    return os.pathsep.join(part for part in path_parts if part)
+
+
+def detect_tool(name: str, search_path: str | None = None) -> dict[str, object]:
+    path = shutil.which(name, path=search_path)
     result: dict[str, object] = {"name": name, "available": bool(path), "path": path}
     if not path:
         return result
 
-    version_args = ([name, "--version"], [name, "-version"], [name, "-h"])
+    version_args = ([path, "--version"], [path, "-version"], [path, "-h"])
     for args in version_args:
         try:
             completed = subprocess.run(args, capture_output=True, text=True, timeout=5, check=False)
@@ -125,6 +149,8 @@ def ensure_structure(module_root: Path, canonical_path: Path) -> list[str]:
 def write_report(module_root: Path, result: dict[str, object]) -> Path:
     report_path = module_root / "reports" / "setup-report.md"
     tools = result["tools"]
+    specialized_tools = result["specialized_tools"]
+    proof_assistants = result["proof_assistants_detected"]
     available = [
         f"- `{tool['name']}` ({family}) at `{tool['path']}`"
         for family, entries in tools.items()
@@ -137,6 +163,17 @@ def write_report(module_root: Path, result: dict[str, object]) -> Path:
         for tool in entries
         if not tool["available"]
     ]
+    available_specialized = [
+        f"- `{tool['name']}` ({family}) at `{tool['path']}`"
+        for family, entries in specialized_tools.items()
+        for tool in entries
+        if tool["available"]
+    ]
+    available_proof_assistants = [
+        f"- `{tool['name']}` at `{tool['path']}`"
+        for tool in proof_assistants
+        if tool["available"]
+    ]
     report_path.write_text(
         "# Formally BMAD Setup Report\n\n"
         f"- Generated: `{result['generated_at']}`\n"
@@ -145,8 +182,23 @@ def write_report(module_root: Path, result: dict[str, object]) -> Path:
         f"- Module root: `{result['module_root']}`\n"
         f"- Canonical path: `{result['canonical_path']}`\n"
         f"- Supported tools available: `{result['available_tool_count']}`\n\n"
+        "## Tool Search Paths\n\n"
+        + (
+            "\n".join(f"- `{directory}`" for directory in result["tool_search_dirs"])
+            if result["tool_search_dirs"]
+            else "No extra tool directories configured."
+        )
+        + "\n\n"
+        "## Baseline Validation Gate\n\n"
+        f"- SMT solver available: `{result['baseline_validation']['has_smt']}`\n"
+        f"- First-order or SAT solver available: `{result['baseline_validation']['has_first_order_or_sat']}`\n"
+        f"- Baseline satisfied: `{result['baseline_validation']['baseline_satisfied']}`\n\n"
         "## Available Tools\n\n"
         + ("\n".join(available) if available else "None detected.")
+        + "\n\n## Specialized Tooling\n\n"
+        + ("\n".join(available_specialized) if available_specialized else "No specialized tools detected.")
+        + "\n\n## Proof Assistants\n\n"
+        + ("\n".join(available_proof_assistants) if available_proof_assistants else "No proof assistants detected.")
         + "\n\n## Missing Supported Tools\n\n"
         + ("\n".join(missing) if missing else "No supported tools missing from the known list.")
         + "\n\n## BMad Artifact Candidates\n\n"
@@ -161,6 +213,50 @@ def write_report(module_root: Path, result: dict[str, object]) -> Path:
         encoding="utf-8",
     )
     return report_path
+
+
+def has_available_tool(entries: list[dict[str, object]]) -> bool:
+    return any(bool(tool["available"]) for tool in entries)
+
+
+def evaluate_baseline_validation(tools: dict[str, list[dict[str, object]]]) -> dict[str, bool]:
+    has_smt = has_available_tool(tools["smt"])
+    has_first_order_or_sat = has_available_tool(tools["first_order"]) or has_available_tool(tools["sat"])
+    return {
+        "has_smt": has_smt,
+        "has_first_order_or_sat": has_first_order_or_sat,
+        "baseline_satisfied": has_smt and has_first_order_or_sat,
+    }
+
+
+def build_guidance(
+    baseline_validation: dict[str, bool],
+    available_tool_count: int,
+    min_required_tools: int,
+) -> str:
+    if not baseline_validation["has_smt"] and not baseline_validation["has_first_order_or_sat"]:
+        return (
+            "Install at least one SMT solver and at least one first-order or SAT solver, then rerun setup. "
+            "Supported examples include z3 or cvc5 for SMT, and vampire, eprover, kissat, or minisat for the second baseline class."
+        )
+    if not baseline_validation["has_smt"]:
+        return (
+            "Install at least one SMT solver, then rerun setup. "
+            "Supported examples include z3, cvc5, and cvc4."
+        )
+    if not baseline_validation["has_first_order_or_sat"]:
+        return (
+            "Install at least one first-order or SAT solver, then rerun setup. "
+            "Supported examples include vampire, eprover, prover9, kissat, cadical, minisat, and glucose."
+        )
+    if available_tool_count < min_required_tools:
+        return (
+            f"Baseline validation tooling is available, but setup requires at least {min_required_tools} supported tools in total. "
+            "Install more supported tools, then rerun setup."
+        )
+    return (
+        "Setup can proceed. Baseline validation tooling is available: at least one SMT solver and at least one first-order or SAT solver were detected."
+    )
 
 
 def main() -> int:
@@ -183,15 +279,22 @@ def main() -> int:
 
     created = ensure_structure(module_root, canonical_path)
     artifacts = discover_artifacts(project_root)
-    tools = {family: [detect_tool(tool) for tool in names] for family, names in SUPPORTED_TOOLS.items()}
-    proof_assistants = [detect_tool(tool) for tool in PROOF_ASSISTANTS]
+    tool_search_dirs = resolve_tool_search_dirs()
+    search_path = build_tool_search_path(tool_search_dirs)
+    tools = {family: [detect_tool(tool, search_path=search_path) for tool in names] for family, names in SUPPORTED_TOOLS.items()}
+    specialized_tools = {
+        family: [detect_tool(tool, search_path=search_path) for tool in names]
+        for family, names in SPECIALIZED_TOOLS.items()
+    }
+    proof_assistants = [detect_tool(tool, search_path=search_path) for tool in PROOF_ASSISTANTS]
     available_tool_count = sum(1 for entries in tools.values() for tool in entries if tool["available"])
-    status = "complete" if available_tool_count >= args.min_tools else "blocked"
-    guidance = (
-        "Setup can proceed. At least one supported automated reasoning tool is available."
-        if status == "complete"
-        else "Install at least one supported automated reasoning tool such as z3, cvc5, vampire, eprover, tlc, apalache, robot, hermit, or pellet, then rerun setup."
+    baseline_validation = evaluate_baseline_validation(tools)
+    status = (
+        "complete"
+        if baseline_validation["baseline_satisfied"] and available_tool_count >= args.min_tools
+        else "blocked"
     )
+    guidance = build_guidance(baseline_validation, available_tool_count, args.min_tools)
 
     result: dict[str, object] = {
         "generated_at": utc_now(),
@@ -201,8 +304,11 @@ def main() -> int:
         "canonical_path": str(canonical_path),
         "created_or_verified_folders": created,
         "artifacts": artifacts,
+        "tool_search_dirs": tool_search_dirs,
         "tools": tools,
+        "specialized_tools": specialized_tools,
         "proof_assistants_detected": proof_assistants,
+        "baseline_validation": baseline_validation,
         "available_tool_count": available_tool_count,
         "min_required_tools": args.min_tools,
         "guidance": guidance,

@@ -1,0 +1,285 @@
+# Formally BMAD MVP
+
+This repository contains an MVP Formally BMAD module: a BMad extension for turning product and delivery artifacts into a formalized, traceable, verification-oriented project model.
+
+The current module is ready to use for a simple project workflow. It supports:
+
+- setup and tool detection
+- formal brainstorming and import
+- PRD, architecture, epics, and stories with formal companions
+- checkpoint verification, readiness review, contradiction analysis, and traceability review
+
+## What This MVP Covers
+
+The current module is designed for a practical first adoption, not full formal-methods automation.
+
+It already gives you:
+
+- a setup workflow with enforced validation baseline
+- a canonical project structure under `_bmad/formally-bmad`
+- a formal artifact flow from idea to stories
+- explicit verification routing for the currently supported toolchain
+- clear degraded-check behavior when a backend is missing
+
+It does not yet give you:
+
+- full automatic end-to-end solver orchestration for every workflow
+- permanent system installation for every optional tool
+- mature multi-backend cross-checking by default
+
+## Current Tooling Model
+
+### Baseline Validation Gate
+
+Setup requires:
+
+- at least one SMT solver
+- at least one first-order or SAT solver
+
+In practice, the current environment already supports this baseline with:
+
+- `z3`
+- `vampire`
+- `eprover`
+- `kissat`
+
+### Additional Supported Tools
+
+The module can also detect and report:
+
+- proof assistants: `rocq`, `coqc`, `lean`, `lake`, `isabelle`
+- temporal satisfiability tooling: `black`
+- ontology tooling: `robot`
+- temporal/model-checking tooling: `tlc`, `apalache`, `alloy`
+- additional ontology reasoners: `hermit`, `elk`, `jfact`, `factplusplus`, `pellet`
+
+### Important Environment Note
+
+Some tools are currently installed session-locally rather than globally:
+
+- `black`: `/private/tmp/black-install/bin/black`
+- `robot`: `/private/tmp/robot/bin/robot`
+
+The setup helper already knows to search those directories. If you move to another machine or a new environment, either reinstall those tools or provide extra tool directories through:
+
+```bash
+FORMALLY_BMAD_EXTRA_TOOL_DIRS=/path/to/tools1:/path/to/tools2
+```
+
+## How Verification Currently Uses Tools
+
+The MVP verification workflow routes checks conservatively by logic family:
+
+- SMT obligations: `z3`, then `cvc5`, then `cvc4`
+- first-order obligations: `vampire`, then `eprover`, then `prover9`
+- finite countermodel attempts: `mace4`
+- SAT-oriented reductions: `kissat`, then `cadical`, then `minisat`, then `glucose`
+- temporal satisfiability and finite-trace consistency: `black`
+- executable temporal/state-model views: `tlc`, then `apalache`, then `alloy`
+- ontology validation and export: `robot`, then `hermit`, `elk`, `jfact`, `factplusplus`, `pellet`
+
+Proof assistants are support-only in the MVP. They are informative, but they are not the primary validation backend.
+
+## Recommended Starting Workflow
+
+For a new simple project, use this sequence:
+
+1. Run `formally-bmad-setup`
+2. Start with either:
+   - `formally-bmad-formal-brainstorming` for a greenfield idea
+   - `formally-bmad-formal-import` if you already have BMad artifacts
+3. Run `formally-bmad-formal-prd`
+4. Run `formally-bmad-formal-architecture`
+5. Run `formally-bmad-formal-epics`
+6. Run `formally-bmad-formal-stories`
+7. Run `formally-bmad-formal-verification` at checkpoints and at the end
+
+Use `formally-bmad-agent-steward` whenever you need:
+
+- canonical model status
+- contradiction review
+- provenance/status maintenance
+- consistency guidance across sessions
+
+## Best First Project
+
+Do not start with a large system. The best first adoption is a single-feature project or a single vertical slice.
+
+A good first run is:
+
+1. setup the module
+2. brainstorm one feature
+3. formalize the PRD
+4. run verification immediately
+5. only then continue into architecture and stories
+
+That gives you fast feedback on:
+
+- whether the formalization style is useful
+- whether the generated obligations are understandable
+- whether the chosen solver/tool mix is adequate
+
+## Step-By-Step Instructions
+
+### 1. Prepare a Project Folder
+
+Create or choose a working project directory. The module will create project state under:
+
+```text
+_bmad/formally-bmad
+```
+
+This is where canonical model state, reports, artifacts, provenance, and tool-run records will live.
+
+### 2. Run Setup
+
+Run:
+
+```text
+formally-bmad-setup
+```
+
+Setup will:
+
+- register the module
+- merge module configuration into `_bmad/config.yaml` and `_bmad/config.user.yaml`
+- detect available formal tools
+- verify the baseline validation gate
+- create the canonical model structure
+- produce a setup report
+
+If setup blocks, fix the missing baseline tools first. Do not continue formal verification work without passing setup.
+
+### 3. Choose an Entry Point
+
+Use one of these:
+
+`formally-bmad-formal-brainstorming`
+
+- best for new ideas
+- captures assumptions, alternatives, open questions, and candidate concepts
+- keeps things flexible while building traceable formal companions
+
+`formally-bmad-formal-import`
+
+- best if you already have existing BMad Markdown artifacts
+- inventories source files
+- creates import companions and candidate formal deltas
+- preserves source meaning rather than rewriting it prematurely
+
+### 4. Formalize Requirements
+
+Run:
+
+```text
+formally-bmad-formal-prd
+```
+
+This stage should produce:
+
+- a readable PRD
+- formalized requirements
+- provenance links
+- verification obligations
+- candidate or accepted canonical deltas
+
+Keep requirements readable. Formal detail belongs in companions, not in unreadable source documents.
+
+### 5. Formalize Architecture
+
+Run:
+
+```text
+formally-bmad-formal-architecture
+```
+
+This stage should align architecture with accepted requirements and produce:
+
+- component and interface constraints
+- invariants
+- temporal properties where relevant
+- implementation constraints for downstream epics and stories
+
+### 6. Formalize Planning
+
+Run:
+
+```text
+formally-bmad-formal-epics
+formally-bmad-formal-stories
+```
+
+These stages should:
+
+- map requirements to epics
+- expose coverage gaps before implementation starts
+- produce stories with formalized acceptance criteria
+- detect readiness blockers before coding
+
+### 7. Run Verification at Checkpoints
+
+Run:
+
+```text
+formally-bmad-formal-verification
+```
+
+Do not wait until the end. The recommended checkpoint cadence is:
+
+1. after PRD
+2. after architecture
+3. after stories
+
+This gives early signal on:
+
+- contradictions
+- missing formal coverage
+- traceability gaps
+- obligations that are represented structurally but not yet tool-checkable
+
+## What Good MVP Usage Looks Like
+
+For this version of the module, success looks like:
+
+- setup passes
+- every major artifact gets a formal companion
+- verification is run repeatedly, not only at the end
+- degraded checks are reported honestly
+- the canonical model remains the source of truth
+- source artifacts stay readable
+
+## What To Expect From Reports
+
+Setup and verification reports should make these things explicit:
+
+- which tools were detected
+- which baseline checks passed
+- which checks were degraded or skipped
+- which contradictions are blocking readiness
+- which obligations are tool-checkable with the current environment
+- which obligations still need a better backend or a cleaner formal encoding
+
+## Suggested Workflow For Daily Use
+
+For a small project, this is a good operating rhythm:
+
+1. update the current artifact
+2. submit the new delta through the relevant workflow
+3. check steward status if needed
+4. run formal verification at the end of the checkpoint
+5. resolve blockers before moving to the next lifecycle stage
+
+## Current Status
+
+This MVP currently validates cleanly:
+
+- module validation passes
+- setup-helper tests pass
+- setup detects the current solver/tool environment correctly
+- verification and steward guidance are aligned with the installed toolchain
+
+If you want to extend this later, the natural next steps are:
+
+- permanent installation paths for `black` and `robot`
+- explicit command-level integration of solver runs in verification workflows
+- richer backend support such as `cvc5`, `tlc`, `apalache`, or additional ontology reasoners

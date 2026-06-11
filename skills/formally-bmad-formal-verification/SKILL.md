@@ -9,6 +9,8 @@ description: Verifies Formally BMAD model readiness. Use when the user requests 
 
 This workflow runs checkpoint verification, readiness checks, traceability audits, contradiction analysis, formal coverage review, and repair-review reporting over the evolving Formally BMAD canonical model and its source artifacts. Act as a formal verification reporter: make evidence, gaps, degraded checks, contradictions, and repair decisions easy to inspect.
 
+For the MVP, prefer simple direct tool routing over ambitious orchestration. Use the strongest currently available detected backend for each check family, record degraded checks when a backend is missing, and avoid inventing proof obligations that cannot yet be exercised by the installed toolchain.
+
 ## Conventions
 
 - Bare paths (e.g. `scripts/verification_workspace.py`) resolve from the skill root.
@@ -58,6 +60,26 @@ Scope determines which companions, provenance files, status files, and tool-run 
 
 Use `formally-bmad-agent-steward` capabilities `Validate Update Consistency`, `Maintain Provenance and Status`, and `Export Tool Views` as needed.
 
+For the MVP, route checks by logic family using the currently supported tools detected by `formally-bmad-setup`:
+
+- SMT obligations and decidable constraint fragments: prefer `z3`, then `cvc5`, then `cvc4`;
+- first-order consistency/refutation attempts: prefer `vampire`, then `eprover`, then `prover9`; use `mace4` when finite countermodels are the most useful evidence;
+- SAT-oriented consistency checks or propositional reductions: prefer `kissat`, then `cadical`, then `minisat`, then `glucose`;
+- temporal satisfiability and finite-trace consistency checks: prefer `black`;
+- temporal/model-checking views for explicit behavior models: prefer `tlc`, then `apalache`, then `alloy` when the artifact is already expressed in a suitable form;
+- ontology validation and ontology export checks: prefer `robot`, then ontology reasoners/tools such as `hermit`, `elk`, `jfact`, `factplusplus`, or `pellet`;
+- proof assistants such as `rocq`, `coqc`, `lean`, `lake`, and `isabelle` are informative support tooling only for the MVP; do not rely on them as the primary validation backend.
+
+Use at most one primary backend per check family in a single pass unless the user explicitly asks for cross-checking across multiple solvers. If a stronger preferred backend is absent but a lower-priority backend is available, continue and mark the result `degraded` rather than `skipped`.
+
+When you invoke or conceptually invoke a tool backend, record:
+
+- logic family;
+- chosen backend;
+- why that backend fits the current artifact or obligation;
+- whether the result is authoritative, degraded, or only suggestive;
+- where the tool input/output should be stored under `{formally_bmad_project_root}/tool-runs/`.
+
 The checkpoint report should distinguish:
 
 - checks passed;
@@ -67,6 +89,19 @@ The checkpoint report should distinguish:
 - checks skipped because required source artifacts are missing.
 
 Do not treat degraded or skipped checks as passed.
+
+### Choose Tool Families Conservatively
+
+Pick only the checks that the current artifact can support without speculative translation:
+
+- use SMT when obligations are constraint-like, finite-domain, arithmetic, equality-heavy, or otherwise easy to encode without changing meaning;
+- use first-order provers/model finders when obligations are relational, universally quantified, ontology-adjacent, or naturally expressed as FOL assertions;
+- use SAT when the obligation has already been reduced to a propositional/finite Boolean core or when a temporal satisfiability backend requires a SAT-style engine;
+- use `black` when checking whether temporal requirements are mutually satisfiable or contradictory before building a full transition-system model;
+- use `tlc`, `apalache`, or `alloy` only when the artifact already has an executable temporal/state-machine style view worth checking;
+- use `robot` and ontology reasoners when validating ontology fragments, mappings, term consistency, or export sanity.
+
+If no faithful encoding is available for a check family, say so explicitly and mark the check `not-applicable` or `degraded` instead of pretending a stronger result exists.
 
 ### Check Implementation Readiness
 
@@ -109,9 +144,18 @@ For contradictions, use source-artifact language before formal notation. Include
 
 Contradictions block readiness unless resolved or explicitly overridden.
 
+For MVP contradiction handling:
+
+- treat `black` unsatisfiable results as strong evidence that a temporal requirement set is inconsistent;
+- treat `vampire` or `eprover` proof/refutation outcomes as strong evidence for first-order inconsistency when the translation is faithful;
+- treat solver timeouts, unsupported fragments, or translation uncertainty as degraded evidence, not as proof of consistency;
+- prefer counterexamples, countermodels, or unsat explanations when available over plain pass/fail summaries.
+
 ### Review Formal Coverage
 
 Measure whether accepted requirements, architecture decisions, epics, stories, and acceptance criteria have enough formal representation and verification obligations for their lifecycle stage.
+
+Coverage review should also say which obligations are currently tool-checkable with the installed MVP toolchain and which are only structurally represented but not yet executable by an available backend.
 
 Coverage findings should include recommended repairs: add formal assertion, add provenance, clarify ambiguity, align to ontology concept, add verification obligation, split requirement, or update source artifact.
 
@@ -141,6 +185,13 @@ Maintain the report workspace with:
 - `manifest.json`.
 
 Also update or write `{formally_bmad_project_root}/reports/latest-verification-summary.md` with the current result and report workspace path.
+
+Where tool-backed checks were run or planned, also maintain lightweight tool-run references under `{formally_bmad_project_root}/tool-runs/` so later reports can trace:
+
+- the backend selected;
+- the exported view or input artifact;
+- the outcome category: `passed`, `blocked`, `degraded`, `skipped`, or `not-applicable`;
+- the relevant source assertions or requirements.
 
 ### Handoff
 

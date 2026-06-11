@@ -7,7 +7,7 @@ description: Configures Formally BMAD project state. Use when the user requests 
 
 ## Overview
 
-This skill configures Formally BMAD by registering the module, collecting module settings, creating durable project state, detecting BMad artifacts, verifying automated reasoning capability, and producing a setup report. Act as a formal methods aware setup engineer: keep the interaction BMad-like, but do not allow installation to complete unless at least one supported automated reasoning tool is executable.
+This skill configures Formally BMAD by registering the module, collecting module settings, creating durable project state, detecting BMad artifacts, verifying automated reasoning capability, and producing a setup report. Act as a formal methods aware setup engineer: keep the interaction BMad-like, but do not allow installation to complete unless the baseline validation toolchain is executable: at least one supported SMT solver and at least one supported first-order or SAT solver.
 
 ## Conventions
 
@@ -40,7 +40,7 @@ Confirm or collect only the values that matter for this project:
 - where Formally BMAD should store project state;
 - whether validation strictness should remain `stage-aware`;
 - whether accepted repairs should remain `confirm-before-edit`;
-- whether at least one automated reasoning tool is required; this must stay at `1` or higher unless the user explicitly accepts an unsupported non-validating fork;
+- whether the total supported tool count should remain `1` or higher; this does not replace the mandatory baseline validation toolchain of at least one SMT solver plus at least one first-order or SAT solver unless the user explicitly accepts an unsupported non-validating fork;
 - whether missing optional backends may degrade to export-only checks after the minimum tool requirement passes.
 
 Default to the module plan values unless the user asks for changes.
@@ -69,30 +69,45 @@ Run the deterministic setup helper from the skill root:
 python3 scripts/setup_environment.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --canonical-path "{formally_bmad_canonical_model_path}" --min-tools "{formally_bmad_min_required_tools}"
 ```
 
-If a config value is not yet physically written, substitute the default resolved path. The helper creates the module folder structure, detects BMad artifacts, detects supported automated reasoning tools, runs lightweight smoke tests, writes setup state files, and emits JSON.
+If a config value is not yet physically written, substitute the default resolved path. The helper creates the module folder structure, detects BMad artifacts, detects supported automated reasoning tools, checks whether the baseline validation gate is satisfied, runs lightweight smoke tests, writes setup state files, and emits JSON.
 
-If the script cannot run, perform the same checks manually and explain that script automation was unavailable. Do not mark setup complete without verifying at least one supported automated reasoning tool.
+If the script cannot run, perform the same checks manually and explain that script automation was unavailable. Do not mark setup complete without verifying at least one supported SMT solver and at least one supported first-order or SAT solver.
 
 ### Supported Tool Families
 
-Accept any detected executable from these automated reasoning families as satisfying the minimum tool requirement:
+Track detected executables from these automated reasoning families:
 
 - SMT solvers: `z3`, `cvc5`, `cvc4`;
 - first-order provers/model finders: `vampire`, `eprover`, `prover9`, `mace4`;
+- SAT solvers: `kissat`, `cadical`, `minisat`, `glucose`;
 - temporal/model checking tools: `tlc`, `apalache`, `alloy`;
 - ontology reasoners/tools: `robot`, `hermit`, `elk`, `jfact`, `factplusplus`, `pellet`.
 
-Proof assistants such as Coq/Rocq, Lean, Isabelle, or HOL tools do not satisfy the minimum requirement by themselves. They may be optional advanced export targets later.
+Also report specialized supporting tools when available:
+
+- temporal satisfiability tooling: `black`;
+- ontology workflow tooling: `robot` as a CLI ontology workbench in addition to its role in the ontology tool family;
+- proof assistants: `coqc`, `rocq`, `lean`, `lake`, `isabelle`.
+
+The setup helper searches the normal `PATH`. If session-local tools are installed outside `PATH`, provide extra directories through `FORMALLY_BMAD_EXTRA_TOOL_DIRS` or rely on known local install paths such as `/private/tmp/black-install/bin` and `/private/tmp/robot/bin`.
+
+The baseline validation requirement is stricter than the total tool count:
+
+- at least one SMT solver must be detected and usable;
+- at least one first-order or SAT solver must also be detected and usable;
+- temporal/model-checking tools, specialized temporal satisfiability tooling, ontology reasoners/tools, and proof assistants are relevant and should be reported, but they do not satisfy the baseline by themselves.
+
+Proof assistants such as Coq/Rocq, Lean, Isabelle, or HOL tools count as relevant formal tooling, but they cannot replace the baseline SMT plus first-order-or-SAT requirement.
 
 ### Interpret Results
 
-If the helper reports zero supported automated reasoning tools, stop setup. Produce a blocking installation guidance message using the helper report. Do not create a success narrative around export-only mode.
+If the helper reports that the baseline validation gate is not satisfied, stop setup. Produce a blocking installation guidance message using the helper report. Do not create a success narrative around export-only mode or proof-assistant-only availability.
 
-If at least one supported tool is available:
+If the baseline validation gate is satisfied:
 
 - confirm the initialized project structure;
 - summarize detected BMad artifacts;
-- summarize available and missing optional reasoning tools;
+- summarize baseline validation availability, plus available and missing optional reasoning tools, specialized temporal tooling, ontology workbench tooling, and proof assistants;
 - note any degraded optional checks;
 - point to the generated setup report under `{formally_bmad_project_root}/reports/`.
 
@@ -108,4 +123,4 @@ If cleanup reports that installed skills cannot be verified, surface the warning
 
 ### Handoff
 
-Finish with the current setup status and the next recommended skill: `formally-bmad-agent-steward`. If setup is blocked, the next step is installing at least one supported automated reasoning tool and rerunning this setup workflow.
+Finish with the current setup status and the next recommended skill: `formally-bmad-agent-steward`. If setup is blocked, the next step is installing at least one supported SMT solver and at least one supported first-order or SAT solver, then rerunning this setup workflow.

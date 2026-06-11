@@ -6,7 +6,7 @@
 
 [agent]
 
-code = "agent-steward"
+code = "formally-bmad-agent-steward"
 name = ""
 title = "Canonical Model Steward"
 icon = "§"
