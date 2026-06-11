@@ -1,0 +1,27 @@
+# macOS
+.DS_Store
+
+# Python bytecode and caches
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+
+# Local BMAD user overrides
+_bmad/custom/*.user.toml
+_bmad/custom/*.user.yaml
+_bmad/custom/*.user.yml
+_bmad/config.user.toml
+
+# Duplicate local skill install tree
+.claude/
+
+# Local tool/editor noise
+.idea/
+.vscode/
