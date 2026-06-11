@@ -86,6 +86,40 @@ Patched files:
 - [README.md](/Users/dmrpereira/Propostas/bmadOntologies/README.md:1)
 - [docs/formally-bmad-quickstart.md](/Users/dmrpereira/Propostas/bmadOntologies/docs/formally-bmad-quickstart.md:1)
 
+Inserted a contract-stub review gate between contract derivation and implementation verification:
+
+- added `formally-bmad-contract-stubs` to generate contract-bearing code skeletons for review before real code generation
+- updated lifecycle ordering to: stories -> contracts -> contract stubs -> code verification -> final verification
+- updated setup structure so `_bmad/formally-bmad/artifacts/stubs/` exists from setup onward
+
+Patched files:
+
+- [skills/formally-bmad-contract-stubs/SKILL.md](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-contract-stubs/SKILL.md:1)
+- [skills/formally-bmad-contract-stubs/scripts/contract_stubs_workspace.py](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-contract-stubs/scripts/contract_stubs_workspace.py:1)
+- [skills/formally-bmad-setup/assets/module-help.csv](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-setup/assets/module-help.csv:1)
+- [skills/formally-bmad-setup/scripts/setup_environment.py](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-setup/scripts/setup_environment.py:1)
+- [README.md](/Users/dmrpereira/Propostas/bmadOntologies/README.md:1)
+- [docs/formally-bmad-quickstart.md](/Users/dmrpereira/Propostas/bmadOntologies/docs/formally-bmad-quickstart.md:1)
+
+Expanded the language-specific contract/code-verification backend sets and made missing-backend behavior explicit:
+
+- Python backends now include `crosshair`, `deal`, `nagini`, `esbmc`
+- C backends now include `frama-c`, `cbmc`, `esbmc`, `verifast`
+- Rust backends now include `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, `esbmc`
+- `formal-contracts` now treats missing compatible backends as an explicit install/degrade/cancel decision
+- `contract-stubs` warns and may offer installation, but can still proceed as a review gate
+- `code-verification` treats missing compatible backends as a blocker for strong verification claims unless the user explicitly accepts degraded evidence
+
+Patched files:
+
+- [skills/formally-bmad-formal-contracts/SKILL.md](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-formal-contracts/SKILL.md:1)
+- [skills/formally-bmad-contract-stubs/SKILL.md](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-contract-stubs/SKILL.md:1)
+- [skills/formally-bmad-code-verification/SKILL.md](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-code-verification/SKILL.md:1)
+- [skills/formally-bmad-setup/SKILL.md](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-setup/SKILL.md:1)
+- [skills/formally-bmad-setup/scripts/setup_environment.py](/Users/dmrpereira/Propostas/bmadOntologies/skills/formally-bmad-setup/scripts/setup_environment.py:1)
+- [README.md](/Users/dmrpereira/Propostas/bmadOntologies/README.md:1)
+- [docs/formally-bmad-quickstart.md](/Users/dmrpereira/Propostas/bmadOntologies/docs/formally-bmad-quickstart.md:1)
+
 ## Quality Assessment
 
 No remaining structural or quality findings after the metadata fix.
@@ -101,6 +135,8 @@ Confirmed:
 - verification workflow and steward reference docs now agree on MVP backend routing and degraded-check behavior
 - the PRD/stories/verification contract now distinguishes structured formalization, planned mechanized checks, and actual tool-backed evidence
 - the module now has an explicit requirement-to-contract-to-code-evidence path for implementation-facing work
+- the module now has an explicit contract-to-stub review gate before full implementation
+- implementation-facing workflows now spell out language-specific backend expectations and degraded/blocking behavior when those backends are missing
 - focused setup-helper tests pass for the new baseline decision logic
 
 ## Overall Assessment
@@ -114,6 +150,8 @@ The module is ready for use.
 - `python3 -m unittest skills/formally-bmad-setup/scripts/tests/test_setup_environment.py`
   Result: `Ran 9 tests ... OK`
 - `python3 -m unittest skills/formally-bmad-formal-contracts/scripts/tests/test_contracts_workspace.py`
+  Result: `Ran 2 tests ... OK`
+- `python3 -m unittest skills/formally-bmad-contract-stubs/scripts/tests/test_contract_stubs_workspace.py`
   Result: `Ran 2 tests ... OK`
 - `python3 -m unittest skills/formally-bmad-code-verification/scripts/tests/test_code_verification_workspace.py`
   Result: `Ran 2 tests ... OK`
