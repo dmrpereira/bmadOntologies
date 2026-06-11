@@ -54,6 +54,28 @@ python3 scripts/contracts_workspace.py --project-root {project-root} --module-ro
 
 The helper creates `{formally_bmad_project_root}/artifacts/contracts/<safe-target>/` with starter files for the contract inventory, language profile, contract formalization, implementation mapping, exported views, provenance, and local validation.
 
+### Check Backend Availability
+
+Before choosing notation, check whether the selected language has at least one usable verification backend in the current environment:
+
+- Python: `crosshair`, `deal`, `nagini`, or `esbmc`
+- C: `frama-c`, `cbmc`, `esbmc`, or `verifast`
+- Rust: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, or `esbmc`
+
+If no compatible backend is available, do not proceed silently. Tell the user:
+
+- which backend family is missing;
+- why it matters for this language;
+- whether the workflow can continue only in degraded export-only mode.
+
+Then offer three paths:
+
+- install a compatible backend now if the environment has a plausible installer path;
+- continue in degraded mode with explicit `tool-view-exported` or weaker claim strength;
+- cancel and wait for the tool to be installed manually.
+
+If you know a reasonable install path for the current environment, ask the user whether to run it. Do not claim installation succeeded until the backend is detected afterward.
+
 ### Choose Contract Surfaces
 
 Map implementation-facing obligations into explicit contract locations:
@@ -72,9 +94,9 @@ If a requirement is too large or mixed to produce a faithful contract, split it 
 
 For each contract, choose a notation and record why it fits:
 
-- Python: prefer `deal`-style or `icontract`-style contracts for preconditions, postconditions, invariants, and side effects; use CrossHair-friendly expression subsets when symbolic checking is intended; plain `assert` is runtime-only and must be marked degraded.
-- C: prefer ACSL for function/module contracts and Frama-C-oriented proof obligations; use executable assertions or CBMC harness assertions only as bounded or runtime-oriented fallbacks, not as equivalent replacements for ACSL.
-- Rust: prefer Kani-friendly assertions, proof harnesses, and function-contract style obligations when model checking is intended; use Prusti or Creusot style specification surfaces when the target code and ownership model fit those tools; plain `assert!` or `debug_assert!` is runtime-only unless a verifier actually consumes it.
+- Python: prefer `deal`-style or `icontract`-style contracts for preconditions, postconditions, invariants, and side effects; use CrossHair-friendly expression subsets when symbolic checking is intended; use `deal`'s own lint/test/formal-verification surface when the project adopts `deal`; consider Nagini for statically typed Python verification or ESBMC for bounded model checking; plain `assert` is runtime-only and must be marked degraded.
+- C: prefer ACSL for function/module contracts and Frama-C-oriented proof obligations; use CBMC or ESBMC harness/assertion paths for bounded model checking; use VeriFast when separation-logic style ownership and heap reasoning are the right fit; do not treat executable assertions as equivalent replacements for ACSL.
+- Rust: prefer Kani-friendly assertions, proof harnesses, and function-contract style obligations when model checking is intended; use Prusti, Creusot, Verus, or Flux style specification surfaces when the code and proof model fit those tools; use VeriFast or ESBMC when the verification style is lower-level or bounded-model oriented; plain `assert!` or `debug_assert!` is runtime-only unless a verifier actually consumes it.
 
 Do not emit a contract notation merely because it looks familiar. Emit only notations that are plausible for the selected language and verification path.
 
@@ -94,11 +116,13 @@ If the contract is only a runtime guard, comment, or docstring, say so plainly. 
 
 For each contract that is more than documentation-only, define the tool-facing export path:
 
-- Python: CrossHair-oriented checks, `deal` lint/test/formal-verification surface, or runtime-only decorator/assertion use;
-- C: ACSL plus Frama-C WP/E-ACSL path, or CBMC harness/assertion path;
-- Rust: Kani proof harness or contract path, Prusti path, Creusot path, or runtime-only assertion path.
+- Python: CrossHair-oriented checks, `deal` lint/test/formal-verification surface, Nagini verification path, ESBMC bounded-model-checking path, or runtime-only decorator/assertion use;
+- C: ACSL plus Frama-C WP/E-ACSL path, CBMC harness/assertion path, ESBMC harness/assertion path, or VeriFast separation-logic path;
+- Rust: Kani proof harness or contract path, Prusti path, Creusot path, Verus path, Flux refinement-type path, VeriFast path, ESBMC path, or runtime-only assertion path.
 
 Where export is not yet faithful, record the missing model detail rather than fabricating a stronger contract view.
+
+If the user declined installation and the backend is still missing, keep the export result explicitly degraded. Do not present export-only artifacts as executable verification-ready contract views.
 
 ### Submit to Steward
 

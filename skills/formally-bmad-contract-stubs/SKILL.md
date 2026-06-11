@@ -53,6 +53,22 @@ python3 scripts/contract_stubs_workspace.py --project-root {project-root} --modu
 
 The helper creates `{formally_bmad_project_root}/artifacts/stubs/<safe-target>/` with starter files for the stub plan, contract surface summary, review checklist, provenance, and local validation.
 
+### Check Contract Tool Readiness
+
+Stub generation may continue without an installed verifier, but it must not hide the gap.
+
+Check whether the selected language has at least one compatible backend:
+
+- Python: `crosshair`, `deal`, `nagini`, or `esbmc`
+- C: `frama-c`, `cbmc`, `esbmc`, or `verifast`
+- Rust: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, or `esbmc`
+
+If no compatible backend is available:
+
+- warn the user that the stubs can still be reviewed for code shape, but the chosen contract notation is not yet backed by an available verifier;
+- if a plausible installer path is known in the current environment, ask whether the user wants to install the backend now;
+- continue with stub generation even if the user declines, but record the missing backend in `local-validation.md` and `review-checklist.md`.
+
 ### Project Contracts Into Code Shape
 
 Generate only the code shape implied by accepted contracts:
@@ -80,9 +96,9 @@ If a contract cannot yet be placed cleanly, surface that as a review issue rathe
 
 Use language-appropriate skeletons:
 
-- Python: function/class skeletons with `deal` or `icontract` style markers, typed signatures, and placeholder bodies such as `raise NotImplementedError`;
-- C: header/source or API skeletons with ACSL blocks and empty or explicit placeholder bodies;
-- Rust: module, trait, impl, or function skeletons with Kani/Prusti/Creusot-oriented annotations or placeholders, using `todo!()` or equivalent only when clearly marked as unimplemented.
+- Python: function/class skeletons with `deal`, `icontract`, or other accepted contract markers, typed signatures, and placeholder bodies such as `raise NotImplementedError`;
+- C: header/source or API skeletons with ACSL blocks, CBMC/ESBMC harness hooks where appropriate, or VeriFast-friendly specification placement, with empty or explicit placeholder bodies;
+- Rust: module, trait, impl, or function skeletons with Kani, Prusti, Creusot, Verus, Flux, or VeriFast oriented annotations or placeholders, using `todo!()` or equivalent only when clearly marked as unimplemented.
 
 If the chosen contract notation has tool-specific syntax limits, keep the skeleton compatible with that path and note any compromises.
 
@@ -98,6 +114,7 @@ The output must make it easy for the user to validate:
 - whether the code shape faithfully reflects the accepted obligations.
 
 Do not recommend full implementation until the stub review issues are either accepted or repaired.
+If the verifier backend is still missing, include that as a review item rather than burying it.
 
 ### Produce Companions
 

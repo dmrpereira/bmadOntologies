@@ -87,9 +87,9 @@ Also report specialized supporting tools when available:
 
 - temporal satisfiability tooling: `black`;
 - ontology workflow tooling: `robot` as a CLI ontology workbench in addition to its role in the ontology tool family;
-- Python contract verification backends: `crosshair`;
-- C contract verification backends: `frama-c`, `cbmc`;
-- Rust contract verification backends: `cargo-kani`, `prusti-rustc`, `cargo-creusot`;
+- Python contract verification backends: `crosshair`, `deal`, `nagini`, `esbmc`;
+- C contract verification backends: `frama-c`, `cbmc`, `esbmc`, `verifast`;
+- Rust contract verification backends: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, `esbmc`;
 - proof assistants: `coqc`, `rocq`, `lean`, `lake`, `isabelle`.
 
 The setup helper searches the normal `PATH`. If session-local tools are installed outside `PATH`, provide extra directories through `FORMALLY_BMAD_EXTRA_TOOL_DIRS` or rely on known local install paths such as `/private/tmp/black-install/bin` and `/private/tmp/robot/bin`.

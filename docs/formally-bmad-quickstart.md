@@ -116,9 +116,9 @@ Supported families (examples):
 - SAT: `kissat`, `cadical`, `minisat`, `glucose`
 - Temporal: `tlc`, `apalache`, `alloy`
 - Ontology/DL: `robot`, `hermit`, `elk`, `pellet`
-- Python contract verification: `crosshair`
-- C contract verification: `frama-c`, `cbmc`
-- Rust contract verification: `cargo-kani`, `prusti-rustc`, `cargo-creusot`
+- Python contract verification: `crosshair`, `deal`, `nagini`, `esbmc`
+- C contract verification: `frama-c`, `cbmc`, `esbmc`, `verifast`
+- Rust contract verification: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, `esbmc`
 
 Additional tooling such as `black` and proof assistants may be detected and reported, but they do not replace the baseline gate.
 
@@ -139,3 +139,4 @@ After setup completes, expect:
 - `black` and `robot` may be installed outside the normal `PATH`; the current setup helper also checks known session-local install paths.
 - Human-readable specs remain BMad-style Markdown, with logic-native companions produced alongside them.
 - When code exists, use `formally-bmad-formal-contracts` to derive explicit contracts, `formally-bmad-contract-stubs` to review code shape before implementation, and `formally-bmad-code-verification` to collect implementation evidence before final readiness review.
+- If the selected target language lacks a compatible verification backend, those implementation-facing workflows should offer installation before falling back to degraded behavior.

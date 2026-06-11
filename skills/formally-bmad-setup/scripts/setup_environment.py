@@ -29,9 +29,18 @@ PROOF_ASSISTANTS = ["coqc", "rocq", "lean", "lake", "isabelle"]
 SPECIALIZED_TOOLS = {
     "temporal_satisfiability": ["black"],
     "ontology_workbench": ["robot"],
-    "python_contract_verification": ["crosshair"],
-    "c_contract_verification": ["frama-c", "cbmc"],
-    "rust_contract_verification": ["cargo-kani", "prusti-rustc", "cargo-creusot"],
+    "python_contract_verification": ["crosshair", "deal", "nagini", "esbmc"],
+    "c_contract_verification": ["frama-c", "cbmc", "esbmc", "verifast"],
+    "rust_contract_verification": [
+        "cargo-kani",
+        "prusti-rustc",
+        "cargo-prusti",
+        "cargo-creusot",
+        "verus",
+        "flux",
+        "verifast",
+        "esbmc",
+    ],
 }
 
 DEFAULT_EXTRA_TOOL_DIRS = [

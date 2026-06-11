@@ -56,13 +56,30 @@ python3 scripts/code_verification_workspace.py --project-root {project-root} --m
 
 The helper creates `{formally_bmad_project_root}/reports/code-verification/<safe-target>/` with starter files for scope, tool runs, findings, coverage, counterexamples, readiness, and summary.
 
+### Check Verification Backend Availability
+
+Before running implementation checks, require at least one compatible backend for the selected language:
+
+- Python: `crosshair`, `deal`, `nagini`, or `esbmc`
+- C: `frama-c`, `cbmc`, `esbmc`, or `verifast`
+- Rust: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, or `esbmc`
+
+If no compatible backend is available:
+
+- tell the user that strong code verification is blocked for the selected language;
+- if a plausible installer path is known in the current environment, ask whether the user wants the workflow to install it now;
+- if the user agrees, attempt the installation and re-check availability before proceeding;
+- if the user declines or installation fails, block any strong verification claim and report only degraded status or a not-started verification result.
+
+Do not turn missing backend state into a silent fallthrough to tests or manual review unless the user explicitly accepts that downgrade.
+
 ### Select Verification Path Conservatively
 
 Choose only backends that fit the actual contract notation and implementation language:
 
-- Python: prefer CrossHair when contracts are written in a symbolic-friendly subset; use `deal` checking modes when `deal` contracts exist; runtime assertions or tests are degraded evidence only unless tied to an explicit contract surface.
-- C: prefer Frama-C WP for ACSL deductive obligations, E-ACSL for executable runtime checking of ACSL, and CBMC for bounded assertion or harness-based checking.
-- Rust: prefer Kani for proof harnesses, assertions, and function-contract style checks; use Prusti or Creusot when the code and annotations fit those tools; plain `assert!` or `debug_assert!` without a verifier remains runtime-only evidence.
+- Python: prefer CrossHair when contracts are written in a symbolic-friendly subset; use `deal` checking modes when `deal` contracts exist; use Nagini for statically typed Python verification; use ESBMC for bounded-model-checking style verification when the translation fits; runtime assertions or tests are degraded evidence only unless tied to an explicit contract surface.
+- C: prefer Frama-C WP for ACSL deductive obligations, E-ACSL for executable runtime checking of ACSL, CBMC or ESBMC for bounded assertion or harness-based checking, and VeriFast for separation-logic style proofs over heap/ownership structure.
+- Rust: prefer Kani for proof harnesses, assertions, and function-contract style checks; use Prusti, Creusot, Verus, or Flux when the code and annotations fit those proof models; use VeriFast or ESBMC when the verification style is lower-level or bounded-model oriented; plain `assert!` or `debug_assert!` without a verifier remains runtime-only evidence.
 
 Do not switch languages, contract styles, or proof models mid-report without saying that the evidence is mixed and potentially non-equivalent.
 
@@ -88,6 +105,7 @@ Audit whether the implementation evidence actually covers the generated contract
 - which obligations still rely only on runtime checks, tests, or manual review.
 
 Implementation readiness is blocked if strong claims are made without matching tool evidence.
+Implementation readiness is also blocked if the selected language has no usable verification backend and the user has not explicitly accepted degraded evidence.
 
 ### Produce Reports
 

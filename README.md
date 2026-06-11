@@ -261,9 +261,9 @@ The module can also detect and report:
 - temporal satisfiability tooling: `black`
 - ontology tooling: `robot`
 - temporal/model-checking tooling: `tlc`, `apalache`, `alloy`
-- Python contract verification tooling: `crosshair`
-- C contract verification tooling: `frama-c`, `cbmc`
-- Rust contract verification tooling: `cargo-kani`, `prusti-rustc`, `cargo-creusot`
+- Python contract verification tooling: `crosshair`, `deal`, `nagini`, `esbmc`
+- C contract verification tooling: `frama-c`, `cbmc`, `esbmc`, `verifast`
+- Rust contract verification tooling: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, `esbmc`
 - additional ontology reasoners: `hermit`, `elk`, `jfact`, `factplusplus`, `pellet`
 
 ### Important Environment Note
@@ -295,9 +295,16 @@ Proof assistants are support-only in the MVP. They are informative, but they are
 
 For implementation-facing verification, the current MVP also supports this contract/tool split:
 
-- Python contracts: prefer `deal` or `icontract` style notation, with `crosshair` as the primary executable verifier
-- C contracts: prefer `ACSL`, with `frama-c` or `cbmc` as executable verification backends
-- Rust contracts: prefer Kani-oriented assertions or proof harnesses, or Prusti/Creusot style specifications, with `cargo-kani`, `prusti-rustc`, or `cargo-creusot` as backends
+- Python contracts: prefer `deal` or `icontract` style notation; backends include `crosshair`, `deal`, `nagini`, and `esbmc`
+- C contracts: prefer `ACSL`; backends include `frama-c`, `cbmc`, `esbmc`, and `verifast`
+- Rust contracts: prefer Kani-oriented assertions or proof harnesses, or Prusti/Creusot/Verus/Flux style specifications; backends include `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, and `esbmc`
+
+Pragmatic maturity note:
+
+- good default choices today: `crosshair`, `deal`, `frama-c`, `cbmc`, `esbmc`, `cargo-kani`, `cargo-creusot`
+- advanced or research-heavy options worth supporting explicitly: `nagini`, `verifast`, `prusti-rustc`, `cargo-prusti`, `verus`, `flux`
+
+When one of these language-specific workflows is invoked and no compatible backend is available, the workflow should say so explicitly and may ask whether you want it to install a suitable tool before continuing in degraded mode.
 
 ## Recommended Starting Workflow
 
