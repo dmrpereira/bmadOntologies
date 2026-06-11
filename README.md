@@ -60,6 +60,62 @@ Before installing Formally BMAD into a target project, verify that the target pr
 - core BMad config files or the normal BMad project structure
 - an active BMad skill installation location, commonly `.claude/skills/` or equivalent
 
+## How To Start A BMad Project Before Installing Formally BMAD
+
+To create a fresh local BMad project in a target folder, run one of:
+
+```bash
+npx bmad-method install
+```
+
+or:
+
+```bash
+npx bmad-method@next install
+```
+
+Run that command from inside the target project folder where you want BMad installed.
+
+After that, the correct sequence is:
+
+1. create or choose a normal project folder
+2. run `npx bmad-method install` or `npx bmad-method@next install` in that folder
+3. verify that the folder is now a real BMad project
+4. install the Formally BMAD skills into that BMad project
+
+### Minimum Checklist For “This Is A BMad Project”
+
+Treat a target folder as ready for Formally BMAD only if all of these are true:
+
+- the folder contains `_bmad/`
+- the folder contains BMad config state such as `_bmad/config.yaml` or the normal BMad project structure
+- the folder has access to the installed BMad skills, commonly under `.claude/skills/`
+- the BMad runtime can already resolve normal core skills before Formally BMAD is added
+
+If those conditions are not true yet, you do not have a usable BMad project for this module.
+
+### Practical Start-From-Scratch Flow
+
+If you are starting from a completely empty project:
+
+1. make the project folder
+2. run `npx bmad-method install` or `npx bmad-method@next install`
+3. confirm the BMad project structure exists
+4. confirm the active BMad skills location exists
+5. copy the Formally BMAD skill directories from this repository's `skills/` folder into the target folder's `.claude/skills/` directory
+6. run `formally-bmad-setup`
+
+### What This README Can And Cannot Tell You
+
+This README can tell you how Formally BMAD is installed into a BMad project.
+
+It cannot give you the authoritative core-BMad bootstrap command unless that command is documented by the BMad distribution you are using. Different BMad environments may install core skills differently, but for Formally BMAD the required end state is always the same:
+
+- `_bmad/` exists
+- core BMad is already working
+- the active BMad skills location exists
+- Formally BMAD skills are copied into that location
+
 ## What To Copy Into A Target Project
 
 Install these skill directories from [skills](/Users/dmrpereira/Propostas/bmadOntologies/skills:1):
@@ -94,28 +150,70 @@ The cleanup safety logic explicitly refers to `.claude/skills/` as the installed
 Use this sequence:
 
 1. Start with a project that already has BMad installed.
-2. Copy the Formally BMAD skill folders into that project's active skills location, usually `.claude/skills/`.
-3. Open the target project root, not this repository root.
-4. Run `formally-bmad-setup` inside the target project.
-5. Confirm that setup creates and updates:
+2. Copy these directories from this repository's `skills/` folder:
+   - `skills/formally-bmad-setup`
+   - `skills/formally-bmad-agent-steward`
+   - `skills/formally-bmad-formal-brainstorming`
+   - `skills/formally-bmad-formal-import`
+   - `skills/formally-bmad-ontology-alignment`
+   - `skills/formally-bmad-formal-prd`
+   - `skills/formally-bmad-formal-architecture`
+   - `skills/formally-bmad-formal-epics`
+   - `skills/formally-bmad-formal-stories`
+   - `skills/formally-bmad-formal-verification`
+3. Copy them into the target project's active BMad skills location:
+
+```text
+<target-project>/.claude/skills/
+```
+
+Each copied directory should land directly under `.claude/skills/`, for example:
+
+```text
+<target-project>/.claude/skills/formally-bmad-setup
+<target-project>/.claude/skills/formally-bmad-agent-steward
+<target-project>/.claude/skills/formally-bmad-formal-verification
+```
+
+Do not create an extra nesting layer such as:
+
+```text
+<target-project>/.claude/skills/skills/formally-bmad-setup
+```
+
+That layout is wrong.
+4. Open the target project root, not this repository root.
+5. Run `formally-bmad-setup` inside the target project.
+6. Confirm that setup creates and updates:
    - `{project-root}/_bmad/config.yaml`
    - `{project-root}/_bmad/config.user.yaml`
    - `{project-root}/_bmad/module-help.csv`
    - `{project-root}/_bmad/formally-bmad/`
-6. Only after setup succeeds, begin the formal workflow.
+7. Only after setup succeeds, begin the formal workflow.
 
 ## Minimal Example Install Procedure
 
 If you already have a BMad-enabled target project and want the simplest install path:
 
 1. clone or download this repository
-2. copy the Formally BMAD skill directories from `skills/` into:
+2. from this repository, copy these directories:
+   - `skills/formally-bmad-setup`
+   - `skills/formally-bmad-agent-steward`
+   - `skills/formally-bmad-formal-brainstorming`
+   - `skills/formally-bmad-formal-import`
+   - `skills/formally-bmad-ontology-alignment`
+   - `skills/formally-bmad-formal-prd`
+   - `skills/formally-bmad-formal-architecture`
+   - `skills/formally-bmad-formal-epics`
+   - `skills/formally-bmad-formal-stories`
+   - `skills/formally-bmad-formal-verification`
+3. copy them into:
 
 ```text
 <target-project>/.claude/skills/
 ```
 
-3. in the target project, run:
+4. in the target project, run:
 
 ```text
 formally-bmad-setup
@@ -219,7 +317,21 @@ That gives you fast feedback on:
 
 ### 1. Prepare a Project Folder
 
-Create or choose a working project directory that already has BMad installed. The module will create project state under:
+Create or choose a working project directory.
+
+If BMad is not installed yet in that folder, run:
+
+```bash
+npx bmad-method install
+```
+
+or:
+
+```bash
+npx bmad-method@next install
+```
+
+After BMad is installed, the module will create project state under:
 
 ```text
 _bmad/formally-bmad
@@ -229,11 +341,26 @@ This is where canonical model state, reports, artifacts, provenance, and tool-ru
 
 ### 2. Install The Skills And Run Setup
 
-First, make sure the Formally BMAD skill folders are installed into the target project's active BMad skill location, usually:
+First, copy these directories from this repository:
+
+- `skills/formally-bmad-setup`
+- `skills/formally-bmad-agent-steward`
+- `skills/formally-bmad-formal-brainstorming`
+- `skills/formally-bmad-formal-import`
+- `skills/formally-bmad-ontology-alignment`
+- `skills/formally-bmad-formal-prd`
+- `skills/formally-bmad-formal-architecture`
+- `skills/formally-bmad-formal-epics`
+- `skills/formally-bmad-formal-stories`
+- `skills/formally-bmad-formal-verification`
+
+Copy them into the target project's active BMad skill location, usually:
 
 ```text
 {project-root}/.claude/skills/
 ```
+
+Each Formally BMAD skill directory should become a direct child of `.claude/skills/`.
 
 Then run:
 

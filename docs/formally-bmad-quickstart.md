@@ -19,6 +19,18 @@ Default on-disk state lives under:
 
 The target project must already have BMad installed.
 
+To create a fresh local BMad project in a target folder, run one of these commands from inside that folder:
+
+```bash
+npx bmad-method install
+```
+
+or:
+
+```bash
+npx bmad-method@next install
+```
+
 Formally BMAD expects:
 
 - an existing `_bmad/` directory in the target project
@@ -49,6 +61,28 @@ The required runtime skills are:
 - `formally-bmad-formal-epics`
 - `formally-bmad-formal-stories`
 - `formally-bmad-formal-verification`
+
+Copy those exact directories from this repository's `skills/` folder into:
+
+```text
+<target-project>/.claude/skills/
+```
+
+Each skill directory must become a direct child of `.claude/skills/`.
+
+Correct examples:
+
+```text
+<target-project>/.claude/skills/formally-bmad-setup
+<target-project>/.claude/skills/formally-bmad-formal-prd
+<target-project>/.claude/skills/formally-bmad-formal-verification
+```
+
+Wrong example:
+
+```text
+<target-project>/.claude/skills/skills/formally-bmad-setup
+```
 
 You may obtain those skills by cloning this repository, copying them from a local checkout, or downloading and uncompressing a ZIP. The ZIP is only a transport format; the actual install step is copying the skill directories into the target project's active skills location.
 
