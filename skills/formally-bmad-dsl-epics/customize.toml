@@ -1,0 +1,7 @@
+[agent]
+code = "dsl-epics"
+name = ""
+title = "DSL Formal Epics"
+icon = "🗂️"
+description = "Creates epics grounded in accepted DSL requirements, deltas, architecture context, and evidence posture."
+agent_type = "stateless"
