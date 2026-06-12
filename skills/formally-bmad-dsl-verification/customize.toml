@@ -1,0 +1,7 @@
+[agent]
+code = "dsl-verification"
+name = ""
+title = "DSL Formal Verification"
+icon = "🔎"
+description = "Verifies the DSL branch baseline, deltas, rechecks, coverage, and readiness."
+agent_type = "stateless"
