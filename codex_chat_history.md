@@ -1247,3 +1247,129 @@ my concern with the above is: where does the formal representation of the ontolo
 ## Turn 167 — Assistant
 
 `I’m doing two things now: first, I’ll commit and push the new epics skill immediately, since that is now the standing rule for each new skill. Second, I’ll update codex_chat_history.md so the ongoing DSL-branch design/build conversation remains recorded before I move on to the next skill.`
+
+## Turn 168 — Assistant
+
+`I found that codex_chat_history.md had not been extended past the earlier research phase, so I appended the later DSL-branch design and build conversation before making the next skill commit.`
+
+## Turn 169 — Assistant
+
+`The transcript file was extended through the current DSL-branch work. I then staged the new epics skill together with the chat-history update.`
+
+## Turn 170 — Assistant
+
+`The staged snapshot contained the new epics skill and the updated conversation log. I committed and pushed them as:`
+
+`f28bda2 — Add DSL epics skill and update chat history`
+
+## Turn 171 — User
+
+`ok, then process to the next step`
+
+## Turn 172 — Assistant
+
+`I’m proceeding to the next build step in the new parallel branch: formally-bmad-dsl-prd. I’ll scaffold it against the DSL consumption contract we defined, without touching the original formally-bmad-formal-prd skill.`
+
+## Turn 173 — Assistant
+
+`I confirmed the current PRD scaffold and the new DSL consumption contract, then built formally-bmad-dsl-prd as a separate downstream skill with its own artifact set and evidence semantics.`
+
+## Turn 174 — Assistant
+
+`The new downstream PRD skill is scaffolded. I validated the helper and checked that the workspace files and skill instructions matched the DSL branch contract.`
+
+## Turn 175 — Assistant
+
+`Built the next parallel-branch skill at skills/formally-bmad-dsl-prd/SKILL.md, separate from the original formally-bmad-formal-prd, and summarized its artifact set.`
+
+## Turn 176 — User
+
+`commit, push, and then proceed to the next build`
+
+## Turn 177 — Assistant
+
+`I’m committing only the new formally-bmad-dsl-prd skill first, then I’ll push it and move directly to scaffolding formally-bmad-dsl-architecture as the next branch step.`
+
+## Turn 178 — Assistant
+
+`The new PRD skill was isolated as an untracked directory, so I staged just that directory, confirmed the staged scope, committed it, and pushed it as:`
+
+`8f53bc9 — Add DSL PRD skill`
+
+## Turn 179 — Assistant
+
+`Push completed, and I moved straight to the next branch build: formally-bmad-dsl-architecture, using the architecture consumption contract rather than adapting the original architecture skill.`
+
+## Turn 180 — Assistant
+
+`I confirmed the architecture contract and the old scaffold shape, then built formally-bmad-dsl-architecture as the third parallel-branch skill, with architecture-level deltas, validation posture, ontology refinement, and ASM refinement as first-class outputs.`
+
+## Turn 181 — Assistant
+
+`The architecture skill is scaffolded. I validated its helper and checked the resulting artifact contract for obvious mismatch.`
+
+## Turn 182 — Assistant
+
+`Built the next parallel-branch skill at skills/formally-bmad-dsl-architecture/SKILL.md, separate from the original formally-bmad-formal-architecture, and summarized its artifact set.`
+
+## Turn 183 — User
+
+`I want it committed and pushed, and then you can proceed to the next build step`
+
+## Turn 184 — Assistant
+
+`I’m committing only the new formally-bmad-dsl-architecture skill and pushing it, without mixing in the unrelated modified files that are still in the worktree. After that I’ll continue to the next branch build step.`
+
+## Turn 185 — Assistant
+
+`The staged scope was correct: only the new DSL architecture skill. I committed it as bf42e59 — Add DSL architecture skill.`
+
+## Turn 186 — Assistant
+
+`Git initially reported Everything up-to-date for main, but the local branch head was correct. I pushed again to publish the newer commit when needed.`
+
+## Turn 187 — Assistant
+
+`With the architecture skill committed, I moved straight to the next parallel-branch build step: formally-bmad-dsl-epics.`
+
+## Turn 188 — Assistant
+
+`I confirmed the old epics shape and the new branch pattern, then built formally-bmad-dsl-epics as the next parallel-branch skill, preserving evidence posture and architecture-stage delta lineage instead of inheriting the old epics assumptions.`
+
+## Turn 189 — Assistant
+
+`The epics skill is scaffolded. I validated its helper and confirmed that the workspace helper test passed.`
+
+## Turn 190 — User
+
+`from now on, commit and push whenever a new skill is implemented; so you can proceed to the next build step after you satisfy this request. also ensure that you still keep saving our whole conversation in the respective file, as I instructed you to do a while ago.`
+
+## Turn 191 — Assistant
+
+`I’m doing two things now: first, I’ll commit and push the new epics skill immediately, since that is now the standing rule for each new skill. Second, I’ll update codex_chat_history.md so the ongoing DSL-branch design/build conversation remains recorded before I move on to the next skill.`
+
+## Turn 192 — Assistant
+
+`The transcript file was extended through the current DSL-branch work. I then staged the new epics skill together with the chat-history update.`
+
+## Turn 193 — Assistant
+
+`The staged snapshot contained the new epics skill and the updated conversation log. I committed and pushed them as:`
+
+`f28bda2 — Add DSL epics skill and update chat history`
+
+## Turn 194 — User
+
+`ok, then process to the next step`
+
+## Turn 195 — Assistant
+
+`The new standing rule was satisfied: the epics skill and the conversation log were committed and pushed. I then moved to the next branch build step: formally-bmad-dsl-stories.`
+
+## Turn 196 — Assistant
+
+`I confirmed the old stories shape and the DSL-branch pattern, then built formally-bmad-dsl-stories so story planning preserves evidence posture, upstream delta lineage, and implementation-blocking uncertainty instead of inheriting the old stories assumptions.`
+
+## Turn 197 — Assistant
+
+`The stories skill is scaffolded. I validated its helper, and the workspace helper test passed.`

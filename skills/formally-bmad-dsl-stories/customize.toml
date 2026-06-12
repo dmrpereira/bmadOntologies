@@ -1,0 +1,7 @@
+[agent]
+code = "dsl-stories"
+name = ""
+title = "DSL Formal Stories"
+icon = "📝"
+description = "Creates stories grounded in accepted DSL requirements, deltas, architecture context, epic obligations, and evidence posture."
+agent_type = "stateless"
