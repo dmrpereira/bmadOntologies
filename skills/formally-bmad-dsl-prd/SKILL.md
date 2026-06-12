@@ -99,6 +99,8 @@ Rejected deltas must not become accepted requirements except as provenance for r
 
 If a requirement depends on an upstream delta that has not been steward-promoted into the accepted baseline or is not reflected in current canonical status artifacts, treat that as a repair-or-block issue before PRD formalization proceeds.
 
+If the required requirement set cannot be grounded entirely in steward-promoted accepted-baseline material, the PRD stage is not complete. In that case, stop at the governance gate and require steward or brainstorming repair before handoff to architecture.
+
 ### Build A Requirement Evidence Model
 
 Do not flatten all accepted assertions into equal-strength requirements. Each requirement must carry an evidence interpretation derived from the upstream validation state.
@@ -225,3 +227,5 @@ End with:
 - assumptions that materially affect accepted requirements;
 - explicit confirmation that the PRD artifact, requirement inventory, accepted-delta view, and validation summary were synchronized for this handoff;
 - mandatory next workflow when the PRD stage is complete: `formally-bmad-dsl-architecture` for design refinement over the accepted validated baseline.
+
+If unresolved non-promoted deltas or stale canonical-status artifacts still affect the PRD baseline, state explicitly that the branch remains blocked at the PRD governance gate and must return to steward or brainstorming repair rather than proceeding downstream.

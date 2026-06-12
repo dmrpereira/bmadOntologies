@@ -251,6 +251,8 @@ Submit promoted deltas to `formally-bmad-dsl-agent-steward` through `Accept Cano
 
 Do not treat a delta as fully authoritative for downstream DSL stages merely because it was locally marked accepted in the brainstorming companion. For downstream-authoritative use, it must be steward-promoted into the accepted baseline and reflected in current canonical status artifacts.
 
+If the session produced accepted-for-validation deltas but they were not yet steward-promoted, the brainstorming stage is not complete for downstream handoff. In that case, the mandatory next workflow is steward repair/promotion work, not PRD.
+
 ### Produce Companions
 
 Maintain the companion folder with:
@@ -288,5 +290,7 @@ End with:
 - an explicit note stating which increments have mechanized evidence, which are property-generated but unchecked, and which still need clarification;
 - a note that downstream DSL workflows must refine from the accepted validated baseline, not fork disconnected drafts;
 - mandatory next workflow when the brainstorming stage is complete: `formally-bmad-dsl-prd` for requirements grounded in the accepted baseline.
+
+If steward promotion or canonical-status refresh is still pending, say plainly that the branch remains at a governance gate and that `formally-bmad-dsl-agent-steward` is required before PRD.
 
 Do not end immediately after creating the workspace. Always give the user a visible session closeout that states whether actual brainstorming occurred and whether the next step is refinement, promotion, or setup repair.

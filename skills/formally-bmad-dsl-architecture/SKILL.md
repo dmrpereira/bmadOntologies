@@ -91,6 +91,8 @@ Requirements are eligible as architecture-driving commitments when they are:
 
 Upstream deltas are architecture-authoritative only when they are both accepted in the artifact lineage and reflected in the steward-maintained accepted baseline.
 
+If the architecture depends materially on upstream deltas that are still only accepted-for-validation or otherwise not steward-promoted, architecture must treat that as a blocking governance defect rather than as a merely degraded evidence posture.
+
 Deferred deltas, contested requirements, and assumptions may still be consumed, but only as risks, architecture alternatives, unresolved constraints, or triggers for additional validation. They must not become silently accepted architectural facts.
 
 Before accepting a PRD handoff, check that the upstream PRD package is internally synchronized:
@@ -227,3 +229,5 @@ End with:
 - inherited and newly introduced uncertainty posture;
 - explicit confirmation that any detected PRD handoff inconsistency was either repaired before design or treated as a blocking issue;
 - mandatory next workflow when the architecture stage is complete: `formally-bmad-dsl-epics` for planning refinement over the architecture-stage validated baseline.
+
+If canonical-status freshness or steward-promotion requirements were not satisfied, state explicitly that architecture completion is blocked and that the branch must return to steward or upstream repair work before epics.

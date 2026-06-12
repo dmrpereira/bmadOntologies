@@ -136,6 +136,15 @@ Use backend checks both for:
 
 Readiness should be `ready`, `not-ready`, `blocked`, or `degraded`, with rationale.
 
+Use `blocked`, not merely `degraded`, when governance-gate conditions fail. Governance-gate failures include:
+
+- downstream-authoritative use of deltas that were not yet steward-promoted into the accepted baseline;
+- a materially stale `canonical/status.md`;
+- materially stale upstream stage summaries that no longer describe the accepted baseline in use;
+- missing accepted-baseline bookkeeping that prevents the branch from stating cleanly what is actually authoritative.
+
+Reserve `degraded` for cases where governance is clean enough to identify the accepted baseline, but stronger mechanized evidence or fuller backend coverage is still missing.
+
 Assess readiness using DSL-branch-specific thresholds:
 
 - accepted requirements have preserved evidence class and source lineage;
@@ -149,6 +158,8 @@ Assess readiness using DSL-branch-specific thresholds:
 - claim strength in downstream artifacts does not exceed recorded evidence.
 
 If no actual tool-backed checks were run for relevant obligations, do not issue a strong readiness sign-off. At most, report that the artifact is structurally prepared for stronger verification.
+
+If no actual tool-backed checks were run and governance-gate conditions also fail, do not say the branch is merely structurally coherent enough to continue. In that case, report the branch as blocked on governance and evidence preparation before meaningful continuation.
 
 ### Audit Traceability
 
@@ -214,3 +225,5 @@ End with:
 - traceability and coverage gaps;
 - repair proposals requiring user decision;
 - mandatory next action: either perform the required repair/rework workflow for blocked findings, or if verification is complete and acceptable, explicitly report that the DSL workflow sequence has reached its verification gate and only then allow implementation planning to begin.
+
+Do not recommend continuation into later DSL stages while governance-gate failures remain unresolved.

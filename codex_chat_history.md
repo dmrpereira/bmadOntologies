@@ -1616,3 +1616,54 @@ This is not acceptable in this sort of approach; all steps need to be executed a
 ## Turn 251 — Assistant
 
 `I treated that as another workflow-contract gap. I tightened the DSL steward, brainstorming, PRD, architecture, and verification contracts so downstream-authoritative use now requires steward-promoted accepted-baseline status rather than merely local acceptance in a companion file, and so canonical status artifacts must be refreshed whenever canonical truth changes. Verification now also treats stale canonical status and downstream reliance on non-promoted deltas as explicit findings, and can treat them as readiness blockers when material.`
+
+## Turn 252 — User
+
+`here goes some more output for you to analyze:
+"Verification workspace: _bmad/formally-bmad-dsl/reports/dsl-verification/20260612T220853Z-whole-dsl-branch-baseline:1
+
+  Readiness status is degraded. The branch is structurally coherent and traceable enough to continue, but it is not strongly verified because no backend-
+  evidenced checks exist and all brainstorm deltas D-001 through D-004 remain accepted_for_validation rather than strict accepted.
+
+  Blocking contradictions or failed rechecks:
+
+  - No blocking semantic contradictions were found.
+  - No overrides are recorded.
+  - No actual rechecks have run yet, so there are no failed rechecks, only open ones.
+
+  Degraded or skipped checks:
+
+  - No ontology backend checks were run.
+  - No ASM / behavioral backend checks were run.
+  - No tool-run references were recorded under _bmad/formally-bmad-dsl/tool-runs/.
+  - backend-checks.md still only covers D-001, D-002 and omits D-003, D-004 even as no-run records.
+
+  Traceability and coverage gaps:
+
+  - canonical/status.md is stale and still says validation is inactive.
+  - The PRD Source Baseline summary is stale and omits A-010 / D-004, even though the requirement inventory is correct.
+  - _bmad/formally-bmad-dsl/indexes/index.md is still effectively empty.
+  - Coverage is structural only; backend coverage for ontology and ASM projections is absent.
+
+  Repair proposals requiring your decision:
+
+  - Decide whether to promote, reject, or otherwise resolve D-001 through D-004 so downstream artifacts no longer depend on candidate-delta provenance only.
+  - Decide whether to refresh canonical/status.md to reflect the actual post-setup validation posture.
+
+  Procedural repairs I can do next without more design input:
+
+  - Refresh the PRD Source Baseline summary
+  - Refresh backend-checks.md to include D-003 and D-004
+  - Enrich the branch index
+  - Then run actual ontology/ASM export-and-check work
+
+  Recommended next workflow:
+
+  - formally-bmad-dsl-agent-steward if you want to repair status/provenance and delta-governance first
+  - then formally-bmad-dsl-verification again after repairs or after real backend checks are run
+
+  If you want, I can take the steward path next and fix the governance/reporting issues before we attempt actual ontology/ASM backend verification."`
+
+## Turn 253 — Assistant
+
+`I treated that output as evidence that the branch was still conflating governance-gate failure with ordinary degraded evidence. I tightened the workflow so that downstream reliance on non-promoted deltas, stale canonical status, or materially stale upstream summaries must now be treated as blocked governance failures rather than merely “structurally coherent enough to continue,” and I updated brainstorming, PRD, architecture, and verification so those states force steward/upstream repair rather than optional continuation wording.`
