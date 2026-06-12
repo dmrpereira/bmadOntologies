@@ -11,6 +11,8 @@ This skill configures the isolated `formally-bmad-dsl-*` branch by registering a
 
 This setup is intentionally separate from `formally-bmad-setup`. It uses its own module code, its own state root under `_bmad/formally-bmad-dsl/`, its own help rows, and its own local helper scripts. It should be the only setup command used before running `formally-bmad-dsl-brainstorming`.
 
+Never end the session silently. If setup must stop, block, or pause, explicitly tell the user what completed, what failed or is still missing, where the relevant artifacts or reports were written, and the exact next step.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.

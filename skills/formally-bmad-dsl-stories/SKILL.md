@@ -26,6 +26,8 @@ The stories skill must distinguish between:
 
 Never flatten those distinctions into a superficial “ready” label.
 
+Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what story formalization work was completed, what readiness level was actually reached, what remains blocked, and the next concrete step.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.

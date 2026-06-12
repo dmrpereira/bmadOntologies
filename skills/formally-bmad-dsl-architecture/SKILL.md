@@ -27,6 +27,8 @@ The architecture skill must distinguish between:
 
 Never flatten those distinctions into a single undifferentiated design narrative.
 
+Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what architecture formalization work was completed, what remains unresolved, and the next concrete action.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.

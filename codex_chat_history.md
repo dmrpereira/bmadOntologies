@@ -1576,3 +1576,11 @@ I’ve loaded the sanctum and the steward’s boundary rules. One small defect r
 ## Turn 243 — Assistant
 
 `I traced the remaining DSL setup defects to two copied helper behaviors: the local cleanup script was still deleting _bmad/<module-code> by default, and the setup helper only wrote a placeholder status.md before tool detection. I fixed the cleanup script so it removes only explicitly named legacy directories, added a regression test proving the live _bmad/formally-bmad-dsl root is preserved, and added a status-file update pass that records validation as active once the baseline SMT + first-order/SAT gate is satisfied.`
+
+## Turn 244 — User
+
+`in the session that I am testing now, the dsl-brainstorm basically terminated without making an actual brainstorm; perhaps that is due to the fact that what I said I wanted to build, was very basic. Anyhow, the branstorm shall not terminate its session without informing me; the same applies to the remaining skills throughout the workflow. ensure this.`
+
+## Turn 245 — Assistant
+
+`I updated the DSL branch skill instructions so none of the DSL workflow skills may end silently. The branch now explicitly requires a visible user-facing closeout before any pause, stop, or handoff, and the brainstorming skill now specifically requires at least one visible first-pass brainstorm even when the user's initial idea is very small or basic.`

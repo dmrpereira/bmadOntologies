@@ -13,6 +13,8 @@ This branch is delta-aware. The verification target is not only isolated generat
 
 Earlier DSL workflows may produce canonical assertions, ontology and ASM projections, generated properties, accepted deltas, and partial backend evidence. This workflow is the place where that material is systematically audited, rechecked, and turned into explicit verification reporting.
 
+Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what was verified, what was only structurally prepared, what failed or was skipped, and the next concrete action.
+
 ## Conventions
 
 - Bare paths (e.g. `scripts/verification_workspace.py`) resolve from the skill root.

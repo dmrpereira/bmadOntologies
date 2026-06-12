@@ -30,6 +30,8 @@ The workflow must distinguish between:
 
 Never blur those states together.
 
+Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what the session produced, what level of formalization was reached, what remains tentative or missing, and the next concrete way to continue.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.
@@ -54,6 +56,8 @@ If `--headless` or `-H` is invoked, require an input brief or source artifact pa
 ### Open the Modeling Conversation
 
 Invite the user to share goals, actors, resources, lifecycle expectations, rules, exceptions, uncertainties, competing ideas, terminology, and examples. Keep the live conversation readable and generative. The user should not need to speak in OWL, ASM, CTL, or LTL terms to make progress.
+
+Even when the user gives only a very small or basic idea, do at least one visible brainstorming pass before ending or handing off. That first pass should minimally restate the build target, extract initial concepts/actions/constraints, and present either candidate canonical assertions or a compact set of clarification questions.
 
 ### Initialize Workspace
 
@@ -278,3 +282,5 @@ End with:
 - an explicit note stating which increments have mechanized evidence, which are property-generated but unchecked, and which still need clarification;
 - a note that downstream DSL workflows must refine from the accepted validated baseline, not fork disconnected drafts;
 - recommended next workflow: `formally-bmad-dsl-prd` for requirements grounded in the accepted baseline.
+
+Do not end immediately after creating the workspace. Always give the user a visible session closeout that states whether actual brainstorming occurred and whether the next step is refinement, promotion, or setup repair.

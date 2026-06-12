@@ -27,6 +27,8 @@ The epics skill must distinguish between:
 
 Never flatten those distinctions into a simple “all requirements are covered” claim without evidence.
 
+Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what epic formalization work was completed, what remains blocked or deferred, and the next concrete step.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.

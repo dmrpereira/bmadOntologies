@@ -27,6 +27,8 @@ The PRD must distinguish between:
 
 Never flatten those into a single undifferentiated requirement list.
 
+Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what PRD formalization work was completed, what evidence posture the result has, what blockers remain, and the next concrete step.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.
