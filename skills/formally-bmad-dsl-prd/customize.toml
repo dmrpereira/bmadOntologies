@@ -1,0 +1,7 @@
+[agent]
+code = "dsl-prd"
+name = ""
+title = "DSL Formal PRD"
+icon = "🧾"
+description = "Creates PRDs grounded in accepted DSL assertions, deltas, and validation state."
+agent_type = "stateless"
