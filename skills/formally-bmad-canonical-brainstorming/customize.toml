@@ -1,0 +1,7 @@
+[agent]
+code = "canonical-brainstorming"
+name = ""
+title = "Canonical Formal Brainstorming"
+icon = "🧭"
+description = "Runs brainstorming through a canonical DSL and maintains ontology and system-model projections from it."
+agent_type = "stateless"
