@@ -1584,3 +1584,14 @@ I’ve loaded the sanctum and the steward’s boundary rules. One small defect r
 ## Turn 245 — Assistant
 
 `I updated the DSL branch skill instructions so none of the DSL workflow skills may end silently. The branch now explicitly requires a visible user-facing closeout before any pause, stop, or handoff, and the brainstorming skill now specifically requires at least one visible first-pass brainstorm even when the user's initial idea is very small or basic.`
+
+## Turn 246 — User
+
+`I am getting outcomes like:
+"If you want, the next step should be formally-bmad-dsl-prd, or I can move straight into implementation."
+
+This is not acceptable in this sort of approach; all steps need to be executed and completed, with no exception; so no sugestions of this kind anymore, in any of the skills.`
+
+## Turn 247 — Assistant
+
+`I tightened the DSL branch contract again so the workflow is explicitly sequential: the DSL skills now forbid branch-skipping suggestions, forbid offering direct implementation while the formal workflow is still incomplete, and replace soft "recommended next workflow" phrasing with mandatory next-stage handoff language.`

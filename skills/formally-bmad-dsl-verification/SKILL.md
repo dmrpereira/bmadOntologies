@@ -15,6 +15,8 @@ Earlier DSL workflows may produce canonical assertions, ontology and ASM project
 
 Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what was verified, what was only structurally prepared, what failed or was skipped, and the next concrete action.
 
+This branch is sequential. Do not suggest bypassing verification in favor of direct implementation. Implementation work belongs only after verification has been executed and its outcome has been reported explicitly.
+
 ## Conventions
 
 - Bare paths (e.g. `scripts/verification_workspace.py`) resolve from the skill root.
@@ -204,4 +206,4 @@ End with:
 - degraded or skipped checks;
 - traceability and coverage gaps;
 - repair proposals requiring user decision;
-- recommended next workflow for repairs or continuation.
+- mandatory next action: either perform the required repair/rework workflow for blocked findings, or if verification is complete and acceptable, explicitly report that the DSL workflow sequence has reached its verification gate and only then allow implementation planning to begin.

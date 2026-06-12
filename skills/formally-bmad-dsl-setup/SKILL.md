@@ -13,6 +13,8 @@ This setup is intentionally separate from `formally-bmad-setup`. It uses its own
 
 Never end the session silently. If setup must stop, block, or pause, explicitly tell the user what completed, what failed or is still missing, where the relevant artifacts or reports were written, and the exact next step.
 
+This branch is sequential. Do not suggest jumping ahead to downstream DSL workflows until setup has been completed and reported explicitly.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.

@@ -29,6 +29,8 @@ Never flatten those into a single undifferentiated requirement list.
 
 Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what PRD formalization work was completed, what evidence posture the result has, what blockers remain, and the next concrete step.
 
+This branch is sequential. Do not suggest skipping required downstream stages, do not offer to move straight into implementation, and do not present branch order as optional while the DSL workflow is incomplete.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.
@@ -199,4 +201,4 @@ End with:
 - accepted delta coverage summary;
 - inherited backend evidence posture;
 - assumptions that materially affect accepted requirements;
-- recommended next workflow: `formally-bmad-dsl-architecture` for design refinement over the accepted validated baseline.
+- mandatory next workflow when the PRD stage is complete: `formally-bmad-dsl-architecture` for design refinement over the accepted validated baseline.

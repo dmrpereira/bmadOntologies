@@ -28,6 +28,8 @@ Never flatten those distinctions into a superficial “ready” label.
 
 Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what story formalization work was completed, what readiness level was actually reached, what remains blocked, and the next concrete step.
 
+This branch is sequential. Do not suggest skipping required downstream stages, do not offer to move straight into implementation, and do not present branch order as optional while the DSL workflow is incomplete.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.
@@ -169,4 +171,4 @@ End with:
 - alignment summary;
 - blockers and repair proposals;
 - deferred or contested commitments affecting implementation;
-- recommended next workflow: `formally-bmad-dsl-verification` for deeper verification or implementation-readiness checking before code exists.
+- mandatory next workflow when the stories stage is complete: `formally-bmad-dsl-verification` before any implementation work.

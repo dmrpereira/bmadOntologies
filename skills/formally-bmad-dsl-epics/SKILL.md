@@ -29,6 +29,8 @@ Never flatten those distinctions into a simple â€œall requirements are coveredâ€
 
 Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what epic formalization work was completed, what remains blocked or deferred, and the next concrete step.
 
+This branch is sequential. Do not suggest skipping required downstream stages, do not offer to move straight into implementation, and do not present branch order as optional while the DSL workflow is incomplete.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.
@@ -157,4 +159,4 @@ End with:
 - epic readiness status;
 - story obligations;
 - deferred or contested commitments affecting implementation planning;
-- recommended next workflow: `formally-bmad-dsl-stories`.
+- mandatory next workflow when the epics stage is complete: `formally-bmad-dsl-stories`.

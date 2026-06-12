@@ -32,6 +32,8 @@ Never blur those states together.
 
 Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what the session produced, what level of formalization was reached, what remains tentative or missing, and the next concrete way to continue.
 
+This branch is sequential. Do not suggest skipping required downstream stages, do not offer to move straight into implementation, and do not present branch order as optional when the formal workflow is still in progress.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.
@@ -281,6 +283,6 @@ End with:
 - accepted, deferred, and rejected delta counts;
 - an explicit note stating which increments have mechanized evidence, which are property-generated but unchecked, and which still need clarification;
 - a note that downstream DSL workflows must refine from the accepted validated baseline, not fork disconnected drafts;
-- recommended next workflow: `formally-bmad-dsl-prd` for requirements grounded in the accepted baseline.
+- mandatory next workflow when the brainstorming stage is complete: `formally-bmad-dsl-prd` for requirements grounded in the accepted baseline.
 
 Do not end immediately after creating the workspace. Always give the user a visible session closeout that states whether actual brainstorming occurred and whether the next step is refinement, promotion, or setup repair.

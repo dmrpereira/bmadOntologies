@@ -29,6 +29,8 @@ Never flatten those distinctions into a single undifferentiated design narrative
 
 Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what architecture formalization work was completed, what remains unresolved, and the next concrete action.
 
+This branch is sequential. Do not suggest skipping required downstream stages, do not offer to move straight into implementation, and do not present branch order as optional while the DSL workflow is incomplete.
+
 ## Conventions
 
 - Bare paths resolve from the skill root.
@@ -204,4 +206,4 @@ End with:
 - ontology and ASM refinement summary;
 - recheck obligations triggered by architecture decisions;
 - inherited and newly introduced uncertainty posture;
-- recommended next workflow: `formally-bmad-dsl-epics` for planning refinement over the architecture-stage validated baseline.
+- mandatory next workflow when the architecture stage is complete: `formally-bmad-dsl-epics` for planning refinement over the architecture-stage validated baseline.
