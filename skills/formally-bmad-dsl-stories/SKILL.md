@@ -65,6 +65,8 @@ Load or ask for:
 
 Story validation in this branch is strict: a story should not be ready if inherited validated commitments lack implementation-facing coverage, alignment is unresolved, deferred or contested commitments are being treated as accepted facts, or blocker status is hidden.
 
+If upstream PRD, architecture, or epic artifacts are known to have stale or unsynchronized summaries, treat that as a blocker or repair requirement before using those artifacts as authoritative story input.
+
 ### Initialize Workspace
 
 Run the deterministic workspace helper once the story title, ID, or source path is known:

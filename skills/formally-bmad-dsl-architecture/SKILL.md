@@ -67,6 +67,8 @@ The architecture skill must design against the accepted validated baseline, not 
 
 If prose and the accepted validated baseline disagree, the accepted validated baseline wins unless the user explicitly proposes a new architecture-level delta.
 
+If the accepted validated baseline is represented inconsistently across upstream PRD artifacts, repair or block before design proceeds. Architecture may not silently choose one upstream PRD view and continue as if the handoff were clean.
+
 ### Initialize Workspace
 
 Run the deterministic workspace helper once the architecture title or source path is known:
@@ -86,6 +88,18 @@ Requirements are eligible as architecture-driving commitments when they are:
 - not currently marked as formally contested.
 
 Deferred deltas, contested requirements, and assumptions may still be consumed, but only as risks, architecture alternatives, unresolved constraints, or triggers for additional validation. They must not become silently accepted architectural facts.
+
+Before accepting a PRD handoff, check that the upstream PRD package is internally synchronized:
+
+- the PRD body and formal status block;
+- `requirements.md`;
+- `accepted-deltas.md`;
+- `validation-status.md`;
+- provenance references to accepted requirements and deltas.
+
+If these sources disagree about the accepted baseline, treat that as an upstream artifact inconsistency, not as a harmless note.
+
+Do not continue architecture design on top of a known stale PRD summary unless you first repair the stale upstream summary in the same session or explicitly send the work back to the PRD stage for repair. Recording the mismatch only as an architecture-stage provenance note is not sufficient.
 
 ### Design Against The Accepted Baseline
 
@@ -111,6 +125,7 @@ It may not:
 
 - silently redefine accepted upstream requirements;
 - silently ignore failed or deferred validation states;
+- silently design past stale or unsynchronized upstream PRD summaries;
 - present unsupported architecture assumptions as if they were validated inherited facts.
 
 ### Maintain Design Decisions
@@ -206,4 +221,5 @@ End with:
 - ontology and ASM refinement summary;
 - recheck obligations triggered by architecture decisions;
 - inherited and newly introduced uncertainty posture;
+- explicit confirmation that any detected PRD handoff inconsistency was either repaired before design or treated as a blocking issue;
 - mandatory next workflow when the architecture stage is complete: `formally-bmad-dsl-epics` for planning refinement over the architecture-stage validated baseline.

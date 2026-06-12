@@ -120,6 +120,23 @@ Produce or update the source PRD as normal Markdown. Include a concise formal st
 
 If formalizing an existing PRD, preserve source meaning and avoid rewriting requirements unless the user accepts a repair proposal.
 
+### Keep PRD Summaries Synchronized
+
+Treat the PRD artifact, `requirements.md`, `accepted-deltas.md`, `validation-status.md`, and the PRD formal status block as one synchronized package.
+
+If requirement IDs, source assertion IDs, source delta IDs, evidence classes, or accepted-delta coverage change during PRD work, update every affected summary in the same session. Do not leave the PRD body or status block naming an older accepted baseline after the requirement inventory has been revised.
+
+At minimum, resynchronize:
+
+- the PRD formal status block baseline scope summary;
+- the accepted-delta count or summary;
+- requirement references used in the PRD body;
+- `requirements.md`;
+- `accepted-deltas.md`;
+- `validation-status.md`.
+
+Do not hand off a PRD stage whose inventories and summary blocks disagree about the accepted baseline.
+
 ### Extract Requirements Conservatively
 
 From the upstream DSL branch, extract:
@@ -201,4 +218,5 @@ End with:
 - accepted delta coverage summary;
 - inherited backend evidence posture;
 - assumptions that materially affect accepted requirements;
+- explicit confirmation that the PRD artifact, requirement inventory, accepted-delta view, and validation summary were synchronized for this handoff;
 - mandatory next workflow when the PRD stage is complete: `formally-bmad-dsl-architecture` for design refinement over the accepted validated baseline.

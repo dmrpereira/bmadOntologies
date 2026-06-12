@@ -108,6 +108,8 @@ Review whether:
 - architecture deltas triggered recheck obligations where coordination, state ownership, or event flow changed;
 - epic and story stages preserved inherited evidence posture and did not silently erase deferred or contested commitments.
 
+Also review whether each stage kept its summary artifacts synchronized with its detailed inventories and delta views. A stale stage summary that no longer matches the accepted baseline is a verification finding, not a cosmetic issue.
+
 Missing recheck planning is a finding, not a cosmetic gap.
 
 ### Choose Tool Families Conservatively

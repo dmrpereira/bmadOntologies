@@ -65,6 +65,8 @@ Load or ask for:
 
 Epic planning must respect the accepted validated baseline and the current uncertainty posture. It must not silently erase deferred, assumption-dependent, or contested commitments.
 
+If upstream PRD or architecture artifacts are known to have stale or unsynchronized summaries, do not plan past that inconsistency as if it were harmless. Require repair or explicit blocking treatment before using those artifacts as authoritative planning input.
+
 ### Initialize Workspace
 
 Run the deterministic workspace helper once the epic set title or source path is known:

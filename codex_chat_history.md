@@ -1595,3 +1595,14 @@ This is not acceptable in this sort of approach; all steps need to be executed a
 ## Turn 247 — Assistant
 
 `I tightened the DSL branch contract again so the workflow is explicitly sequential: the DSL skills now forbid branch-skipping suggestions, forbid offering direct implementation while the formal workflow is still incomplete, and replace soft "recommended next workflow" phrasing with mandatory next-stage handoff language.`
+
+## Turn 248 — User
+
+`there may be some issues during prd update (example, fixing open requirements). see the following message:
+"The PRD requirement inventory is consistent enough to drive architecture, but the PRD’s source-baseline summary is slightly stale because it still names A-001
+  to A-009 and D-001 to D-003 even though FR-005 already depends on A-010 and D-004. I’m designing from the requirement inventory and recording that mismatch as
+  an architecture-stage provenance note rather than silently ignoring it."`
+
+## Turn 249 — Assistant
+
+`I treated that as a real workflow defect, not a harmless note. I tightened the PRD contract so the PRD artifact, requirements inventory, accepted-deltas view, validation summary, and status block must be resynchronized in the same session whenever requirement coverage changes, and I tightened architecture so it must repair or block on stale upstream PRD summaries instead of proceeding with only a provenance note. I also pushed that expectation downstream into epics, stories, and verification so stale stage summaries become blockers or findings rather than tolerated drift.`
