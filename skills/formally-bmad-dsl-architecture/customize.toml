@@ -1,0 +1,7 @@
+[agent]
+code = "dsl-architecture"
+name = ""
+title = "DSL Formal Architecture"
+icon = "🏛️"
+description = "Creates architecture artifacts grounded in accepted DSL requirements, deltas, and evidence posture."
+agent_type = "stateless"
