@@ -36,14 +36,14 @@ Never flatten those into a single undifferentiated requirement list.
 
 ## On Activation
 
-Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad` section). Resolve these values, using setup defaults only when config is absent:
+Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad-dsl` section). Resolve these values, using setup defaults only when config is absent:
 
-- `formally_bmad_project_root`: `{project-root}/_bmad/formally-bmad`
-- `formally_bmad_canonical_model_path`: `{project-root}/_bmad/formally-bmad/canonical`
-- `formally_bmad_validation_strictness`: `stage-aware`
-- `formally_bmad_report_format`: `markdown,html`
+- `formally_bmad_dsl_project_root`: `{project-root}/_bmad/formally-bmad-dsl`
+- `formally_bmad_dsl_canonical_model_path`: `{project-root}/_bmad/formally-bmad-dsl/canonical`
+- `formally_bmad_dsl_validation_strictness`: `stage-aware`
+- `formally_bmad_dsl_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
+If `{formally_bmad_dsl_project_root}` or `{formally_bmad_dsl_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, require source material such as a DSL-branch brainstorming workspace, an existing PRD path, or a product brief. Without source material, stop after creating the workspace and report that DSL PRD formalization needs a source baseline.
 
@@ -68,10 +68,10 @@ If lower-authority artifacts conflict with higher-authority ones, higher-authori
 Run the deterministic workspace helper once the PRD title or source path is known:
 
 ```bash
-python3 scripts/prd_workspace.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --title "{prd-title-or-source-slug}"
+python3 scripts/prd_workspace.py --project-root {project-root} --module-root "{formally_bmad_dsl_project_root}" --title "{prd-title-or-source-slug}"
 ```
 
-The helper creates `{formally_bmad_project_root}/artifacts/dsl-prd/<safe-title>/` with starter files for the PRD artifact, requirement inventory, formalization, accepted delta view, validation status, verification obligations, provenance, and local validation.
+The helper creates `{formally_bmad_dsl_project_root}/artifacts/dsl-prd/<safe-title>/` with starter files for the PRD artifact, requirement inventory, formalization, accepted delta view, validation status, verification obligations, provenance, and local validation.
 
 ### Filter Eligible Source Material
 

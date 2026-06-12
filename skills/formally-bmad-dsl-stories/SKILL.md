@@ -35,14 +35,14 @@ Never flatten those distinctions into a superficial “ready” label.
 
 ## On Activation
 
-Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad` section). Resolve these values, using setup defaults only when config is absent:
+Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad-dsl` section). Resolve these values, using setup defaults only when config is absent:
 
-- `formally_bmad_project_root`: `{project-root}/_bmad/formally-bmad`
-- `formally_bmad_canonical_model_path`: `{project-root}/_bmad/formally-bmad/canonical`
-- `formally_bmad_validation_strictness`: `stage-aware`
-- `formally_bmad_report_format`: `markdown,html`
+- `formally_bmad_dsl_project_root`: `{project-root}/_bmad/formally-bmad-dsl`
+- `formally_bmad_dsl_canonical_model_path`: `{project-root}/_bmad/formally-bmad-dsl/canonical`
+- `formally_bmad_dsl_validation_strictness`: `stage-aware`
+- `formally_bmad_dsl_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
+If `{formally_bmad_dsl_project_root}` or `{formally_bmad_dsl_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, require epic context, story obligations, an existing story artifact, or a target requirement. Without source material, create only the workspace and report that DSL stories need epic and implementation context.
 
@@ -66,10 +66,10 @@ Story validation in this branch is strict: a story should not be ready if inheri
 Run the deterministic workspace helper once the story title, ID, or source path is known:
 
 ```bash
-python3 scripts/stories_workspace.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --story-id "{story-id-or-title}"
+python3 scripts/stories_workspace.py --project-root {project-root} --module-root "{formally_bmad_dsl_project_root}" --story-id "{story-id-or-title}"
 ```
 
-The helper creates `{formally_bmad_project_root}/artifacts/dsl-stories/<safe-story-id>/` with starter files for story content, acceptance criteria, formalization, alignment, blockers, readiness, delta lineage, provenance, and local validation.
+The helper creates `{formally_bmad_dsl_project_root}/artifacts/dsl-stories/<safe-story-id>/` with starter files for story content, acceptance criteria, formalization, alignment, blockers, readiness, delta lineage, provenance, and local validation.
 
 ### Create Or Formalize Story
 

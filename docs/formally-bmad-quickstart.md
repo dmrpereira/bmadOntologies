@@ -12,8 +12,8 @@ Formally BMAD extends BMad artifacts with a project-level canonical model and au
 
 Default on-disk state lives under:
 
-- `{project-root}/_bmad/formally-bmad/`
-- Canonical model: `{project-root}/_bmad/formally-bmad/canonical/`
+- DSL branch state root: `{project-root}/_bmad/formally-bmad-dsl/`
+- DSL canonical model: `{project-root}/_bmad/formally-bmad-dsl/canonical/`
 
 ## Prerequisite
 
@@ -59,9 +59,8 @@ You can install the DSL branch payload automatically with:
 
 The required runtime skills are:
 
-- `formally-bmad-setup`
 - `formally-bmad-dsl-setup`
-- `formally-bmad-agent-steward`
+- `formally-bmad-dsl-agent-steward`
 - `formally-bmad-formal-brainstorming`
 - `formally-bmad-dsl-brainstorming`
 - `formally-bmad-formal-import`
@@ -91,18 +90,17 @@ Each skill directory must become a direct child of the chosen `skills/` director
 Correct examples:
 
 ```text
-<target-project>/.claude/skills/formally-bmad-setup
 <target-project>/.claude/skills/formally-bmad-dsl-setup
-<target-project>/.claude/skills/formally-bmad-formal-prd
-<target-project>/.claude/skills/formally-bmad-formal-contracts
-<target-project>/.claude/skills/formally-bmad-contract-stubs
-<target-project>/.claude/skills/formally-bmad-formal-verification
+<target-project>/.claude/skills/formally-bmad-dsl-agent-steward
+<target-project>/.claude/skills/formally-bmad-dsl-prd
+<target-project>/.claude/skills/formally-bmad-dsl-architecture
+<target-project>/.claude/skills/formally-bmad-dsl-verification
 ```
 
 Wrong example:
 
 ```text
-<target-project>/.claude/skills/skills/formally-bmad-setup
+<target-project>/.claude/skills/skills/formally-bmad-dsl-setup
 ```
 
 You may obtain those skills by cloning this repository, copying them from a local checkout, or downloading and uncompressing a ZIP. The ZIP is only a transport format; the actual install step is copying the skill directories into the target project's active skills location.
@@ -111,12 +109,11 @@ You may obtain those skills by cloning this repository, copying them from a loca
 
 Run the setup capability:
 
-- Skill: `formally-bmad-dsl-setup` for the DSL branch
-- Skill: `formally-bmad-setup` for the original formal branch
+- Skill: `formally-bmad-dsl-setup`
 
 DSL setup does two things:
 
-1. Registers the DSL branch help/config surface in `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/module-help.csv`
+1. Registers the isolated DSL branch help/config surface in `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/module-help.csv`
 2. Initializes the module state and validates at least one supported automated reasoning tool is available
 
 ## Tool Requirement (Hard Gate)
@@ -145,9 +142,9 @@ If the baseline gate is not satisfied, setup must not proceed.
 
 After setup completes, expect:
 
-- `{project-root}/_bmad/formally-bmad/reports/setup-report.md`
-- `{project-root}/_bmad/formally-bmad/canonical/status.md`
-- Canonical folders under `{project-root}/_bmad/formally-bmad/canonical/`:
+- `{project-root}/_bmad/formally-bmad-dsl/reports/setup-report.md`
+- `{project-root}/_bmad/formally-bmad-dsl/canonical/status.md`
+- Canonical folders under `{project-root}/_bmad/formally-bmad-dsl/canonical/`:
   - `model/`, `ontology/`, `temporal/`, `meta/`, `versions/`
 
 ## Notes

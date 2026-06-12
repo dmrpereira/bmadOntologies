@@ -1,34 +1,34 @@
-code: formally-bmad
-name: "Formally BMAD DSL Branch"
-description: "Configures the parallel Formally BMAD DSL branch with canonical assertions, ontology and ASM projections, delta validation, and evidence-aware downstream artifacts."
+code: formally-bmad-dsl
+name: "Formally BMAD DSL"
+description: "Configures the isolated Formally BMAD DSL branch with canonical assertions, ontology and ASM projections, delta validation, and evidence-aware downstream artifacts."
 module_version: 1.0.0
 default_selected: false
 module_greeting: >
   Formally BMAD DSL is configured. Start with steward status if needed, then run DSL brainstorming to begin building the canonical DSL baseline and its ontology/ASM projections.
 
 agents:
-  - code: formally-bmad-agent-steward
+  - code: formally-bmad-dsl-agent-steward
     name: ""
-    title: Canonical Model Steward
+    title: DSL Canonical Model Steward
     icon: "§"
-    description: Maintains Formally BMAD canonical model consistency, provenance, status, and validation.
+    description: Maintains Formally BMAD DSL canonical model consistency, provenance, status, and validation.
 
 variables:
-  - key: formally_bmad_project_root
+  - key: formally_bmad_dsl_project_root
     prompt: "Where should the DSL branch store its project-level formal model and reports?"
-    default: "{project-root}/_bmad/formally-bmad"
+    default: "{project-root}/_bmad/formally-bmad-dsl"
     result_template: "{answer}"
     user_setting: true
     directories:
       - "{answer}"
-  - key: formally_bmad_canonical_model_path
+  - key: formally_bmad_dsl_canonical_model_path
     prompt: "Where should the logic-native canonical model live for the DSL branch?"
-    default: "{project-root}/_bmad/formally-bmad/canonical"
+    default: "{project-root}/_bmad/formally-bmad-dsl/canonical"
     result_template: "{answer}"
     user_setting: true
     directories:
       - "{answer}"
-  - key: formally_bmad_validation_strictness
+  - key: formally_bmad_dsl_validation_strictness
     prompt: "What default validation strictness should be used?"
     type: single-select
     default: "stage-aware"
@@ -39,7 +39,7 @@ variables:
         label: "Strict"
     result_template: "{answer}"
     user_setting: true
-  - key: formally_bmad_auto_apply_repairs
+  - key: formally_bmad_dsl_auto_apply_repairs
     prompt: "Should accepted repair proposals edit DSL branch artifacts directly?"
     type: single-select
     default: "confirm-before-edit"
@@ -50,24 +50,24 @@ variables:
         label: "Proposal only"
     result_template: "{answer}"
     user_setting: true
-  - key: formally_bmad_tool_profile
+  - key: formally_bmad_dsl_tool_profile
     prompt: "Which automated reasoning tool profile should be used?"
     default: "auto-detect"
     result_template: "{answer}"
     user_setting: true
-  - key: formally_bmad_min_required_tools
+  - key: formally_bmad_dsl_min_required_tools
     prompt: "What is the minimum total number of supported formal tools to require after the baseline validation gate is satisfied?"
     default: "1"
     regex: "^[1-9][0-9]*$"
     result_template: "{answer}"
     user_setting: true
-  - key: formally_bmad_export_only_fallback
+  - key: formally_bmad_dsl_export_only_fallback
     prompt: "If an optional reasoning backend is missing after the baseline gate passes, should those checks degrade to export-only?"
     type: confirm
     default: true
     result_template: "{answer}"
     user_setting: true
-  - key: formally_bmad_report_format
+  - key: formally_bmad_dsl_report_format
     prompt: "Which report formats should verification and readiness reports produce?"
     default: "markdown,html"
     result_template: "{answer}"

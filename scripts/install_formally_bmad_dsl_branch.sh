@@ -6,9 +6,8 @@ REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
 SKILLS_ROOT="${REPO_ROOT}/skills"
 
 PAYLOAD_SKILLS=(
-  "formally-bmad-setup"
   "formally-bmad-dsl-setup"
-  "formally-bmad-agent-steward"
+  "formally-bmad-dsl-agent-steward"
   "formally-bmad-dsl-brainstorming"
   "formally-bmad-dsl-prd"
   "formally-bmad-dsl-architecture"
@@ -42,9 +41,8 @@ Install locations:
   pi     -> <target-project>/.pi/skills/
 
 Installed payload:
-  - formally-bmad-setup
   - formally-bmad-dsl-setup
-  - formally-bmad-agent-steward
+  - formally-bmad-dsl-agent-steward
   - formally-bmad-dsl-brainstorming
   - formally-bmad-dsl-prd
   - formally-bmad-dsl-architecture
@@ -52,8 +50,8 @@ Installed payload:
   - formally-bmad-dsl-stories
   - formally-bmad-dsl-verification
 
-The script replaces only those target skill directories. It does not touch the
-original formally-bmad-formal-* branch.
+The script replaces only those target skill directories. It does not install or
+modify the original formally-bmad-formal-* branch.
 EOF
 }
 
@@ -196,8 +194,8 @@ done
 
 report_lines+=("## Notes")
 report_lines+=("")
-report_lines+=("- This installer copies the shared helper setup skill, the DSL setup entrypoint, the steward, and the parallel \`formally-bmad-dsl-*\` branch.")
-report_lines+=("- It does not copy or modify the original \`formally-bmad-formal-*\` branch.")
+report_lines+=("- This installer copies only the isolated DSL setup entrypoint, the DSL steward, and the \`formally-bmad-dsl-*\` branch.")
+report_lines+=("- It does not copy or modify the original \`formally-bmad-formal-*\` branch or its setup/steward entrypoints.")
 report_lines+=("- After installation, open the target project in the selected agent runtime and run \`formally-bmad-dsl-setup\` there before starting the DSL branch if the module has not been initialized in that project yet.")
 
 if [[ -n "$REPORT_FILE" ]]; then

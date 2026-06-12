@@ -1520,3 +1520,35 @@ what do you think?`
 ## Turn 231 — Assistant
 
 `I also updated the multi-agent installer payload to include formally-bmad-dsl-setup, refreshed the DSL-facing README/quickstart guidance to point to the new setup entrypoint, ran the setup script unit tests successfully, and re-ran the installer in dry-run mode to verify that the external project would receive the new setup skill before the DSL branch end-to-end test.`
+
+## Turn 232 — User
+
+`analyse the output of running formally-bmad-dsl setup; it seems to me that there is still confusing between the dsl and the non-dsl versions`
+
+## Turn 233 — User
+
+`[the user pasted the Pi agent transcript showing the DSL setup still reading shared Formally BMAD assumptions, shared module code, and YAML/TOML confusion in the target project]`
+
+## Turn 234 — Assistant
+
+`I confirmed the confusion was real and not cosmetic: the DSL setup was still sharing the original module code, config namespace, _bmad/formally-bmad root, and help-surface anti-zombie scope with the non-DSL branch, so the two setup flows could not coexist cleanly.`
+
+## Turn 235 — User
+
+`yes, implement as a proper separation, and udpate the install script accordingly. MAKE SURE THAT YOU DON'T FAIL THIS TIME`
+
+## Turn 236 — Assistant
+
+`I started a real separation pass: copying the setup helpers into the DSL setup skill, creating a dedicated formally-bmad-dsl-agent-steward skill, retargeting the DSL branch toward its own module code and its own _bmad/formally-bmad-dsl state root, and preparing to remove the shared setup/steward from the DSL installer payload.`
+
+## Turn 237 — User
+
+`do fix this as a real separation once and for all!!!!`
+
+## Turn 238 — Assistant
+
+`I completed the isolation work in code: the DSL setup now uses module code formally-bmad-dsl, its own DSL-prefixed config keys, its own local helper scripts, its own DSL steward skill, and its own _bmad/formally-bmad-dsl state root, while the installer now ships only the isolated DSL setup/steward plus the formally-bmad-dsl-* workflow skills.`
+
+## Turn 239 — Assistant
+
+`I also updated the DSL skill instructions, README, and quickstart to refer to the separated DSL setup path, fixed the copied setup helper so it actually reads the module.yaml variables list correctly, and verified the isolated DSL setup tests and installer dry-run again after the split.`

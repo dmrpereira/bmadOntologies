@@ -1,0 +1,14 @@
+# DO NOT EDIT -- overwritten on every update.
+#
+# Agent customization surface for formally-bmad-dsl-agent-steward.
+# Team overrides:     {project-root}/_bmad/custom/formally-bmad-dsl-agent-steward.toml
+# Personal overrides: {project-root}/_bmad/custom/formally-bmad-dsl-agent-steward.user.toml
+
+[agent]
+
+code = "formally-bmad-dsl-agent-steward"
+name = ""
+title = "DSL Canonical Model Steward"
+icon = "§"
+description = "Maintains Formally BMAD DSL canonical model consistency, provenance, status, and validation."
+agent_type = "memory"

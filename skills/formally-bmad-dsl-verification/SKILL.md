@@ -22,14 +22,14 @@ Earlier DSL workflows may produce canonical assertions, ontology and ASM project
 
 ## On Activation
 
-Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad` section). Resolve these values, using setup defaults only when config is absent:
+Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad-dsl` section). Resolve these values, using setup defaults only when config is absent:
 
-- `formally_bmad_project_root`: `{project-root}/_bmad/formally-bmad`
-- `formally_bmad_canonical_model_path`: `{project-root}/_bmad/formally-bmad/canonical`
-- `formally_bmad_validation_strictness`: `stage-aware`
-- `formally_bmad_report_format`: `markdown,html`
+- `formally_bmad_dsl_project_root`: `{project-root}/_bmad/formally-bmad-dsl`
+- `formally_bmad_dsl_canonical_model_path`: `{project-root}/_bmad/formally-bmad-dsl/canonical`
+- `formally_bmad_dsl_validation_strictness`: `stage-aware`
+- `formally_bmad_dsl_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
+If `{formally_bmad_dsl_project_root}` or `{formally_bmad_dsl_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, run a verification checkpoint over the current DSL branch state and always produce Markdown reporting.
 
@@ -40,10 +40,10 @@ If `--headless` or `-H` is invoked, run a verification checkpoint over the curre
 Run the deterministic workspace helper:
 
 ```bash
-python3 scripts/verification_workspace.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --scope "{scope}"
+python3 scripts/verification_workspace.py --project-root {project-root} --module-root "{formally_bmad_dsl_project_root}" --scope "{scope}"
 ```
 
-The helper creates a timestamped DSL verification report workspace under `{formally_bmad_project_root}/reports/dsl-verification/`, indexes known companion artifacts, and writes starter report files.
+The helper creates a timestamped DSL verification report workspace under `{formally_bmad_dsl_project_root}/reports/dsl-verification/`, indexes known companion artifacts, and writes starter report files.
 
 ### Determine Verification Scope
 
@@ -116,7 +116,7 @@ When you invoke or conceptually invoke a backend, record:
 - chosen backend;
 - why that backend fits the artifact or obligation;
 - whether the result is authoritative, degraded, or suggestive only;
-- where the input/output should be stored under `{formally_bmad_project_root}/tool-runs/`.
+- where the input/output should be stored under `{formally_bmad_dsl_project_root}/tool-runs/`.
 
 Use backend checks both for:
 
@@ -183,9 +183,9 @@ Maintain the report workspace with:
 - `summary.md`;
 - `manifest.json`.
 
-Also update `{formally_bmad_project_root}/reports/latest-dsl-verification-summary.md` with the current result and report workspace path.
+Also update `{formally_bmad_dsl_project_root}/reports/latest-dsl-verification-summary.md` with the current result and report workspace path.
 
-Where tool-backed checks were run or planned, also maintain lightweight tool-run references under `{formally_bmad_project_root}/tool-runs/` so later reports can trace:
+Where tool-backed checks were run or planned, also maintain lightweight tool-run references under `{formally_bmad_dsl_project_root}/tool-runs/` so later reports can trace:
 
 - the backend selected;
 - the exported view or input artifact;

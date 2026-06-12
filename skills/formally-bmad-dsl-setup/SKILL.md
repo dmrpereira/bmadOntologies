@@ -7,9 +7,9 @@ description: Configures the Formally BMAD parallel DSL branch. Use when the user
 
 ## Overview
 
-This skill configures the parallel `formally-bmad-dsl-*` branch by registering the DSL-specific help surface, collecting module settings, creating durable project state, detecting BMad artifacts, verifying automated reasoning capability, and producing a setup report. Act as a formal-methods-aware setup engineer for the DSL branch: keep the interaction BMad-like, but do not allow installation to complete unless the baseline validation toolchain is executable: at least one supported SMT solver and at least one supported first-order or SAT solver.
+This skill configures the isolated `formally-bmad-dsl-*` branch by registering a DSL-specific module/help surface, collecting branch settings, creating durable project state, detecting BMad artifacts, verifying automated reasoning capability, and producing a DSL-branded setup report. Act as a formal-methods-aware setup engineer for the DSL branch: keep the interaction BMad-like, but do not allow installation to complete unless the baseline validation toolchain is executable: at least one supported SMT solver and at least one supported first-order or SAT solver.
 
-This is a separate workflow entrypoint for the DSL branch. It reuses the deterministic helper scripts from `formally-bmad-setup`, but it installs a DSL-branch help surface and should be the setup command used before running `formally-bmad-dsl-brainstorming`.
+This setup is intentionally separate from `formally-bmad-setup`. It uses its own module code, its own state root under `_bmad/formally-bmad-dsl/`, its own help rows, and its own local helper scripts. It should be the only setup command used before running `formally-bmad-dsl-brainstorming`.
 
 ## Conventions
 
@@ -20,16 +20,18 @@ This is a separate workflow entrypoint for the DSL branch. It reuses the determi
 
 ## On Activation
 
-Read `assets/module.yaml` for module metadata, configuration variables, and post-install notes. Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad` section). If neither exists, use these defaults and tell the user setup will create module-specific configuration:
+Read `assets/module.yaml` for module metadata, configuration variables, and post-install notes. Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` when present; if the host BMad installation only has TOML root config such as `{project-root}/_bmad/config.toml` and `{project-root}/_bmad/config.user.toml`, treat that as a valid pre-existing BMad install and proceed. This DSL setup will create its own YAML registration files if needed under `_bmad/`, using the `formally-bmad-dsl` section.
 
-- `formally_bmad_project_root`: `{project-root}/_bmad/formally-bmad`
-- `formally_bmad_canonical_model_path`: `{project-root}/_bmad/formally-bmad/canonical`
-- `formally_bmad_validation_strictness`: `stage-aware`
-- `formally_bmad_auto_apply_repairs`: `confirm-before-edit`
-- `formally_bmad_tool_profile`: `auto-detect`
-- `formally_bmad_min_required_tools`: `1`
-- `formally_bmad_export_only_fallback`: `true`
-- `formally_bmad_report_format`: `markdown,html`
+If no DSL root YAML config exists yet, use these defaults and tell the user setup will create DSL module-specific configuration:
+
+- `formally_bmad_dsl_project_root`: `{project-root}/_bmad/formally-bmad-dsl`
+- `formally_bmad_dsl_canonical_model_path`: `{project-root}/_bmad/formally-bmad-dsl/canonical`
+- `formally_bmad_dsl_validation_strictness`: `stage-aware`
+- `formally_bmad_dsl_auto_apply_repairs`: `confirm-before-edit`
+- `formally_bmad_dsl_tool_profile`: `auto-detect`
+- `formally_bmad_dsl_min_required_tools`: `1`
+- `formally_bmad_dsl_export_only_fallback`: `true`
+- `formally_bmad_dsl_report_format`: `markdown,html`
 
 If the user invoked headless mode (`--headless` or `-H`), apply defaults and inferred config without interactive questions.
 
@@ -50,15 +52,15 @@ Default to the module plan values unless the user asks for changes.
 The registration assets are:
 
 - `assets/module.yaml` — DSL setup identity and config variables;
-- `assets/module-help.csv` — DSL branch capability registry for BMad help.
+- `assets/module-help.csv` — DSL module capability registry for BMad help.
 
 ### Register Module
 
 Write a temp JSON file with collected answers shaped as `{"core": {...}, "module": {...}}`. Omit `core` if the project already has core config. Run:
 
 ```bash
-uv run ../formally-bmad-setup/scripts/merge-config.py --config-path "{project-root}/_bmad/config.yaml" --user-config-path "{project-root}/_bmad/config.user.yaml" --module-yaml assets/module.yaml --answers {temp-file} --legacy-dir "{project-root}/_bmad"
-python3 ../formally-bmad-setup/scripts/merge-help-csv.py --target "{project-root}/_bmad/module-help.csv" --source assets/module-help.csv --legacy-dir "{project-root}/_bmad" --module-code formally-bmad
+uv run scripts/merge-config.py --config-path "{project-root}/_bmad/config.yaml" --user-config-path "{project-root}/_bmad/config.user.yaml" --module-yaml assets/module.yaml --answers {temp-file} --legacy-dir "{project-root}/_bmad"
+python3 scripts/merge-help-csv.py --target "{project-root}/_bmad/module-help.csv" --source assets/module-help.csv --legacy-dir "{project-root}/_bmad" --module-code formally-bmad-dsl
 ```
 
 If either script exits non-zero, surface the JSON error and stop. Config values stored in files must keep the literal `{project-root}` token; only filesystem creation resolves it to the actual project path.
@@ -68,7 +70,7 @@ If either script exits non-zero, surface the JSON error and stop. Config values 
 Run the deterministic setup helper:
 
 ```bash
-python3 ../formally-bmad-setup/scripts/setup_environment.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --canonical-path "{formally_bmad_canonical_model_path}" --min-tools "{formally_bmad_min_required_tools}"
+python3 scripts/setup_environment.py --project-root {project-root} --module-root "{formally_bmad_dsl_project_root}" --canonical-path "{formally_bmad_dsl_canonical_model_path}" --min-tools "{formally_bmad_dsl_min_required_tools}" --module-label "Formally BMAD DSL" --status-title "Formally BMAD DSL Canonical Model Status" --index-title "Formally BMAD DSL Index"
 ```
 
 If the helper cannot run, perform the same checks manually and explain that script automation was unavailable. Do not mark setup complete without verifying at least one supported SMT solver and at least one supported first-order or SAT solver.
@@ -82,18 +84,18 @@ If the baseline validation gate is satisfied:
 - confirm the initialized project structure;
 - summarize detected BMad artifacts;
 - summarize baseline validation availability and optional reasoning tooling;
-- point to the generated setup report under `{formally_bmad_project_root}/reports/`.
+- point to the generated setup report under `{formally_bmad_dsl_project_root}/reports/`.
 
 ### Cleanup Legacy Installer Files
 
 After config and help registration succeed, run:
 
 ```bash
-python3 ../formally-bmad-setup/scripts/cleanup-legacy.py --bmad-dir "{project-root}/_bmad" --module-code formally-bmad --also-remove _config --skills-dir "{project-root}/.claude/skills" --skills-dir "{project-root}/.codex/skills" --skills-dir "{project-root}/.pi/skills"
+python3 scripts/cleanup-legacy.py --bmad-dir "{project-root}/_bmad" --module-code formally-bmad-dsl --skills-dir "{project-root}/.claude/skills" --skills-dir "{project-root}/.codex/skills" --skills-dir "{project-root}/.pi/skills"
 ```
 
-If cleanup reports that installed skills cannot be verified, surface the warning and continue; the Formally BMAD project state and DSL branch registration are the critical setup outcomes.
+If cleanup reports that installed DSL skills cannot be verified, surface the warning and continue; the DSL project state and DSL branch registration are the critical setup outcomes.
 
 ### Handoff
 
-Finish with the current setup status and the next recommended skills: `formally-bmad-agent-steward`, followed by `formally-bmad-dsl-brainstorming`.
+Finish with the current setup status and the next recommended skills: `formally-bmad-dsl-agent-steward`, followed by `formally-bmad-dsl-brainstorming`.

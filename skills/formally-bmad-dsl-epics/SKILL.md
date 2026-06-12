@@ -36,14 +36,14 @@ Never flatten those distinctions into a simple â€œall requirements are coveredâ€
 
 ## On Activation
 
-Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad` section). Resolve these values, using setup defaults only when config is absent:
+Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad-dsl` section). Resolve these values, using setup defaults only when config is absent:
 
-- `formally_bmad_project_root`: `{project-root}/_bmad/formally-bmad`
-- `formally_bmad_canonical_model_path`: `{project-root}/_bmad/formally-bmad/canonical`
-- `formally_bmad_validation_strictness`: `stage-aware`
-- `formally_bmad_report_format`: `markdown,html`
+- `formally_bmad_dsl_project_root`: `{project-root}/_bmad/formally-bmad-dsl`
+- `formally_bmad_dsl_canonical_model_path`: `{project-root}/_bmad/formally-bmad-dsl/canonical`
+- `formally_bmad_dsl_validation_strictness`: `stage-aware`
+- `formally_bmad_dsl_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
+If `{formally_bmad_dsl_project_root}` or `{formally_bmad_dsl_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, require accepted DSL PRD requirements, architecture context, or an existing epic artifact. Without source material, create only the workspace and report that DSL epics need PRD and architecture context.
 
@@ -66,10 +66,10 @@ Epic planning must respect the accepted validated baseline and the current uncer
 Run the deterministic workspace helper once the epic set title or source path is known:
 
 ```bash
-python3 scripts/epics_workspace.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --title "{epic-set-title-or-source-slug}"
+python3 scripts/epics_workspace.py --project-root {project-root} --module-root "{formally_bmad_dsl_project_root}" --title "{epic-set-title-or-source-slug}"
 ```
 
-The helper creates `{formally_bmad_project_root}/artifacts/dsl-epics/<safe-title>/` with starter files for epics, requirement coverage, epic coherence, story obligations, accepted delta lineage, validation posture, provenance, and local validation.
+The helper creates `{formally_bmad_dsl_project_root}/artifacts/dsl-epics/<safe-title>/` with starter files for epics, requirement coverage, epic coherence, story obligations, accepted delta lineage, validation posture, provenance, and local validation.
 
 ### Create Or Formalize Epics
 

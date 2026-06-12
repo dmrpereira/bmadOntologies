@@ -38,14 +38,14 @@ Never blur those states together.
 
 ## On Activation
 
-Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad` section). Resolve these values, using setup defaults only when config is absent:
+Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad-dsl` section). Resolve these values, using setup defaults only when config is absent:
 
-- `formally_bmad_project_root`: `{project-root}/_bmad/formally-bmad`
-- `formally_bmad_canonical_model_path`: `{project-root}/_bmad/formally-bmad/canonical`
-- `formally_bmad_validation_strictness`: `stage-aware`
-- `formally_bmad_report_format`: `markdown,html`
+- `formally_bmad_dsl_project_root`: `{project-root}/_bmad/formally-bmad-dsl`
+- `formally_bmad_dsl_canonical_model_path`: `{project-root}/_bmad/formally-bmad-dsl/canonical`
+- `formally_bmad_dsl_validation_strictness`: `stage-aware`
+- `formally_bmad_dsl_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
+If `{formally_bmad_dsl_project_root}` or `{formally_bmad_dsl_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, require an input brief or source artifact path. Without one, create the workspace and stop with a report saying interactive brainstorming needs user input.
 
@@ -60,10 +60,10 @@ Invite the user to share goals, actors, resources, lifecycle expectations, rules
 Once the topic is known, run:
 
 ```bash
-python3 scripts/brainstorm_workspace.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --topic "{topic-slug}"
+python3 scripts/brainstorm_workspace.py --project-root {project-root} --module-root "{formally_bmad_dsl_project_root}" --topic "{topic-slug}"
 ```
 
-The helper creates a companion folder under `{formally_bmad_project_root}/artifacts/dsl-brainstorming/` with a canonical surface, ontology projection, ASM projection, delta ledgers, generated-property ledger, verification-traceability ledger, backend-check ledger, and supporting provenance and validation files.
+The helper creates a companion folder under `{formally_bmad_dsl_project_root}/artifacts/dsl-brainstorming/` with a canonical surface, ontology projection, ASM projection, delta ledgers, generated-property ledger, verification-traceability ledger, backend-check ledger, and supporting provenance and validation files.
 
 ### Maintain the Canonical Surface
 
@@ -241,7 +241,7 @@ Before submission, cite:
 - the ontology and ASM impacts;
 - any generated properties or backend evidence relevant to the promotion.
 
-Submit promoted deltas to `formally-bmad-agent-steward` through `Accept Canonical Delta`. Keep unresolved or rejected increments in the brainstorming companion until conflicts are resolved or the user explicitly abandons them.
+Submit promoted deltas to `formally-bmad-dsl-agent-steward` through `Accept Canonical Delta`. Keep unresolved or rejected increments in the brainstorming companion until conflicts are resolved or the user explicitly abandons them.
 
 ### Produce Companions
 
