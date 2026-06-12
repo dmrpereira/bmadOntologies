@@ -1,0 +1,7 @@
+[agent]
+code = "dsl-brainstorming"
+name = ""
+title = "DSL Formal Brainstorming"
+icon = "🧩"
+description = "Runs brainstorming through a canonical DSL and maintains ontology, ASM, delta, and verification artifacts."
+agent_type = "stateless"
