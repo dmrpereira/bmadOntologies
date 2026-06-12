@@ -1606,3 +1606,13 @@ This is not acceptable in this sort of approach; all steps need to be executed a
 ## Turn 249 — Assistant
 
 `I treated that as a real workflow defect, not a harmless note. I tightened the PRD contract so the PRD artifact, requirements inventory, accepted-deltas view, validation summary, and status block must be resynchronized in the same session whenever requirement coverage changes, and I tightened architecture so it must repair or block on stale upstream PRD summaries instead of proceeding with only a provenance note. I also pushed that expectation downstream into epics, stories, and verification so stale stage summaries become blockers or findings rather than tolerated drift.`
+
+## Turn 250 — User
+
+`I also witness some incompleteness in the workflow. for instance, i have decided for call dsl-verification after the dsl-architecture and it returned relevant information:
+- "The main findings are clear now: no tool-backed checks have been run, no upstream deltas have been promoted to strict accepted, the canonical status file is
+  stale, and the PRD summary lags the newer A-010 / D-004 requirement lineage. I’m writing the verification report set with a conservative readiness outcome."`
+
+## Turn 251 — Assistant
+
+`I treated that as another workflow-contract gap. I tightened the DSL steward, brainstorming, PRD, architecture, and verification contracts so downstream-authoritative use now requires steward-promoted accepted-baseline status rather than merely local acceptance in a companion file, and so canonical status artifacts must be refreshed whenever canonical truth changes. Verification now also treats stale canonical status and downstream reliance on non-promoted deltas as explicit findings, and can treat them as readiness blockers when material.`

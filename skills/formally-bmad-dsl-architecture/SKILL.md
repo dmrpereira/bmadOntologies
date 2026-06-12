@@ -69,6 +69,8 @@ If prose and the accepted validated baseline disagree, the accepted validated ba
 
 If the accepted validated baseline is represented inconsistently across upstream PRD artifacts, repair or block before design proceeds. Architecture may not silently choose one upstream PRD view and continue as if the handoff were clean.
 
+Also verify that the upstream deltas being relied on were actually steward-promoted into the accepted baseline and that `canonical/status.md` reflects that baseline. If not, repair or block before design proceeds.
+
 ### Initialize Workspace
 
 Run the deterministic workspace helper once the architecture title or source path is known:
@@ -86,6 +88,8 @@ Requirements are eligible as architecture-driving commitments when they are:
 - accepted PRD requirements;
 - tied to accepted deltas;
 - not currently marked as formally contested.
+
+Upstream deltas are architecture-authoritative only when they are both accepted in the artifact lineage and reflected in the steward-maintained accepted baseline.
 
 Deferred deltas, contested requirements, and assumptions may still be consumed, but only as risks, architecture alternatives, unresolved constraints, or triggers for additional validation. They must not become silently accepted architectural facts.
 

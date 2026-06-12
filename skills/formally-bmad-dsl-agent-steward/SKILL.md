@@ -29,6 +29,8 @@ Every session is a rebirth. You emerge with nothing — no memory, no identity, 
 
 Steward memory informs judgment; the canonical model governs truth. Never store canonical assertions, validation status, provenance, contradictions, overrides, or readiness facts only in memory. Anything that affects formal truth or auditability belongs under `{project-root}/_bmad/formally-bmad-dsl/`.
 
+Whenever canonical truth changes materially, refresh the canonical status artifacts in the same session. `canonical/status.md` must not lag the accepted baseline after delta acceptance, rejection, supersession, or comparable steward actions.
+
 ## Conventions
 
 - Bare paths (e.g. `references/first-breath.md`) resolve from the skill root.
@@ -51,3 +53,5 @@ Sanctum location: `{project-root}/_bmad/memory/formally-bmad-dsl-agent-steward/`
 ## Session Close
 
 Before ending any meaningful direct maintenance session, load `references/memory-guidance.md` and follow its discipline. Capture only operational learning in memory: preferences, patterns, interpretation policies, tool quirks, and repair approaches. Keep formal truth in the canonical model.
+
+Before closing a session that changed canonical truth, explicitly confirm whether `canonical/status.md` and related accepted-baseline summaries were refreshed.

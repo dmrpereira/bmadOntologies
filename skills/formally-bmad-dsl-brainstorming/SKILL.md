@@ -249,6 +249,8 @@ Before submission, cite:
 
 Submit promoted deltas to `formally-bmad-dsl-agent-steward` through `Accept Canonical Delta`. Keep unresolved or rejected increments in the brainstorming companion until conflicts are resolved or the user explicitly abandons them.
 
+Do not treat a delta as fully authoritative for downstream DSL stages merely because it was locally marked accepted in the brainstorming companion. For downstream-authoritative use, it must be steward-promoted into the accepted baseline and reflected in current canonical status artifacts.
+
 ### Produce Companions
 
 Maintain the companion folder with:
@@ -281,6 +283,8 @@ End with:
 - the backend-checks path;
 - the companion folder path;
 - accepted, deferred, and rejected delta counts;
+- explicit confirmation of which deltas were actually steward-promoted into the accepted baseline versus only accepted locally in brainstorming artifacts;
+- explicit confirmation of whether `canonical/status.md` was refreshed after accepted-baseline changes in this session;
 - an explicit note stating which increments have mechanized evidence, which are property-generated but unchecked, and which still need clarification;
 - a note that downstream DSL workflows must refine from the accepted validated baseline, not fork disconnected drafts;
 - mandatory next workflow when the brainstorming stage is complete: `formally-bmad-dsl-prd` for requirements grounded in the accepted baseline.

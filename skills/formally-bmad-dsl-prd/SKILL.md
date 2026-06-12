@@ -67,6 +67,8 @@ The PRD skill must consume the accepted current baseline, not the full undiffere
 
 If lower-authority artifacts conflict with higher-authority ones, higher-authority artifacts win unless the user explicitly proposes a new downstream delta.
 
+Before proceeding, verify that `canonical/status.md` is current enough to describe the baseline being consumed. If it materially lags the accepted baseline, require steward or brainstorming repair before treating the upstream baseline as clean PRD input.
+
 ### Initialize Workspace
 
 Run the deterministic workspace helper once the PRD title or source path is known:
@@ -89,10 +91,13 @@ Eligible canonical assertions:
 Eligible deltas:
 
 - `DeltaLifecycleStatus = accepted`
+- and steward-promoted into the accepted baseline rather than only marked accepted locally in brainstorming artifacts
 
 Deferred deltas may inform PRD risks, deferred scope notes, and unresolved tensions, but must not become accepted requirement commitments.
 
 Rejected deltas must not become accepted requirements except as provenance for rejected alternatives.
+
+If a requirement depends on an upstream delta that has not been steward-promoted into the accepted baseline or is not reflected in current canonical status artifacts, treat that as a repair-or-block issue before PRD formalization proceeds.
 
 ### Build A Requirement Evidence Model
 

@@ -73,6 +73,8 @@ Review the currently accepted baseline across the DSL branch:
 - backend checks;
 - downstream PRD, architecture, epic, and story artifacts where in scope.
 
+Also review whether `canonical/status.md` still accurately represents the accepted baseline being used downstream. A stale canonical status file is a verification finding and, when material, a readiness blocker.
+
 Distinguish clearly between:
 
 - accepted baseline elements;
@@ -97,6 +99,7 @@ Flag as findings:
 - missing increment-validation rows;
 - accepted deltas with unclear impact sets;
 - accepted deltas whose recheck obligations were not recorded;
+- deltas used downstream as authoritative even though they were not yet steward-promoted into the accepted baseline;
 - evidence claims stronger than the recorded backend status.
 
 ### Review Coverage And Recheck Obligations
@@ -137,6 +140,8 @@ Assess readiness using DSL-branch-specific thresholds:
 
 - accepted requirements have preserved evidence class and source lineage;
 - accepted deltas have increment-validation records;
+- accepted deltas used downstream are actually steward-promoted into the accepted baseline;
+- canonical status artifacts are current enough to represent the accepted baseline being verified;
 - important accepted deltas have either backend evidence or explicit deferred-verification rationale;
 - architecture-level deltas have explicit recheck planning;
 - epic coverage is intentional and evidence-aware;
