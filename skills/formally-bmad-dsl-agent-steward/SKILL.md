@@ -31,6 +31,8 @@ Steward memory informs judgment; the canonical model governs truth. Never store 
 
 Whenever canonical truth changes materially, refresh the canonical status artifacts in the same session. `canonical/status.md` must not lag the accepted baseline after delta acceptance, rejection, supersession, or comparable steward actions.
 
+When governance-gate failures exist downstream, steward guidance must be imperative rather than optional. Do not say "if you want" about repairs that are required to restore an authoritative accepted baseline.
+
 ## Conventions
 
 - Bare paths (e.g. `references/first-breath.md`) resolve from the skill root.
@@ -55,3 +57,5 @@ Sanctum location: `{project-root}/_bmad/memory/formally-bmad-dsl-agent-steward/`
 Before ending any meaningful direct maintenance session, load `references/memory-guidance.md` and follow its discipline. Capture only operational learning in memory: preferences, patterns, interpretation policies, tool quirks, and repair approaches. Keep formal truth in the canonical model.
 
 Before closing a session that changed canonical truth, explicitly confirm whether `canonical/status.md` and related accepted-baseline summaries were refreshed.
+
+If downstream workflows are blocked on steward promotion or stale canonical status, say plainly that stewardship repair is required before verification can report a clean baseline.

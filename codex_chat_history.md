@@ -1667,3 +1667,55 @@ This is not acceptable in this sort of approach; all steps need to be executed a
 ## Turn 253 — Assistant
 
 `I treated that output as evidence that the branch was still conflating governance-gate failure with ordinary degraded evidence. I tightened the workflow so that downstream reliance on non-promoted deltas, stale canonical status, or materially stale upstream summaries must now be treated as blocked governance failures rather than merely “structurally coherent enough to continue,” and I updated brainstorming, PRD, architecture, and verification so those states force steward/upstream repair rather than optional continuation wording.`
+
+## Turn 254 — User
+
+`more feedback; analyse it to see if there is something unexpected; this is the result of calling dsl-verification after dsl-steward:
+"Verification rerun workspace: _bmad/formally-bmad-dsl/reports/dsl-verification/20260612T223033Z-whole-dsl-branch-baseline-rerun:1
+
+  Readiness status is still degraded, but the rerun is cleaner than the previous audit.
+
+  What improved:
+
+  - canonical/status.md is now aligned with the real branch posture
+  - the PRD Source Baseline summary now includes A-010 and D-004
+  - the brainstorming backend-checks.md now covers D-001 through D-004
+  - the branch index is now usable for navigation and audit
+
+  What still keeps the branch degraded:
+
+  - no ontology backend checks have run
+  - no ASM / behavioral backend checks have run
+  - no tool-run references exist under _bmad/formally-bmad-dsl/tool-runs/
+  - brainstorm deltas D-001 through D-004 are still accepted_for_validation, not strict accepted
+  - architecture deltas AD-001 and AD-002 remain unvalidated
+
+  Blocking contradictions or failed rechecks:
+
+  - none
+  - no semantic contradictions found
+  - no failed rechecks recorded, because no actual rechecks have executed yet
+
+  Degraded or skipped checks:
+
+  - ontology verification: skipped / not run
+  - ASM verification: skipped / not run
+  - backend evidence: absent
+  - tool-run coverage: absent
+
+  Repair proposals still needing a decision:
+
+  - whether to promote or otherwise resolve D-001 through D-004 beyond accepted_for_validation
+
+  Best next step now depends on your goal:
+
+  - if you want stronger formal assurance, the next action is actual ontology/ASM export-and-check work
+  - if you want cleaner governance first, continue with the steward to resolve delta lifecycle status
+
+  If you want, I can now move from audit into actual check execution planning and start setting up the ontology/ASM export-and-check pass.
+
+─ Worked for 1m 45s ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────"`
+
+## Turn 255 — Assistant
+
+`I treated that rerun as further evidence that the runtime was still softening governance-gate failure into optional, goal-dependent continuation language. I hardened the verification and steward contracts again so unresolved governance failures must be reported as blocked, not degraded, and so the skills are explicitly forbidden from using phrases like “best next step depends on your goal,” “if you want,” or “structurally coherent enough to continue” when required governance repair is still outstanding.`

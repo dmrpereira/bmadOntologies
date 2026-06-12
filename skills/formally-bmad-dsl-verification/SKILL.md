@@ -145,6 +145,8 @@ Use `blocked`, not merely `degraded`, when governance-gate conditions fail. Gove
 
 Reserve `degraded` for cases where governance is clean enough to identify the accepted baseline, but stronger mechanized evidence or fuller backend coverage is still missing.
 
+If any governance-gate failure is present, the reported readiness must be `blocked`. Do not downgrade that to `degraded` for softer wording.
+
 Assess readiness using DSL-branch-specific thresholds:
 
 - accepted requirements have preserved evidence class and source lineage;
@@ -160,6 +162,14 @@ Assess readiness using DSL-branch-specific thresholds:
 If no actual tool-backed checks were run for relevant obligations, do not issue a strong readiness sign-off. At most, report that the artifact is structurally prepared for stronger verification.
 
 If no actual tool-backed checks were run and governance-gate conditions also fail, do not say the branch is merely structurally coherent enough to continue. In that case, report the branch as blocked on governance and evidence preparation before meaningful continuation.
+
+Do not use wording such as:
+
+- "best next step depends on your goal"
+- "if you want, I can..."
+- "structurally coherent enough to continue"
+
+when governance-gate failures remain unresolved. In that state, the next action is not optional branching; it is mandatory governance repair.
 
 ### Audit Traceability
 
@@ -227,3 +237,5 @@ End with:
 - mandatory next action: either perform the required repair/rework workflow for blocked findings, or if verification is complete and acceptable, explicitly report that the DSL workflow sequence has reached its verification gate and only then allow implementation planning to begin.
 
 Do not recommend continuation into later DSL stages while governance-gate failures remain unresolved.
+
+When governance-gate failures remain unresolved, the closeout must explicitly say the branch is blocked and must name the required repair workflow. Do not present multiple goal-dependent paths as equally valid continuations.
