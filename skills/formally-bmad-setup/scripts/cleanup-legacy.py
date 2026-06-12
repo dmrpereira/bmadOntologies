@@ -11,9 +11,10 @@ directory trees. These directories contain skill files that are already
 installed at .claude/skills/ (or equivalent) — only the config files at
 _bmad/ root need to persist.
 
-When --skills-dir is provided, the script verifies that every skill found
-in the legacy directories exists at the installed location before removing
-anything. Directories without skills (like _config/) are removed directly.
+When one or more --skills-dir values are provided, the script verifies that
+every skill found in the legacy directories exists at at least one installed
+location before removing anything. Directories without skills (like _config/)
+are removed directly.
 
 Exit codes: 0=success (including nothing to remove), 1=validation error, 2=runtime error
 """
@@ -47,8 +48,11 @@ def parse_args():
     )
     parser.add_argument(
         "--skills-dir",
-        help="Path to .claude/skills/ — enables safety verification that skills "
-        "are installed before removing legacy copies",
+        action="append",
+        default=[],
+        help="Path to an installed skills directory such as .claude/skills/ "
+        "(repeatable). Enables safety verification that skills are installed "
+        "before removing legacy copies.",
     )
     parser.add_argument(
         "--verbose",
@@ -77,18 +81,18 @@ def find_skill_dirs(base_path: str) -> list:
 
 
 def verify_skills_installed(
-    bmad_dir: str, dirs_to_check: list, skills_dir: str, verbose: bool = False
+    bmad_dir: str, dirs_to_check: list, skills_dirs: list[str], verbose: bool = False
 ) -> list:
     """Verify that skills in legacy directories exist at the installed location.
 
     Scans each directory in dirs_to_check for skill folders (containing SKILL.md),
-    then checks that a matching directory exists under skills_dir. Directories
+    then checks that a matching directory exists under at least one skills_dir. Directories
     that contain no skills (like _config/) are silently skipped.
 
     Returns:
         List of verified skill names.
 
-    Raises SystemExit(1) if any skills are missing from skills_dir.
+    Raises SystemExit(1) if any skills are missing from every skills_dir.
     """
     all_verified = []
     missing = []
@@ -108,19 +112,20 @@ def verify_skills_installed(
             continue
 
         for skill_name in skill_names:
-            installed_path = Path(skills_dir) / skill_name
-            if installed_path.is_dir():
+            installed_paths = [Path(skills_dir) / skill_name for skills_dir in skills_dirs]
+            found_path = next((path for path in installed_paths if path.is_dir()), None)
+            if found_path is not None:
                 all_verified.append(skill_name)
                 if verbose:
                     print(
-                        f"Verified: {skill_name} exists at {installed_path}",
+                        f"Verified: {skill_name} exists at {found_path}",
                         file=sys.stderr,
                     )
             else:
                 missing.append(skill_name)
                 if verbose:
                     print(
-                        f"MISSING: {skill_name} not found at {installed_path}",
+                        f"MISSING: {skill_name} not found under any of {skills_dirs}",
                         file=sys.stderr,
                     )
 
@@ -129,7 +134,7 @@ def verify_skills_installed(
             "status": "error",
             "error": "Skills not found at installed location",
             "missing_skills": missing,
-            "skills_dir": str(Path(skills_dir).resolve()),
+            "skills_dirs": [str(Path(skills_dir).resolve()) for skills_dir in skills_dirs],
         }
         print(json.dumps(error_result, indent=2))
         sys.exit(1)
@@ -246,7 +251,7 @@ def main():
     if args.skills_dir:
         result["safety_checks"] = {
             "skills_verified": True,
-            "skills_dir": str(Path(args.skills_dir).resolve()),
+            "skills_dirs": [str(Path(skills_dir).resolve()) for skills_dir in args.skills_dir],
             "verified_skills": verified_skills,
         }
     else:

@@ -7,6 +7,7 @@ SKILLS_ROOT="${REPO_ROOT}/skills"
 
 PAYLOAD_SKILLS=(
   "formally-bmad-setup"
+  "formally-bmad-dsl-setup"
   "formally-bmad-agent-steward"
   "formally-bmad-dsl-brainstorming"
   "formally-bmad-dsl-prd"
@@ -42,6 +43,7 @@ Install locations:
 
 Installed payload:
   - formally-bmad-setup
+  - formally-bmad-dsl-setup
   - formally-bmad-agent-steward
   - formally-bmad-dsl-brainstorming
   - formally-bmad-dsl-prd
@@ -194,9 +196,9 @@ done
 
 report_lines+=("## Notes")
 report_lines+=("")
-report_lines+=("- This installer copies only the shared setup/steward prerequisites plus the parallel \`formally-bmad-dsl-*\` branch.")
+report_lines+=("- This installer copies the shared helper setup skill, the DSL setup entrypoint, the steward, and the parallel \`formally-bmad-dsl-*\` branch.")
 report_lines+=("- It does not copy or modify the original \`formally-bmad-formal-*\` branch.")
-report_lines+=("- After installation, open the target project in the selected agent runtime and run \`formally-bmad-setup\` there if the module has not been initialized in that project yet.")
+report_lines+=("- After installation, open the target project in the selected agent runtime and run \`formally-bmad-dsl-setup\` there before starting the DSL branch if the module has not been initialized in that project yet.")
 
 if [[ -n "$REPORT_FILE" ]]; then
   mkdir -p "$(dirname "$REPORT_FILE")"

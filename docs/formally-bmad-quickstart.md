@@ -60,6 +60,7 @@ You can install the DSL branch payload automatically with:
 The required runtime skills are:
 
 - `formally-bmad-setup`
+- `formally-bmad-dsl-setup`
 - `formally-bmad-agent-steward`
 - `formally-bmad-formal-brainstorming`
 - `formally-bmad-dsl-brainstorming`
@@ -91,6 +92,7 @@ Correct examples:
 
 ```text
 <target-project>/.claude/skills/formally-bmad-setup
+<target-project>/.claude/skills/formally-bmad-dsl-setup
 <target-project>/.claude/skills/formally-bmad-formal-prd
 <target-project>/.claude/skills/formally-bmad-formal-contracts
 <target-project>/.claude/skills/formally-bmad-contract-stubs
@@ -109,11 +111,12 @@ You may obtain those skills by cloning this repository, copying them from a loca
 
 Run the setup capability:
 
-- Skill: `formally-bmad-setup`
+- Skill: `formally-bmad-dsl-setup` for the DSL branch
+- Skill: `formally-bmad-setup` for the original formal branch
 
-Setup does two things:
+DSL setup does two things:
 
-1. Registers the module in `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/module-help.csv`
+1. Registers the DSL branch help/config surface in `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/module-help.csv`
 2. Initializes the module state and validates at least one supported automated reasoning tool is available
 
 ## Tool Requirement (Hard Gate)

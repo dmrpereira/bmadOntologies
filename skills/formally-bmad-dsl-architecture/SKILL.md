@@ -43,7 +43,7 @@ Load available config from `{project-root}/_bmad/config.yaml` and `{project-root
 - `formally_bmad_validation_strictness`: `stage-aware`
 - `formally_bmad_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-setup`.
+If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, require source material such as a DSL-branch PRD workspace, an existing architecture path, or a structured design brief. Without source material, stop after creating the workspace and report that DSL architecture formalization needs a source baseline.
 

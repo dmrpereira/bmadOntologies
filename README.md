@@ -53,7 +53,7 @@ Yes, the target project must already have BMad installed before you install Form
 
 Why:
 
-- `formally-bmad-setup` writes into `{project-root}/_bmad/config.yaml`
+- `formally-bmad-setup` and `formally-bmad-dsl-setup` write into `{project-root}/_bmad/config.yaml`
 - it merges entries into `{project-root}/_bmad/module-help.csv`
 - it assumes the target project already has a working `_bmad/` structure
 - cleanup logic assumes skills are installed in `.claude/skills/` or an equivalent active skills location
@@ -109,7 +109,7 @@ If you are starting from a completely empty project:
 3. confirm the BMad project structure exists
 4. confirm the active BMad skills location exists
 5. copy the Formally BMAD skill directories from this repository's `skills/` folder into the target folder's active skills directory such as `.claude/skills/`, `.codex/skills/`, or `.pi/skills/`
-6. run `formally-bmad-setup`
+6. run `formally-bmad-dsl-setup` for the DSL branch, or `formally-bmad-setup` for the original formal branch
 
 ### What This README Can And Cannot Tell You
 
@@ -127,6 +127,7 @@ It cannot give you the authoritative core-BMad bootstrap command unless that com
 Install these skill directories from [skills](/Users/dmrpereira/Propostas/bmadOntologies/skills:1):
 
 - `formally-bmad-setup`
+- `formally-bmad-dsl-setup`
 - `formally-bmad-agent-steward`
 - `formally-bmad-formal-brainstorming`
 - `formally-bmad-dsl-brainstorming`
@@ -175,6 +176,7 @@ Use this sequence:
 1. Start with a project that already has BMad installed.
 2. Copy these directories from this repository's `skills/` folder:
    - `skills/formally-bmad-setup`
+   - `skills/formally-bmad-dsl-setup`
    - `skills/formally-bmad-agent-steward`
    - `skills/formally-bmad-formal-brainstorming`
    - `skills/formally-bmad-dsl-brainstorming`
@@ -203,6 +205,7 @@ Each copied directory should land directly under `.claude/skills/`, for example:
 
 ```text
 <target-project>/.claude/skills/formally-bmad-setup
+<target-project>/.claude/skills/formally-bmad-dsl-setup
 <target-project>/.claude/skills/formally-bmad-agent-steward
 <target-project>/.claude/skills/formally-bmad-formal-contracts
 <target-project>/.claude/skills/formally-bmad-contract-stubs
@@ -223,7 +226,7 @@ For the parallel DSL branch only, you can automate installation with:
 ./scripts/install_formally_bmad_dsl_branch.sh --target-project <target-project> --agents claude,codex,pi
 ```
 4. Open the target project root, not this repository root.
-5. Run `formally-bmad-setup` inside the target project.
+5. Run `formally-bmad-dsl-setup` inside the target project for the DSL branch, or `formally-bmad-setup` for the original formal branch.
 6. Confirm that setup creates and updates:
    - `{project-root}/_bmad/config.yaml`
    - `{project-root}/_bmad/config.user.yaml`
@@ -238,6 +241,7 @@ If you already have a BMad-enabled target project and want the simplest install 
 1. clone or download this repository
 2. from this repository, copy these directories:
    - `skills/formally-bmad-setup`
+   - `skills/formally-bmad-dsl-setup`
    - `skills/formally-bmad-agent-steward`
    - `skills/formally-bmad-formal-brainstorming`
    - `skills/formally-bmad-dsl-brainstorming`
@@ -265,7 +269,7 @@ If you already have a BMad-enabled target project and want the simplest install 
 4. in the target project, run:
 
 ```text
-formally-bmad-setup
+formally-bmad-dsl-setup
 ```
 
 That is the install procedure for the MVP.
@@ -343,10 +347,10 @@ When one of these language-specific workflows is invoked and no compatible backe
 
 For a new simple project, use this sequence:
 
-1. Run `formally-bmad-setup`
+1. Run `formally-bmad-dsl-setup` for the DSL branch, or `formally-bmad-setup` for the original formal branch
 2. Start with either:
    - `formally-bmad-formal-brainstorming` for a greenfield idea
-   - `formally-bmad-dsl-brainstorming` for the experimental parallel DSL branch
+   - `formally-bmad-dsl-brainstorming` for the experimental parallel DSL branch after `formally-bmad-dsl-setup`
    - `formally-bmad-formal-import` if you already have BMad artifacts
 3. Run `formally-bmad-formal-prd`
 4. Run `formally-bmad-formal-architecture`

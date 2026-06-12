@@ -1500,3 +1500,23 @@ what do you think?`
 ## Turn 226 — Assistant
 
 `I smoke-tested the new installer with --help and with a --dry-run against a temporary fake BMad project, confirming that it would install the shared setup/steward prerequisites plus the formally-bmad-dsl-* branch for Claude, Codex, and Pi without touching the original formally-bmad-formal-* branch.`
+
+## Turn 227 — User
+
+`I think I noticed a problem, or at least I believe that there might be that problem: we did not changed the setup skill for the formally-dsl family of skills, right?`
+
+## Turn 228 — Assistant
+
+`I confirmed the concern was correct: we had only changed shared setup metadata, not created a separate DSL-branch setup skill, and the existing setup behavior still assumed the shared setup flow and even a single .claude/skills cleanup path.`
+
+## Turn 229 — User
+
+`yes, introduced this new formally-bmad-dsl-setup, and update the setup script accordingly so that I can do the end-to-end test`
+
+## Turn 230 — Assistant
+
+`I created a new formally-bmad-dsl-setup skill with its own module.yaml and module-help.csv, retargeted the formally-bmad-dsl-* skills to tell the user to run formally-bmad-dsl-setup when state is missing, updated the shared setup helper to provision DSL artifact/report roots, and extended cleanup-legacy.py so setup can validate installed skills across .claude/skills, .codex/skills, and .pi/skills.`
+
+## Turn 231 — Assistant
+
+`I also updated the multi-agent installer payload to include formally-bmad-dsl-setup, refreshed the DSL-facing README/quickstart guidance to point to the new setup entrypoint, ran the setup script unit tests successfully, and re-ran the installer in dry-run mode to verify that the external project would receive the new setup skill before the DSL branch end-to-end test.`

@@ -43,7 +43,7 @@ Load available config from `{project-root}/_bmad/config.yaml` and `{project-root
 - `formally_bmad_validation_strictness`: `stage-aware`
 - `formally_bmad_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-setup`.
+If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, require accepted DSL PRD requirements, architecture context, or an existing epic artifact. Without source material, create only the workspace and report that DSL epics need PRD and architecture context.
 
