@@ -1443,3 +1443,60 @@ my concern with the above is: where does the formal representation of the ontolo
 ## Turn 213 — Assistant
 
 `I started by verifying the intended surface changes and the transcript state before committing anything, so only the setup/help/docs integration and the conversation log would be included in the next snapshot.`
+
+## Turn 214 — User
+
+`ok, good. so where to go next?`
+
+## Turn 215 — Assistant
+
+`I recommended hardening next rather than adding more skills: first a branch-wide contract review, then an end-to-end dry run, then refinement from the dry-run findings.`
+
+## Turn 216 — User
+
+`I have a different approach in mind, which is:
+- Run a branch-wide contract review;
+- then create a shell script that installs this parallel branch into a folder that has bmad installed
+- then I will do a end-to-end in another project, and will provide you with feddback, and we use that feedback to test and harden what we did so far.
+
+what do you think?`
+
+## Turn 217 — Assistant
+
+`I agreed that this was a better order and said I would proceed exactly that way: contract review first, then an installer, then the external end-to-end and hardening from real feedback.`
+
+## Turn 218 — User
+
+`for the installer, I also have an extra request: I need to consider that I want to use claude, codex, and the pi agent as the the coding agents supporting these skills that we have been working on (the formally-bmad-dsl-* skills)`
+
+## Turn 219 — Assistant
+
+`I explained that this turned the installer into a multi-agent branch installer and that I needed to discover the local install conventions for Claude, Codex, and Pi before implementing it safely.`
+
+## Turn 220 — User
+
+`ok, proceed`
+
+## Turn 221 — Assistant
+
+`I started the branch-wide contract review and inspected the repository for existing Claude, Codex, and Pi installation conventions so the installer could target real surfaces instead of guesses.`
+
+## Turn 222 — Assistant
+
+`The review showed the six formally-bmad-dsl-* skills were internally aligned enough to export, and I found concrete Claude conventions in the repo: installed skills live under .claude/skills/. I did not find equivalent project-local conventions for Codex or Pi yet.`
+
+## Turn 223 — Assistant
+
+`I then asked for two confirmations before coding: whether to normalize the action-name mismatch toward dsl-brainstorming/dsl-verification family names, and whether Codex/Pi should be rooted at .codex and .pi under the target project.`
+
+## Turn 224 — User
+
+`about the mismatch, adop: dsl-brainstorming and dsl-verification and alike. About the directories, if understand you correctly, they will be named ".codex" and ".pi" in the corresponding root fo the target folder where the skills will be installed`
+
+## Turn 225 — Assistant
+
+`I normalized the DSL action names in setup metadata toward dsl-brainstorming and dsl-verification family names, added a new installer script at scripts/install_formally_bmad_dsl_branch.sh, and updated the README/quickstart to describe the multi-agent install targets .claude/skills/, .codex/skills/, and .pi/skills/.`
+
+## Turn 226 — Assistant
+
+`I smoke-tested the new installer with --help and with a --dry-run against a temporary fake BMad project, confirming that it would install the shared setup/steward prerequisites plus the formally-bmad-dsl-* branch for Claude, Codex, and Pi without touching the original formally-bmad-formal-* branch.`

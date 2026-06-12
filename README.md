@@ -95,7 +95,7 @@ Treat a target folder as ready for Formally BMAD only if all of these are true:
 
 - the folder contains `_bmad/`
 - the folder contains BMad config state such as `_bmad/config.yaml` or the normal BMad project structure
-- the folder has access to the installed BMad skills, commonly under `.claude/skills/`
+- the folder has access to the installed BMad skills, commonly under `.claude/skills/`, `.codex/skills/`, or `.pi/skills/`
 - the BMad runtime can already resolve normal core skills before Formally BMAD is added
 
 If those conditions are not true yet, you do not have a usable BMad project for this module.
@@ -108,7 +108,7 @@ If you are starting from a completely empty project:
 2. run `npx bmad-method install` or `npx bmad-method@next install`
 3. confirm the BMad project structure exists
 4. confirm the active BMad skills location exists
-5. copy the Formally BMAD skill directories from this repository's `skills/` folder into the target folder's `.claude/skills/` directory
+5. copy the Formally BMAD skill directories from this repository's `skills/` folder into the target folder's active skills directory such as `.claude/skills/`, `.codex/skills/`, or `.pi/skills/`
 6. run `formally-bmad-setup`
 
 ### What This README Can And Cannot Tell You
@@ -152,13 +152,21 @@ Do not copy `skills/reports/`. That folder is project documentation for this mod
 
 Copy the directories above into the active BMad skills location used by the target project.
 
-In the current module scripts, the assumed installed location is:
+For current agent runtimes, the supported installed locations are:
 
 ```text
 {project-root}/.claude/skills/
+{project-root}/.codex/skills/
+{project-root}/.pi/skills/
 ```
 
-The cleanup safety logic explicitly refers to `.claude/skills/` as the installed location. If your BMad environment uses a different active skill path, use that equivalent location instead, but the skills must be installed where your agent runtime will actually discover them.
+For the parallel DSL branch, you can install the payload automatically with:
+
+```bash
+./scripts/install_formally_bmad_dsl_branch.sh --target-project <target-project>
+```
+
+The installer supports `claude`, `codex`, and `pi`, and places the DSL branch under the corresponding `.<agent>/skills/` directory in the target project.
 
 ## Installation Steps For A New Target Project
 
@@ -208,6 +216,12 @@ Do not create an extra nesting layer such as:
 ```
 
 That layout is wrong.
+
+For the parallel DSL branch only, you can automate installation with:
+
+```bash
+./scripts/install_formally_bmad_dsl_branch.sh --target-project <target-project> --agents claude,codex,pi
+```
 4. Open the target project root, not this repository root.
 5. Run `formally-bmad-setup` inside the target project.
 6. Confirm that setup creates and updates:

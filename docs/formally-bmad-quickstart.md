@@ -43,10 +43,18 @@ Formally BMAD does not bootstrap core BMad into an empty folder.
 
 Install the Formally BMAD skill folders into the target project's active BMad skill location.
 
-In the current MVP, the assumed installed location is:
+For the DSL parallel branch, the supported agent-specific installed locations are:
 
 ```text
 {project-root}/.claude/skills/
+{project-root}/.codex/skills/
+{project-root}/.pi/skills/
+```
+
+You can install the DSL branch payload automatically with:
+
+```bash
+./scripts/install_formally_bmad_dsl_branch.sh --target-project <target-project>
 ```
 
 The required runtime skills are:
@@ -71,13 +79,13 @@ The required runtime skills are:
 - `formally-bmad-formal-verification`
 - `formally-bmad-dsl-verification`
 
-Copy those exact directories from this repository's `skills/` folder into:
+Copy those exact directories from this repository's `skills/` folder into the active skills directory for the agent you plan to use, for example:
 
 ```text
 <target-project>/.claude/skills/
 ```
 
-Each skill directory must become a direct child of `.claude/skills/`.
+Each skill directory must become a direct child of the chosen `skills/` directory.
 
 Correct examples:
 
