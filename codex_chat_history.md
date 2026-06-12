@@ -1719,3 +1719,61 @@ This is not acceptable in this sort of approach; all steps need to be executed a
 ## Turn 255 — Assistant
 
 `I treated that rerun as further evidence that the runtime was still softening governance-gate failure into optional, goal-dependent continuation language. I hardened the verification and steward contracts again so unresolved governance failures must be reported as blocked, not degraded, and so the skills are explicitly forbidden from using phrases like “best next step depends on your goal,” “if you want,” or “structurally coherent enough to continue” when required governance repair is still outstanding.`
+
+## Turn 256 — User
+
+`now I got this:
+
+• I pushed the first actual backend pass.
+
+  New tool-run artifacts:
+
+  - Ontology export: _bmad/formally-bmad-dsl/tool-runs/2026-06-12-shell-integer-sorter-ontology.ofn:1
+  - Ontology profile output: _bmad/formally-bmad-dsl/tool-runs/2026-06-12-shell-integer-sorter-ontology-profile.txt:1
+  - ASM SMT export: _bmad/formally-bmad-dsl/tool-runs/2026-06-12-shell-integer-sorter-asm.smt2:1
+  - ASM z3 output: _bmad/formally-bmad-dsl/tool-runs/2026-06-12-shell-integer-sorter-asm-z3.txt:1
+
+  What those checks mean:
+
+  - robot passed an OWL 2 DL profile check on the exported ontology. That is real ontology-side evidence, but narrow: it tells us the export is in profile, not
+    that all intended semantics are fully reasoned through.
+
+  - z3 found the current partial ASM encoding satisfiable. That is only suggestive, not a full proof of the behavioral obligations, because the encoding is
+    intentionally incomplete.
+
+  I updated the branch backend ledger and the latest verification rerun accordingly. The latest verification workspace is still:
+
+  - _bmad/formally-bmad-dsl/reports/dsl-verification/20260612T223033Z-whole-dsl-branch-baseline-rerun:1
+
+  Current posture:
+
+  - still degraded
+  - better than before, because there is now some real tool-run evidence
+  - not strong enough for sign-off yet, because:
+      - ontology checking is only profile-level so far
+      - ASM checking is only a partial consistency model
+      - deltas D-001 through D-004 are still accepted_for_validation
+
+  The next meaningful step is to deepen one of the two verification tracks:
+
+  - ontology track: richer semantic reasoning over the OWL export
+  - ASM track: a more faithful obligation-level SMT or first-order encoding instead of the current suggestive consistency model
+
+  If you want, I can continue with one of those now. My recommendation is to deepen the ASM track next, because that is where most of the real product behavior
+  lives.`
+
+## Turn 257 — Assistant
+
+`I said this was only partially improved: the backend evidence reporting itself looked directionally correct and was conservatively described, but the workflow report was still not aligned with the hardened contract because it used degraded instead of blocked while deltas remained only accepted_for_validation, and it still used optional branching language like “If you want” and “My recommendation is.” I said that most likely meant the target project was still running an older installed copy of the DSL skills, or the runtime was still not obeying the latest contract strongly enough.`
+
+## Turn 258 — User
+
+`do it`
+
+## Turn 259 — Assistant
+
+`I hardened the verification and steward contracts again so the runtime has less room to soften blocked governance into degraded status. The skills are now explicitly forbidden from using phrases like “best next step depends on your goal,” “if you want, I can...,” or “structurally coherent enough to continue” when governance-gate failures remain unresolved.`
+
+## Turn 260 — User
+
+`wrap up the current section, do the needed sanitization and updates, commit and push; I need this since I am closing this session and I will start later, in a new session.`
