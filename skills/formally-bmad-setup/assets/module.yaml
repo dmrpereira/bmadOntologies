@@ -1,10 +1,10 @@
 code: formally-bmad
 name: "Formally BMAD"
-description: "Extends BMad artifacts with formal specifications, ontologies, traceability, readiness checks, and verification reports."
+description: "Extends BMad artifacts with formal specifications, ontologies, traceability, readiness checks, verification reports, and an optional parallel DSL branch."
 module_version: 1.0.0
 default_selected: false
 module_greeting: >
-  Formally BMAD is configured. Start with setup validation, then use formal import or formal brainstorming to begin building the evolving canonical model.
+  Formally BMAD is configured. Start with setup validation, then choose either the original formal branch (formal import / formal brainstorming) or the parallel DSL branch (DSL brainstorming) to begin building the evolving canonical model.
 
 agents:
   - code: formally-bmad-agent-steward

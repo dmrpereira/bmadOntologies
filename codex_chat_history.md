@@ -1399,3 +1399,47 @@ my concern with the above is: where does the formal representation of the ontolo
 ## Turn 203 — Assistant
 
 `The DSL verification skill is scaffolded. I validated its helper, and the workspace helper test passed.`
+
+## Turn 204 — Assistant
+
+`The transcript was updated through the verification build. I then staged the new verification skill together with the chat-history update.`
+
+## Turn 205 — Assistant
+
+`The staged snapshot contained the new verification skill and the updated conversation log. I committed and pushed them as:`
+
+`9ce2d99 — Add DSL verification skill and update chat history`
+
+## Turn 206 — Assistant
+
+`I summarized that the parallel formally-bmad-dsl-* branch now had six implemented skills: brainstorming, PRD, architecture, epics, stories, and verification.`
+
+## Turn 207 — User
+
+`do those two actions in order`
+
+## Turn 208 — Assistant
+
+`I explained that I would first audit and refine consistency across the six DSL branch skills and their workspace artifacts, then integrate the branch into the module/help/setup surfaces without altering the original branch behavior.`
+
+## Turn 209 — Assistant
+
+`I loaded the six DSL skills, module-help.csv, module.yaml, quickstart, and README, then performed a consistency pass.`
+
+## Turn 210 — Assistant
+
+`The consistency pass did not reveal a branch-contract break that required another DSL skill edit. The main remaining gap was discoverability and setup/help integration.`
+
+## Turn 211 — Assistant
+
+`I integrated the DSL branch into the main setup/help/docs surfaces as an optional parallel workflow rather than a replacement.`
+
+`Specifically, I updated module-help.csv with DSL branch entries, module.yaml with branch-aware description and greeting, formally-bmad-quickstart.md with the DSL skills and branch note, and README.md with the optional DSL branch and install/start guidance.`
+
+## Turn 212 — User
+
+`do those two actions in order`
+
+## Turn 213 — Assistant
+
+`I started by verifying the intended surface changes and the transcript state before committing anything, so only the setup/help/docs integration and the conversation log would be included in the next snapshot.`

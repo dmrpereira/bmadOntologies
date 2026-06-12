@@ -6,6 +6,7 @@ The current module is ready to use for a simple project workflow. It supports:
 
 - setup and tool detection
 - formal brainstorming and import
+- an optional parallel DSL branch with canonical assertions, ontology/ASM projections, and delta validation
 - PRD, architecture, epics, and stories with formal companions
 - language-aware code contract derivation for Python, C, and Rust
 - contract-bearing stub generation for review before implementation
@@ -128,16 +129,22 @@ Install these skill directories from [skills](/Users/dmrpereira/Propostas/bmadOn
 - `formally-bmad-setup`
 - `formally-bmad-agent-steward`
 - `formally-bmad-formal-brainstorming`
+- `formally-bmad-dsl-brainstorming`
 - `formally-bmad-formal-import`
 - `formally-bmad-ontology-alignment`
 - `formally-bmad-formal-prd`
+- `formally-bmad-dsl-prd`
 - `formally-bmad-formal-architecture`
+- `formally-bmad-dsl-architecture`
 - `formally-bmad-formal-epics`
+- `formally-bmad-dsl-epics`
 - `formally-bmad-formal-stories`
+- `formally-bmad-dsl-stories`
 - `formally-bmad-formal-contracts`
 - `formally-bmad-contract-stubs`
 - `formally-bmad-code-verification`
 - `formally-bmad-formal-verification`
+- `formally-bmad-dsl-verification`
 
 Do not copy `skills/reports/`. That folder is project documentation for this module repository, not a runtime dependency of the target project.
 
@@ -162,16 +169,22 @@ Use this sequence:
    - `skills/formally-bmad-setup`
    - `skills/formally-bmad-agent-steward`
    - `skills/formally-bmad-formal-brainstorming`
+   - `skills/formally-bmad-dsl-brainstorming`
    - `skills/formally-bmad-formal-import`
    - `skills/formally-bmad-ontology-alignment`
    - `skills/formally-bmad-formal-prd`
+   - `skills/formally-bmad-dsl-prd`
    - `skills/formally-bmad-formal-architecture`
+   - `skills/formally-bmad-dsl-architecture`
    - `skills/formally-bmad-formal-epics`
+   - `skills/formally-bmad-dsl-epics`
    - `skills/formally-bmad-formal-stories`
+   - `skills/formally-bmad-dsl-stories`
    - `skills/formally-bmad-formal-contracts`
    - `skills/formally-bmad-contract-stubs`
    - `skills/formally-bmad-code-verification`
    - `skills/formally-bmad-formal-verification`
+   - `skills/formally-bmad-dsl-verification`
 3. Copy them into the target project's active BMad skills location:
 
 ```text
@@ -213,16 +226,22 @@ If you already have a BMad-enabled target project and want the simplest install 
    - `skills/formally-bmad-setup`
    - `skills/formally-bmad-agent-steward`
    - `skills/formally-bmad-formal-brainstorming`
+   - `skills/formally-bmad-dsl-brainstorming`
    - `skills/formally-bmad-formal-import`
    - `skills/formally-bmad-ontology-alignment`
    - `skills/formally-bmad-formal-prd`
+   - `skills/formally-bmad-dsl-prd`
    - `skills/formally-bmad-formal-architecture`
+   - `skills/formally-bmad-dsl-architecture`
    - `skills/formally-bmad-formal-epics`
+   - `skills/formally-bmad-dsl-epics`
    - `skills/formally-bmad-formal-stories`
+   - `skills/formally-bmad-dsl-stories`
    - `skills/formally-bmad-formal-contracts`
    - `skills/formally-bmad-contract-stubs`
    - `skills/formally-bmad-code-verification`
    - `skills/formally-bmad-formal-verification`
+   - `skills/formally-bmad-dsl-verification`
 3. copy them into:
 
 ```text
@@ -313,6 +332,7 @@ For a new simple project, use this sequence:
 1. Run `formally-bmad-setup`
 2. Start with either:
    - `formally-bmad-formal-brainstorming` for a greenfield idea
+   - `formally-bmad-dsl-brainstorming` for the experimental parallel DSL branch
    - `formally-bmad-formal-import` if you already have BMad artifacts
 3. Run `formally-bmad-formal-prd`
 4. Run `formally-bmad-formal-architecture`

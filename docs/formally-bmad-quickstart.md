@@ -54,16 +54,22 @@ The required runtime skills are:
 - `formally-bmad-setup`
 - `formally-bmad-agent-steward`
 - `formally-bmad-formal-brainstorming`
+- `formally-bmad-dsl-brainstorming`
 - `formally-bmad-formal-import`
 - `formally-bmad-ontology-alignment`
 - `formally-bmad-formal-prd`
+- `formally-bmad-dsl-prd`
 - `formally-bmad-formal-architecture`
+- `formally-bmad-dsl-architecture`
 - `formally-bmad-formal-epics`
+- `formally-bmad-dsl-epics`
 - `formally-bmad-formal-stories`
+- `formally-bmad-dsl-stories`
 - `formally-bmad-formal-contracts`
 - `formally-bmad-contract-stubs`
 - `formally-bmad-code-verification`
 - `formally-bmad-formal-verification`
+- `formally-bmad-dsl-verification`
 
 Copy those exact directories from this repository's `skills/` folder into:
 
@@ -138,5 +144,8 @@ After setup completes, expect:
 - Proof assistants are not primary targets; automated provers/solvers are preferred.
 - `black` and `robot` may be installed outside the normal `PATH`; the current setup helper also checks known session-local install paths.
 - Human-readable specs remain BMad-style Markdown, with logic-native companions produced alongside them.
+- Two workflow branches may coexist:
+  - the original `formally-bmad-formal-*` branch;
+  - the parallel experimental `formally-bmad-dsl-*` branch built around a canonical DSL, ontology/ASM projections, and delta validation.
 - When code exists, use `formally-bmad-formal-contracts` to derive explicit contracts, `formally-bmad-contract-stubs` to review code shape before implementation, and `formally-bmad-code-verification` to collect implementation evidence before final readiness review.
 - If the selected target language lacks a compatible verification backend, those implementation-facing workflows should offer installation before falling back to degraded behavior.
