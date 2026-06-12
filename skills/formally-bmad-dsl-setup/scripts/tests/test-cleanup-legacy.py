@@ -19,7 +19,9 @@ class CleanupLegacyScriptTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             bmad_dir = root / "_bmad"
-            legacy_skill = bmad_dir / "formally-bmad" / "example-skill"
+            module_root = bmad_dir / "formally-bmad-dsl"
+            module_root.mkdir(parents=True)
+            legacy_skill = bmad_dir / "legacy-formally-bmad-dsl" / "example-skill"
             legacy_skill.mkdir(parents=True)
             (legacy_skill / "SKILL.md").write_text("# Example\n", encoding="utf-8")
 
@@ -34,7 +36,9 @@ class CleanupLegacyScriptTests(unittest.TestCase):
                     "--bmad-dir",
                     str(bmad_dir),
                     "--module-code",
-                    "formally-bmad",
+                    "formally-bmad-dsl",
+                    "--also-remove",
+                    "legacy-formally-bmad-dsl",
                     "--skills-dir",
                     str(root / ".claude" / "skills"),
                     "--skills-dir",
@@ -45,7 +49,8 @@ class CleanupLegacyScriptTests(unittest.TestCase):
             )
 
             self.assertEqual(result.returncode, 0, msg=result.stdout + result.stderr)
-            self.assertFalse((bmad_dir / "formally-bmad").exists())
+            self.assertFalse((bmad_dir / "legacy-formally-bmad-dsl").exists())
+            self.assertTrue(module_root.exists())
 
 
 if __name__ == "__main__":

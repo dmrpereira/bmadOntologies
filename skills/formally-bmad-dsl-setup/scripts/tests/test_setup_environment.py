@@ -30,6 +30,31 @@ class SetupEnvironmentTests(unittest.TestCase):
             self.assertTrue((module_root / "provenance" / "contradiction-override-ledger.md").is_file())
             self.assertTrue((module_root / "indexes" / "index.md").is_file())
 
+    def test_update_status_file_marks_validation_active_when_baseline_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            canonical = root / "_bmad" / "formally-bmad-dsl" / "canonical"
+            canonical.mkdir(parents=True)
+
+            status_path = setup_environment.update_status_file(
+                canonical,
+                "Formally BMAD DSL Canonical Model Status",
+                {
+                    "has_smt": True,
+                    "has_first_order_or_sat": True,
+                    "baseline_satisfied": True,
+                },
+                available_tool_count=2,
+                min_required_tools=1,
+                guidance="Setup can proceed.",
+                overall_status="complete",
+            )
+
+            content = status_path.read_text(encoding="utf-8")
+            self.assertIn("Validation is active.", content)
+            self.assertIn("Baseline satisfied: `True`", content)
+            self.assertIn("status: complete", content)
+
     def test_discover_artifacts_finds_bmad_markdown(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

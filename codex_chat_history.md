@@ -1552,3 +1552,27 @@ what do you think?`
 ## Turn 239 — Assistant
 
 `I also updated the DSL skill instructions, README, and quickstart to refer to the separated DSL setup path, fixed the copied setup helper so it actually reads the module.yaml variables list correctly, and verified the isolated DSL setup tests and installer dry-run again after the split.`
+
+## Turn 240 — User
+
+`here is another thing that exhibits some needs of improving:
+I’ve loaded the sanctum and the steward’s boundary rules. One small defect remains: the sanctum index refers to CAPABILITIES.md, but the init script only
+  generated INDEX/PERSONA/CREED/BOND/MEMORY, so I’m deriving the available capabilities directly from the steward references for this session.`
+
+## Turn 241 — Assistant
+
+`I confirmed the sanctum bootstrap defect, updated the DSL steward init script to generate CAPABILITIES.md from the existing template, and added a regression test that runs the bootstrap and asserts the file is created with discovered capability entries.`
+
+## Turn 242 — User
+
+`other aspects that I believe need attention:
+- Two operational defects surfaced during activation. The DSL setup cleanup currently removes _bmad/formally-bmad-dsl, which forced a state restore before
+  stewardship could proceed, and the sanctum bootstrap references CAPABILITIES.md without creating it. I recorded both as steward memory in _bmad/memory/
+  formally-bmad-dsl-agent-steward/MEMORY.md:1 and the session log in _bmad/memory/formally-bmad-dsl-agent-steward/sessions/2026-06-12.md:1.
+- One important status inconsistency remains: status.md still says validation is not active until supported tools are confirmed, but the setup helper already
+  confirmed the baseline toolchain. If you want, I can fix the setup/steward scripts next, or start using one of the steward capabilities against a real
+  canonical delta.`
+
+## Turn 243 — Assistant
+
+`I traced the remaining DSL setup defects to two copied helper behaviors: the local cleanup script was still deleting _bmad/<module-code> by default, and the setup helper only wrote a placeholder status.md before tool detection. I fixed the cleanup script so it removes only explicitly named legacy directories, added a regression test proving the live _bmad/formally-bmad-dsl root is preserved, and added a status-file update pass that records validation as active once the baseline SMT + first-order/SAT gate is satisfied.`

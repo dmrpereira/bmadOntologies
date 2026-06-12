@@ -206,10 +206,11 @@ def main():
     args = parse_args()
 
     bmad_dir = args.bmad_dir
-    module_code = args.module_code
 
-    # Build the list of directories to remove
-    dirs_to_remove = [module_code, "core"] + args.also_remove
+    # Build the list of directories to remove. For the isolated DSL branch, the
+    # live module root under _bmad/ is authoritative state and must never be
+    # removed by cleanup. Only explicitly named legacy directories are eligible.
+    dirs_to_remove = list(args.also_remove)
     # Deduplicate while preserving order
     seen = set()
     unique_dirs = []

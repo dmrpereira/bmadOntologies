@@ -23,6 +23,7 @@ TEMPLATE_FILES = [
     "CREED-template.md",
     "BOND-template.md",
     "MEMORY-template.md",
+    "CAPABILITIES-template.md",
 ]
 
 

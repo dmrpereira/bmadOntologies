@@ -159,6 +159,48 @@ def ensure_structure(module_root: Path, canonical_path: Path, status_title: str,
     return created
 
 
+def update_status_file(
+    canonical_path: Path,
+    status_title: str,
+    baseline_validation: dict[str, bool],
+    available_tool_count: int,
+    min_required_tools: int,
+    guidance: str,
+    overall_status: str,
+) -> Path:
+    status_path = canonical_path / "status.md"
+    baseline_satisfied = baseline_validation["baseline_satisfied"]
+    if baseline_satisfied:
+        validation_line = (
+            "Validation is active. Setup confirmed the baseline automated reasoning toolchain: "
+            "at least one supported SMT solver and at least one supported first-order or SAT solver."
+        )
+    else:
+        validation_line = (
+            "Validation is not active. Setup has not yet confirmed the baseline automated reasoning toolchain: "
+            "at least one supported SMT solver and at least one supported first-order or SAT solver are required."
+        )
+    status_path.write_text(
+        "---\n"
+        f"status: {overall_status}\n"
+        f"updated: {utc_now()}\n"
+        "---\n\n"
+        f"# {status_title}\n\n"
+        f"{validation_line}\n\n"
+        "## Baseline Validation\n\n"
+        f"- SMT solver available: `{baseline_validation['has_smt']}`\n"
+        f"- First-order or SAT solver available: `{baseline_validation['has_first_order_or_sat']}`\n"
+        f"- Baseline satisfied: `{baseline_satisfied}`\n"
+        f"- Supported tools available: `{available_tool_count}`\n"
+        f"- Minimum required supported tools: `{min_required_tools}`\n"
+        f"- Setup status: `{overall_status}`\n\n"
+        "## Guidance\n\n"
+        f"{guidance}\n",
+        encoding="utf-8",
+    )
+    return status_path
+
+
 def write_report(module_root: Path, result: dict[str, object], module_label: str) -> Path:
     report_path = module_root / "reports" / "setup-report.md"
     tools = result["tools"]
@@ -311,6 +353,15 @@ def main() -> int:
         else "blocked"
     )
     guidance = build_guidance(baseline_validation, available_tool_count, args.min_tools)
+    update_status_file(
+        canonical_path,
+        args.status_title,
+        baseline_validation,
+        available_tool_count,
+        args.min_tools,
+        guidance,
+        status,
+    )
 
     result: dict[str, object] = {
         "generated_at": utc_now(),
