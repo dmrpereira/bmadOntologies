@@ -29,7 +29,7 @@ PROOF_ASSISTANTS = ["coqc", "rocq", "lean", "lake", "isabelle"]
 SPECIALIZED_TOOLS = {
     "temporal_satisfiability": ["black"],
     "ontology_workbench": ["robot"],
-    "python_contract_verification": ["crosshair", "deal", "nagini", "esbmc"],
+    "python_contract_verification": ["pyveritas", "deal", "crosshair", "nagini", "esbmc"],
     "c_contract_verification": ["frama-c", "cbmc", "esbmc", "verifast"],
     "rust_contract_verification": [
         "cargo-kani",
@@ -128,6 +128,8 @@ def ensure_structure(module_root: Path, canonical_path: Path, status_title: str,
         module_root / "artifacts" / "dsl-architecture",
         module_root / "artifacts" / "dsl-epics",
         module_root / "artifacts" / "dsl-stories",
+        module_root / "artifacts" / "dsl-contracts",
+        module_root / "artifacts" / "dsl-contract-stubs",
         module_root / "exports",
         module_root / "reports",
         module_root / "reports" / "dsl-verification",

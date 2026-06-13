@@ -72,6 +72,30 @@ variables:
     default: "markdown,html"
     result_template: "{answer}"
     user_setting: true
+  - key: formally_bmad_dsl_scaffold_root
+    prompt: "Where should DSL-generated contract scaffolds be written before implementation?"
+    default: "{project-root}/scaffold"
+    result_template: "{answer}"
+    user_setting: true
+    directories:
+      - "{answer}"
+  - key: formally_bmad_dsl_rust_contract_backend
+    prompt: "Which Rust verification backend should DSL contract scaffolds target by default?"
+    type: single-select
+    default: "kani"
+    options:
+      - value: "kani"
+        label: "Kani"
+      - value: "prusti"
+        label: "Prusti"
+      - value: "creusot"
+        label: "Creusot"
+      - value: "verus"
+        label: "Verus"
+      - value: "flux"
+        label: "Flux"
+    result_template: "{answer}"
+    user_setting: true
 
 post-install-notes: >
   DSL setup requires the same baseline validation gate as the main Formally BMAD module: at least one supported SMT solver and at least one supported first-order or SAT solver. Missing optional backends may degrade individual checks, but installs without the baseline gate are blocked.

@@ -26,6 +26,8 @@ class SetupEnvironmentTests(unittest.TestCase):
             self.assertTrue((canonical / "model").is_dir())
             self.assertTrue((canonical / "status.md").is_file())
             self.assertTrue((module_root / "artifacts" / "dsl-brainstorming").is_dir())
+            self.assertTrue((module_root / "artifacts" / "dsl-contracts").is_dir())
+            self.assertTrue((module_root / "artifacts" / "dsl-contract-stubs").is_dir())
             self.assertTrue((module_root / "reports" / "dsl-verification").is_dir())
             self.assertTrue((module_root / "provenance" / "contradiction-override-ledger.md").is_file())
             self.assertTrue((module_root / "indexes" / "index.md").is_file())

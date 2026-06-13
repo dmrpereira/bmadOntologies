@@ -173,4 +173,8 @@ End with:
 - alignment summary;
 - blockers and repair proposals;
 - deferred or contested commitments affecting implementation;
-- mandatory next workflow when the stories stage is complete: `formally-bmad-dsl-verification` before any implementation work.
+- mandatory next workflow when the stories stage is complete: `formally-bmad-dsl-contracts`.
+
+Do not allow business-logic implementation to begin directly from the stories stage. The required downstream gate is:
+
+`formally-bmad-dsl-contracts` -> `formally-bmad-dsl-contract-stubs` -> mandatory scaffold review/approval -> implementation.

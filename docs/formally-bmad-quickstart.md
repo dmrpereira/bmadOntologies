@@ -73,8 +73,9 @@ The required runtime skills are:
 - `formally-bmad-dsl-epics`
 - `formally-bmad-formal-stories`
 - `formally-bmad-dsl-stories`
-- `formally-bmad-formal-contracts`
-- `formally-bmad-contract-stubs`
+- `formally-bmad-dsl-contracts`
+- `formally-bmad-dsl-contract-stubs`
+- `formally-bmad-implementation-contracts`
 - `formally-bmad-code-verification`
 - `formally-bmad-formal-verification`
 - `formally-bmad-dsl-verification`
@@ -130,7 +131,7 @@ Supported families (examples):
 - SAT: `kissat`, `cadical`, `minisat`, `glucose`
 - Temporal: `tlc`, `apalache`, `alloy`
 - Ontology/DL: `robot`, `hermit`, `elk`, `pellet`
-- Python contract verification: `crosshair`, `deal`, `nagini`, `esbmc`
+- Python contract verification: `pyveritas`, `deal`, `crosshair`, `nagini`, `esbmc`
 - C contract verification: `frama-c`, `cbmc`, `esbmc`, `verifast`
 - Rust contract verification: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, `esbmc`
 
@@ -155,5 +156,7 @@ After setup completes, expect:
 - Two workflow branches may coexist:
   - the original `formally-bmad-formal-*` branch;
   - the parallel experimental `formally-bmad-dsl-*` branch built around a canonical DSL, ontology/ASM projections, and delta validation.
-- When code exists, use `formally-bmad-formal-contracts` to derive explicit contracts, `formally-bmad-contract-stubs` to review code shape before implementation, and `formally-bmad-code-verification` to collect implementation evidence before final readiness review.
+- The DSL implementation path is now: `formally-bmad-dsl-stories` -> `formally-bmad-dsl-contracts` -> `formally-bmad-dsl-contract-stubs` -> explicit scaffold approval -> `formally-bmad-implementation-contracts` -> `formally-bmad-code-verification` -> `formally-bmad-dsl-verification`.
+- DSL contract scaffolds default to `{project-root}/scaffold/{story-id}/`.
+- For Rust in the DSL path, `Kani` is the default canonical verification target unless the project config overrides it.
 - If the selected target language lacks a compatible verification backend, those implementation-facing workflows should offer installation before falling back to degraded behavior.

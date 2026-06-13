@@ -13,6 +13,10 @@ PAYLOAD_SKILLS=(
   "formally-bmad-dsl-architecture"
   "formally-bmad-dsl-epics"
   "formally-bmad-dsl-stories"
+  "formally-bmad-dsl-contracts"
+  "formally-bmad-dsl-contract-stubs"
+  "formally-bmad-implementation-contracts"
+  "formally-bmad-code-verification"
   "formally-bmad-dsl-verification"
 )
 
@@ -48,6 +52,10 @@ Installed payload:
   - formally-bmad-dsl-architecture
   - formally-bmad-dsl-epics
   - formally-bmad-dsl-stories
+  - formally-bmad-dsl-contracts
+  - formally-bmad-dsl-contract-stubs
+  - formally-bmad-implementation-contracts
+  - formally-bmad-code-verification
   - formally-bmad-dsl-verification
 
 The script replaces only those target skill directories. It does not install or
@@ -194,7 +202,7 @@ done
 
 report_lines+=("## Notes")
 report_lines+=("")
-report_lines+=("- This installer copies only the isolated DSL setup entrypoint, the DSL steward, and the \`formally-bmad-dsl-*\` branch.")
+report_lines+=("- This installer copies the isolated DSL setup entrypoint, the DSL steward, the \`formally-bmad-dsl-*\` branch, and the downstream implementation/code-verification companions required by the DSL contract-to-code path.")
 report_lines+=("- It does not copy or modify the original \`formally-bmad-formal-*\` branch or its setup/steward entrypoints.")
 report_lines+=("- After installation, open the target project in the selected agent runtime and run \`formally-bmad-dsl-setup\` there before starting the DSL branch if the module has not been initialized in that project yet.")
 

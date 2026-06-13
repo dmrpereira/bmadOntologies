@@ -7,15 +7,15 @@ description: Verifies the DSL branch baseline, deltas, coverage, and readiness. 
 
 ## Overview
 
-This workflow runs checkpoint verification, increment-validation review, readiness checks, traceability audits, contradiction analysis, evidence review, and repair reporting over the evolving `formally-bmad-dsl-*` branch. Act as a formal verification reporter: make accepted baselines, deltas, degraded checks, contradictions, recheck obligations, and repair decisions easy to inspect.
+This workflow runs checkpoint verification, increment-validation review, readiness checks, traceability audits, contradiction analysis, evidence review, contract/scaffold audits, and repair reporting over the evolving `formally-bmad-dsl-*` branch. Act as a formal verification reporter: make accepted baselines, deltas, degraded checks, contradictions, recheck obligations, scaffold approval state, code-verification evidence, and repair decisions easy to inspect.
 
 This branch is delta-aware. The verification target is not only isolated generated properties, but the evolving validated baseline and the proposed increments applied to it.
 
-Earlier DSL workflows may produce canonical assertions, ontology and ASM projections, generated properties, accepted deltas, and partial backend evidence. This workflow is the place where that material is systematically audited, rechecked, and turned into explicit verification reporting.
+Earlier DSL workflows may produce canonical assertions, ontology and ASM projections, generated properties, accepted deltas, contract inventories, contract-bearing scaffolds, and partial backend evidence. This workflow is the place where that material is systematically audited, rechecked, and turned into explicit verification reporting.
 
 Never end the session silently. Before any pause, stop, or handoff, explicitly tell the user what was verified, what was only structurally prepared, what failed or was skipped, and the next concrete action.
 
-This branch is sequential. Do not suggest bypassing verification in favor of direct implementation. Implementation work belongs only after verification has been executed and its outcome has been reported explicitly.
+This branch is sequential. Do not suggest bypassing required downstream gates in favor of direct implementation. Business-logic implementation belongs only after contracts were derived, scaffolds were generated, the scaffold was approved, and the implementation contract stage has begun. Final branch sign-off belongs only after implementation evidence has passed through `formally-bmad-code-verification` and this DSL verification workflow has reported the result explicitly.
 
 ## Conventions
 
@@ -55,8 +55,9 @@ Confirm scope unless running headless:
 
 - whole DSL branch baseline;
 - a selected artifact family such as brainstorming, PRD, architecture, epics, or stories;
+- a contracts or scaffolds audit for a selected story;
 - a selected delta or increment-validation set;
-- a readiness audit for implementation planning;
+- a readiness audit for scaffold approval or implementation planning;
 - a contradiction or recheck review only;
 - a traceability or coverage audit only.
 
@@ -71,7 +72,7 @@ Review the currently accepted baseline across the DSL branch:
 - ontology and ASM projections;
 - generated properties;
 - backend checks;
-- downstream PRD, architecture, epic, and story artifacts where in scope.
+- downstream PRD, architecture, epic, story, contract, scaffold, and code-verification artifacts where in scope.
 
 Also review whether `canonical/status.md` still accurately represents the accepted baseline being used downstream. A stale canonical status file is a verification finding and, when material, a readiness blocker.
 
@@ -110,6 +111,8 @@ Review whether:
 - accepted deltas triggered expected rechecks;
 - architecture deltas triggered recheck obligations where coordination, state ownership, or event flow changed;
 - epic and story stages preserved inherited evidence posture and did not silently erase deferred or contested commitments.
+- contract derivation preserved source lineage and blocked on missing formal grounding instead of guessing.
+- scaffold generation preserved contract placement and explicit approval state before implementation began.
 
 Also review whether each stage kept its summary artifacts synchronized with its detailed inventories and delta views. A stale stage summary that no longer matches the accepted baseline is a verification finding, not a cosmetic issue.
 
@@ -157,6 +160,9 @@ Assess readiness using DSL-branch-specific thresholds:
 - architecture-level deltas have explicit recheck planning;
 - epic coverage is intentional and evidence-aware;
 - story readiness does not ignore contested or deferred commitments;
+- contract generation fixed one canonical verification target per story;
+- approved scaffolds exist before body implementation starts;
+- implementation evidence is tied back to the approved scaffold and contract surface;
 - claim strength in downstream artifacts does not exceed recorded evidence.
 
 If no actual tool-backed checks were run for relevant obligations, do not issue a strong readiness sign-off. At most, report that the artifact is structurally prepared for stronger verification.
@@ -182,6 +188,8 @@ Trace links from:
 - accepted requirements to source assertions and deltas;
 - architecture decisions to requirements and deltas;
 - epics and stories to inherited evidence posture;
+- stories to contracts and contract-bearing scaffold artifacts;
+- approved scaffolds to implementation evidence;
 - repair proposals to affected artifacts.
 
 Missing links are findings.
@@ -234,7 +242,7 @@ End with:
 - degraded or skipped checks;
 - traceability and coverage gaps;
 - repair proposals requiring user decision;
-- mandatory next action: either perform the required repair/rework workflow for blocked findings, or if verification is complete and acceptable, explicitly report that the DSL workflow sequence has reached its verification gate and only then allow implementation planning to begin.
+- mandatory next action: either perform the required repair/rework workflow for blocked findings, or if verification is complete and acceptable, explicitly report that the DSL workflow sequence has reached its verification gate and only then allow branch sign-off or downstream release decisions.
 
 Do not recommend continuation into later DSL stages while governance-gate failures remain unresolved.
 

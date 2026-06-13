@@ -36,6 +36,8 @@ If no DSL root YAML config exists yet, use these defaults and tell the user setu
 - `formally_bmad_dsl_min_required_tools`: `1`
 - `formally_bmad_dsl_export_only_fallback`: `true`
 - `formally_bmad_dsl_report_format`: `markdown,html`
+- `formally_bmad_dsl_scaffold_root`: `{project-root}/scaffold`
+- `formally_bmad_dsl_rust_contract_backend`: `kani`
 
 If the user invoked headless mode (`--headless` or `-H`), apply defaults and inferred config without interactive questions.
 
@@ -50,6 +52,8 @@ Confirm or collect only the values that matter for this project:
 - whether accepted repairs should remain `confirm-before-edit`;
 - whether the total supported tool count should remain `1` or higher; this does not replace the mandatory baseline validation toolchain of at least one SMT solver plus at least one first-order or SAT solver unless the user explicitly accepts an unsupported non-validating fork;
 - whether missing optional backends may degrade to export-only checks after the minimum tool requirement passes.
+- where DSL-generated contract scaffolds should be staged before implementation;
+- whether the default Rust verification backend for DSL contract scaffolds should remain `kani`.
 
 Default to the module plan values unless the user asks for changes.
 
