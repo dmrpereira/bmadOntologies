@@ -13,7 +13,7 @@ class CodeVerificationWorkspaceTests(unittest.TestCase):
 
     def test_create_workspace_writes_report_files(self):
         with tempfile.TemporaryDirectory() as tmp:
-            module_root = Path(tmp) / "_bmad" / "formally-bmad"
+            module_root = Path(tmp) / "_bmad" / "formally-bmad-dsl"
             module_root.mkdir(parents=True)
 
             result = code_verification_workspace.create_workspace(module_root, "rust parser crate")

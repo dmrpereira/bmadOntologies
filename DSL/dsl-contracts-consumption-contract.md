@@ -2,9 +2,7 @@
 
 ## Purpose
 
-This note defines how the new `formally-bmad-dsl-contracts` and `formally-bmad-dsl-contract-stubs` skills should consume the upstream DSL branch after `formally-bmad-dsl-stories`.
-
-This contract belongs to the parallel `formally-bmad-dsl-*` workflow family and must not be assumed to apply to the original `formally-bmad-formal-*` branch.
+This note defines how `formally-bmad-dsl-contracts` and `formally-bmad-dsl-contract-stubs` should consume the upstream DSL branch after `formally-bmad-dsl-stories`.
 
 ## Design Goal
 

@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This note records the proposed direction for the canonical DSL used by `formally-bmad-canonical-brainstorming` before further implementation work.
+This note records the proposed direction for the canonical DSL used by `formally-bmad-dsl-brainstorming` before further implementation work.
 
 The goal is to define a user-facing formalization surface that is:
 

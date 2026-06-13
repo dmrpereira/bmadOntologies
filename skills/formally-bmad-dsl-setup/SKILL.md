@@ -1,15 +1,15 @@
 ---
 name: formally-bmad-dsl-setup
-description: Configures the Formally BMAD parallel DSL branch. Use when the user requests to 'setup DSL Formally BMAD', 'configure the formally-bmad DSL branch', or 'install the formally-bmad-dsl module'.
+description: Configures the Formally BMAD DSL workflow. Use when the user requests to 'setup DSL Formally BMAD', 'configure the formally-bmad DSL workflow', or 'install the formally-bmad-dsl module'.
 ---
 
 # formally-bmad-dsl-setup
 
 ## Overview
 
-This skill configures the isolated `formally-bmad-dsl-*` branch by registering a DSL-specific module/help surface, collecting branch settings, creating durable project state, detecting BMad artifacts, verifying automated reasoning capability, and producing a DSL-branded setup report. Act as a formal-methods-aware setup engineer for the DSL branch: keep the interaction BMad-like, but do not allow installation to complete unless the baseline validation toolchain is executable: at least one supported SMT solver and at least one supported first-order or SAT solver.
+This skill configures the `formally-bmad-dsl-*` workflow by registering the module/help surface, collecting workflow settings, creating durable project state, detecting BMad artifacts, verifying automated reasoning capability, and producing a DSL-branded setup report. Act as a formal-methods-aware setup engineer for the DSL workflow: keep the interaction BMad-like, but do not allow installation to complete unless the baseline validation toolchain is executable: at least one supported SMT solver and at least one supported first-order or SAT solver.
 
-This setup is intentionally separate from `formally-bmad-setup`. It uses its own module code, its own state root under `_bmad/formally-bmad-dsl/`, its own help rows, and its own local helper scripts. It should be the only setup command used before running `formally-bmad-dsl-brainstorming`.
+It uses its own module code, its own state root under `_bmad/formally-bmad-dsl/`, its own help rows, and its own local helper scripts. It is the setup command for this repository's active workflow family.
 
 Never end the session silently. If setup must stop, block, or pause, explicitly tell the user what completed, what failed or is still missing, where the relevant artifacts or reports were written, and the exact next step.
 

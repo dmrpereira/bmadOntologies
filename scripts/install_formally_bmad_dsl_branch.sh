@@ -27,7 +27,7 @@ REPORT_FILE=""
 
 usage() {
   cat <<'EOF'
-Install the Formally BMAD parallel DSL branch into an existing BMad project.
+Install the Formally BMAD DSL workflow into an existing BMad project.
 
 Usage:
   install_formally_bmad_dsl_branch.sh --target-project PATH [options]
@@ -58,8 +58,7 @@ Installed payload:
   - formally-bmad-code-verification
   - formally-bmad-dsl-verification
 
-The script replaces only those target skill directories. It does not install or
-modify the original formally-bmad-formal-* branch.
+The script replaces only those target skill directories.
 EOF
 }
 
@@ -202,8 +201,7 @@ done
 
 report_lines+=("## Notes")
 report_lines+=("")
-report_lines+=("- This installer copies the isolated DSL setup entrypoint, the DSL steward, the \`formally-bmad-dsl-*\` branch, and the downstream implementation/code-verification companions required by the DSL contract-to-code path.")
-report_lines+=("- It does not copy or modify the original \`formally-bmad-formal-*\` branch or its setup/steward entrypoints.")
+report_lines+=("- This installer copies the DSL setup entrypoint, the DSL steward, the \`formally-bmad-dsl-*\` workflow family, and the downstream implementation/code-verification companions required by the DSL contract-to-code path.")
 report_lines+=("- After installation, open the target project in the selected agent runtime and run \`formally-bmad-dsl-setup\` there before starting the DSL branch if the module has not been initialized in that project yet.")
 
 if [[ -n "$REPORT_FILE" ]]; then

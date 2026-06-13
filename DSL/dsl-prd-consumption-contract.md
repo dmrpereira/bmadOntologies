@@ -2,9 +2,7 @@
 
 ## Purpose
 
-This note defines how the proposed `formally-bmad-dsl-prd` skill should consume outputs from `formally-bmad-dsl-brainstorming`.
-
-This contract is specific to the new parallel `formally-bmad-dsl-*` branch and must not be assumed to apply to the existing `formally-bmad-formal-*` branch.
+This note defines how `formally-bmad-dsl-prd` should consume outputs from `formally-bmad-dsl-brainstorming`.
 
 ## Design Goal
 

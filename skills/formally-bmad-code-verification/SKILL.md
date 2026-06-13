@@ -1,13 +1,13 @@
 ---
 name: formally-bmad-code-verification
-description: Verifies implementation against generated contracts. Use when the user requests to 'verify code contracts', 'check implementation against contracts', or 'run code verification'.
+description: Verifies DSL implementation against generated contracts. Use when the user requests to 'verify code contracts', 'check implementation against contracts', or 'run code verification'.
 ---
 
 # formally-bmad-code-verification
 
 ## Overview
 
-This workflow verifies implementation artifacts against generated code contracts and their upstream formal obligations. Act as an implementation verification engineer: collect tool-backed evidence where the language/toolchain allows it, distinguish bounded or degraded evidence from stronger proofs, and refuse to equate comments or unchecked assertions with verified conformance.
+This workflow verifies implementation artifacts against generated code contracts and their upstream DSL formal obligations. Act as an implementation verification engineer: collect tool-backed evidence where the language/toolchain allows it, distinguish bounded or degraded evidence from stronger proofs, and refuse to equate comments or unchecked assertions with verified conformance.
 
 ## Conventions
 
@@ -18,14 +18,14 @@ This workflow verifies implementation artifacts against generated code contracts
 
 ## On Activation
 
-Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad` section). Resolve these values, using setup defaults only when config is absent:
+Load available config from `{project-root}/_bmad/config.yaml` and `{project-root}/_bmad/config.user.yaml` (root level and `formally-bmad-dsl` section). Resolve these values, using setup defaults only when config is absent:
 
-- `formally_bmad_project_root`: `{project-root}/_bmad/formally-bmad`
-- `formally_bmad_canonical_model_path`: `{project-root}/_bmad/formally-bmad/canonical`
-- `formally_bmad_validation_strictness`: `stage-aware`
-- `formally_bmad_report_format`: `markdown,html`
+- `formally_bmad_dsl_project_root`: `{project-root}/_bmad/formally-bmad-dsl`
+- `formally_bmad_dsl_canonical_model_path`: `{project-root}/_bmad/formally-bmad-dsl/canonical`
+- `formally_bmad_dsl_validation_strictness`: `stage-aware`
+- `formally_bmad_dsl_report_format`: `markdown,html`
 
-If `{formally_bmad_project_root}` or `{formally_bmad_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-setup`.
+If `{formally_bmad_dsl_project_root}` or `{formally_bmad_dsl_canonical_model_path}/status.md` is missing, stop and direct the user to run `formally-bmad-dsl-setup`.
 
 If `--headless` or `-H` is invoked, require a contract workspace or explicit implementation-facing contract set plus a target code scope. Without that, create only the workspace and report that code verification needs generated contracts and implementation targets.
 
@@ -51,10 +51,10 @@ If contract stubs exist but real implementation does not, report that the projec
 Run the deterministic workspace helper once the verification scope is known:
 
 ```bash
-python3 scripts/code_verification_workspace.py --project-root {project-root} --module-root "{formally_bmad_project_root}" --target "{target-language-and-scope}"
+python3 scripts/code_verification_workspace.py --project-root {project-root} --module-root "{formally_bmad_dsl_project_root}" --target "{target-language-and-scope}"
 ```
 
-The helper creates `{formally_bmad_project_root}/reports/code-verification/<safe-target>/` with starter files for scope, tool runs, findings, coverage, counterexamples, readiness, and summary.
+The helper creates `{formally_bmad_dsl_project_root}/reports/code-verification/<safe-target>/` with starter files for scope, tool runs, findings, coverage, counterexamples, readiness, and summary.
 
 ### Check Verification Backend Availability
 
@@ -119,7 +119,7 @@ Maintain the report workspace with:
 - `summary.md` — concise verdict and next actions;
 - `manifest.json`.
 
-Where concrete tool runs exist, also record lightweight references under `{formally_bmad_project_root}/tool-runs/`.
+Where concrete tool runs exist, also record lightweight references under `{formally_bmad_dsl_project_root}/tool-runs/`.
 
 ### Handoff
 
@@ -129,4 +129,4 @@ End with:
 - target language and implementation scope;
 - passed, failed, degraded, and unchecked contract counts;
 - contracts lacking faithful implementation evidence;
-- recommended next workflow: `formally-bmad-formal-verification` for project-level readiness and traceability review.
+- recommended next workflow: `formally-bmad-dsl-verification` for project-level readiness and traceability review.

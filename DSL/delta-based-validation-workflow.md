@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This note revises the workflow model for `formally-bmad-canonical-brainstorming`.
+This note revises the workflow model for `formally-bmad-dsl-brainstorming`.
 
 The earlier design emphasized property generation and property checking for individual assertions. That is necessary, but it is not sufficient for the real goal of the workflow.
 

@@ -1,75 +1,39 @@
-# Formally BMAD MVP
+# Formally BMAD DSL
 
-This repository contains an MVP Formally BMAD module: a BMad extension for turning product and delivery artifacts into a formalized, traceable, verification-oriented project model.
+This repository contains the active Formally BMAD DSL module source. The older non-DSL workflow family has been removed. The supported path is the DSL-based lifecycle only.
 
-The current module is ready to use for a simple project workflow. It supports:
+## What It Provides
 
-- setup and tool detection
-- formal brainstorming and import
-- an optional parallel DSL branch with canonical assertions, ontology/ASM projections, and delta validation
-- PRD, architecture, epics, and stories with formal companions
-- language-aware code contract derivation for Python, C, and Rust
-- contract-bearing stub generation for review before implementation
-- implementation verification against generated contracts
-- checkpoint verification, readiness review, contradiction analysis, and traceability review
+The DSL module adds:
 
-## What This MVP Covers
+- canonical DSL baseline management under `{project-root}/_bmad/formally-bmad-dsl/`
+- DSL-first brainstorming, PRD, architecture, epics, and stories workflows
+- per-story contract derivation before implementation
+- contract-bearing scaffold generation under `{project-root}/scaffold/{story-id}/`
+- implementation governance for preserving and extending formal contracts
+- implementation verification and final DSL verification reporting
 
-The current module is designed for a practical first adoption, not full formal-methods automation.
+The intended workflow is:
 
-It already gives you:
+1. `formally-bmad-dsl-setup`
+2. `formally-bmad-dsl-agent-steward`
+3. `formally-bmad-dsl-brainstorming`
+4. `formally-bmad-dsl-prd`
+5. `formally-bmad-dsl-architecture`
+6. `formally-bmad-dsl-epics`
+7. `formally-bmad-dsl-stories`
+8. `formally-bmad-dsl-contracts`
+9. `formally-bmad-dsl-contract-stubs`
+10. explicit scaffold approval
+11. `formally-bmad-implementation-contracts`
+12. `formally-bmad-code-verification`
+13. `formally-bmad-dsl-verification`
 
-- a setup workflow with enforced validation baseline
-- an original formal branch state root under `_bmad/formally-bmad`
-- an isolated DSL branch state root under `_bmad/formally-bmad-dsl`
-- a formal artifact flow from idea to stories
-- a contract refinement flow from accepted obligations into code-level contracts
-- a review gate that turns accepted contracts into code skeletons before full generation
-- explicit verification routing for the currently supported toolchain
-- clear degraded-check behavior when a backend is missing
+## Prerequisite
 
-It does not yet give you:
+The target project must already have BMad installed. Formally BMAD DSL is a module on top of an existing BMad project; it does not bootstrap core BMad into an empty folder.
 
-- full automatic end-to-end solver orchestration for every workflow
-- permanent system installation for every optional tool
-- mature multi-backend cross-checking by default
-
-## Installation Model
-
-This repository is the module source bundle. It is not a standalone executable installer.
-
-Formally BMAD is packaged as a set of BMad skill folders under [skills](/Users/dmrpereira/Propostas/bmadOntologies/skills:1). To use it in another project, you install those skill folders into the skill location used by that target project and then run the setup skill from inside the target project.
-
-You do not need a special archive format. A ZIP file is only a transport mechanism. You can:
-
-- clone this repository and copy the skill folders
-- download a ZIP and uncompress it, then copy the skill folders
-- copy the `skills/` subtree directly from a local checkout
-
-The important point is not the transport format. The important point is that the target project ends up with the Formally BMAD skill directories installed in its active BMad skill location.
-
-## Prerequisite: BMad Must Already Exist In The Target Project
-
-Yes, the target project must already have BMad installed before you install Formally BMAD.
-
-Why:
-
-- `formally-bmad-dsl-setup` writes the DSL branch registration into `{project-root}/_bmad/config.yaml`
-- it merges entries into `{project-root}/_bmad/module-help.csv`
-- it assumes the target project already has a working `_bmad/` structure
-- cleanup logic assumes skills are installed in `.claude/skills/` or an equivalent active skills location
-
-Formally BMAD does not currently bootstrap core BMad into an empty non-BMad folder. It is a BMad module, not a replacement for the core BMad installation.
-
-Before installing Formally BMAD into a target project, verify that the target project already has:
-
-- an `_bmad/` directory
-- core BMad config files or the normal BMad project structure
-- an active BMad skill installation location, commonly `.claude/skills/` or equivalent
-
-## How To Start A BMad Project Before Installing Formally BMAD
-
-To create a fresh local BMad project in a target folder, run one of:
+Typical bootstrap commands for a target project are:
 
 ```bash
 npx bmad-method install
@@ -81,79 +45,21 @@ or:
 npx bmad-method@next install
 ```
 
-Run that command from inside the target project folder where you want BMad installed.
+The target project must already contain:
 
-After that, the correct sequence is:
+- `_bmad/`
+- core BMad config or normal BMad project state
+- an active skills directory such as `.claude/skills/`, `.codex/skills/`, or `.pi/skills/`
 
-1. create or choose a normal project folder
-2. run `npx bmad-method install` or `npx bmad-method@next install` in that folder
-3. verify that the folder is now a real BMad project
-4. install the Formally BMAD skills into that BMad project
+## Install
 
-### Minimum Checklist For “This Is A BMad Project”
+Copy the runtime skill directories from `skills/` into the active skills location of the target project, or use the installer:
 
-Treat a target folder as ready for Formally BMAD only if all of these are true:
+```bash
+./scripts/install_formally_bmad_dsl_branch.sh --target-project <target-project>
+```
 
-- the folder contains `_bmad/`
-- the folder contains BMad config state such as `_bmad/config.yaml` or the normal BMad project structure
-- the folder has access to the installed BMad skills, commonly under `.claude/skills/`, `.codex/skills/`, or `.pi/skills/`
-- the BMad runtime can already resolve normal core skills before Formally BMAD is added
-
-If those conditions are not true yet, you do not have a usable BMad project for this module.
-
-### Practical Start-From-Scratch Flow
-
-If you are starting from a completely empty project:
-
-1. make the project folder
-2. run `npx bmad-method install` or `npx bmad-method@next install`
-3. confirm the BMad project structure exists
-4. confirm the active BMad skills location exists
-5. copy the Formally BMAD skill directories from this repository's `skills/` folder into the target folder's active skills directory such as `.claude/skills/`, `.codex/skills/`, or `.pi/skills/`
-6. run `formally-bmad-dsl-setup` for the DSL branch, or `formally-bmad-setup` for the original formal branch
-
-### What This README Can And Cannot Tell You
-
-This README can tell you how Formally BMAD is installed into a BMad project.
-
-It cannot give you the authoritative core-BMad bootstrap command unless that command is documented by the BMad distribution you are using. Different BMad environments may install core skills differently, but for Formally BMAD the required end state is always the same:
-
-- `_bmad/` exists
-- core BMad is already working
-- the active BMad skills location exists
-- Formally BMAD skills are copied into that location
-
-## What To Copy Into A Target Project
-
-Install these skill directories from [skills](/Users/dmrpereira/Propostas/bmadOntologies/skills:1):
-
-- `formally-bmad-dsl-setup`
-- `formally-bmad-dsl-agent-steward`
-- `formally-bmad-formal-brainstorming`
-- `formally-bmad-dsl-brainstorming`
-- `formally-bmad-formal-import`
-- `formally-bmad-ontology-alignment`
-- `formally-bmad-formal-prd`
-- `formally-bmad-dsl-prd`
-- `formally-bmad-formal-architecture`
-- `formally-bmad-dsl-architecture`
-- `formally-bmad-formal-epics`
-- `formally-bmad-dsl-epics`
-- `formally-bmad-formal-stories`
-- `formally-bmad-dsl-stories`
-- `formally-bmad-formal-contracts`
-- `formally-bmad-contract-stubs`
-- `formally-bmad-code-verification`
-- `formally-bmad-formal-verification`
-- `formally-bmad-dsl-verification`
-
-Do not copy `skills/reports/`. That folder is project documentation for this module repository, not a runtime dependency of the target project.
-
-## Where To Copy The Skills
-
-Copy the directories above into the active BMad skills location used by the target project.
-
-For current agent runtimes, the supported installed locations are:
+Supported install locations:
 
 ```text
 {project-root}/.claude/skills/
@@ -161,518 +67,65 @@ For current agent runtimes, the supported installed locations are:
 {project-root}/.pi/skills/
 ```
 
-For the parallel DSL branch, you can install the payload automatically with:
+Required runtime skills:
 
-```bash
-./scripts/install_formally_bmad_dsl_branch.sh --target-project <target-project>
-```
+- `formally-bmad-dsl-setup`
+- `formally-bmad-dsl-agent-steward`
+- `formally-bmad-dsl-brainstorming`
+- `formally-bmad-dsl-prd`
+- `formally-bmad-dsl-architecture`
+- `formally-bmad-dsl-epics`
+- `formally-bmad-dsl-stories`
+- `formally-bmad-dsl-contracts`
+- `formally-bmad-dsl-contract-stubs`
+- `formally-bmad-implementation-contracts`
+- `formally-bmad-code-verification`
+- `formally-bmad-dsl-verification`
 
-The installer supports `claude`, `codex`, and `pi`, and places the DSL branch under the corresponding `.<agent>/skills/` directory in the target project.
+Each skill directory must become a direct child of the target skills directory.
 
-## Installation Steps For A New Target Project
-
-Use this sequence:
-
-1. Start with a project that already has BMad installed.
-2. Copy these directories from this repository's `skills/` folder:
-   - `skills/formally-bmad-dsl-setup`
-   - `skills/formally-bmad-dsl-agent-steward`
-   - `skills/formally-bmad-formal-brainstorming`
-   - `skills/formally-bmad-dsl-brainstorming`
-   - `skills/formally-bmad-formal-import`
-   - `skills/formally-bmad-ontology-alignment`
-   - `skills/formally-bmad-formal-prd`
-   - `skills/formally-bmad-dsl-prd`
-   - `skills/formally-bmad-formal-architecture`
-   - `skills/formally-bmad-dsl-architecture`
-   - `skills/formally-bmad-formal-epics`
-   - `skills/formally-bmad-dsl-epics`
-   - `skills/formally-bmad-formal-stories`
-   - `skills/formally-bmad-dsl-stories`
-   - `skills/formally-bmad-formal-contracts`
-   - `skills/formally-bmad-contract-stubs`
-   - `skills/formally-bmad-code-verification`
-   - `skills/formally-bmad-formal-verification`
-   - `skills/formally-bmad-dsl-verification`
-3. Copy them into the target project's active BMad skills location:
-
-```text
-<target-project>/.claude/skills/
-```
-
-Each copied directory should land directly under `.claude/skills/`, for example:
+Correct example:
 
 ```text
 <target-project>/.claude/skills/formally-bmad-dsl-setup
-<target-project>/.claude/skills/formally-bmad-dsl-agent-steward
-<target-project>/.claude/skills/formally-bmad-dsl-brainstorming
-<target-project>/.claude/skills/formally-bmad-dsl-verification
 ```
 
-Do not create an extra nesting layer such as:
+Wrong example:
 
 ```text
 <target-project>/.claude/skills/skills/formally-bmad-dsl-setup
 ```
 
-That layout is wrong.
-
-For the parallel DSL branch only, you can automate installation with:
-
-```bash
-./scripts/install_formally_bmad_dsl_branch.sh --target-project <target-project> --agents claude,codex,pi
-```
-4. Open the target project root, not this repository root.
-5. Run `formally-bmad-dsl-setup` inside the target project for the DSL branch.
-6. Confirm that setup creates and updates:
-   - `{project-root}/_bmad/config.yaml`
-   - `{project-root}/_bmad/config.user.yaml`
-   - `{project-root}/_bmad/module-help.csv`
-   - `{project-root}/_bmad/formally-bmad-dsl/`
-7. Only after setup succeeds, begin the formal workflow.
-
-## Minimal Example Install Procedure
-
-If you already have a BMad-enabled target project and want the simplest install path:
-
-1. clone or download this repository
-2. from this repository, copy these directories:
-   - `skills/formally-bmad-dsl-setup`
-   - `skills/formally-bmad-dsl-agent-steward`
-   - `skills/formally-bmad-formal-brainstorming`
-   - `skills/formally-bmad-dsl-brainstorming`
-   - `skills/formally-bmad-formal-import`
-   - `skills/formally-bmad-ontology-alignment`
-   - `skills/formally-bmad-formal-prd`
-   - `skills/formally-bmad-dsl-prd`
-   - `skills/formally-bmad-formal-architecture`
-   - `skills/formally-bmad-dsl-architecture`
-   - `skills/formally-bmad-formal-epics`
-   - `skills/formally-bmad-dsl-epics`
-   - `skills/formally-bmad-formal-stories`
-   - `skills/formally-bmad-dsl-stories`
-   - `skills/formally-bmad-formal-contracts`
-   - `skills/formally-bmad-contract-stubs`
-   - `skills/formally-bmad-code-verification`
-   - `skills/formally-bmad-formal-verification`
-   - `skills/formally-bmad-dsl-verification`
-3. copy them into:
-
-```text
-<target-project>/.claude/skills/
-```
-
-4. in the target project, run:
-
-```text
-formally-bmad-dsl-setup
-```
-
-That is the install procedure for the MVP.
-
-## Current Tooling Model
-
-### Baseline Validation Gate
-
-Setup requires:
-
-- at least one SMT solver
-- at least one first-order or SAT solver
-
-In practice, the current environment already supports this baseline with:
-
-- `z3`
-- `vampire`
-- `eprover`
-- `kissat`
-
-### Additional Supported Tools
-
-The module can also detect and report:
-
-- proof assistants: `rocq`, `coqc`, `lean`, `lake`, `isabelle`
-- temporal satisfiability tooling: `black`
-- ontology tooling: `robot`
-- temporal/model-checking tooling: `tlc`, `apalache`, `alloy`
-- Python contract verification tooling: `crosshair`, `deal`, `nagini`, `esbmc`
-- C contract verification tooling: `frama-c`, `cbmc`, `esbmc`, `verifast`
-- Rust contract verification tooling: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, `esbmc`
-- additional ontology reasoners: `hermit`, `elk`, `jfact`, `factplusplus`, `pellet`
-
-### Important Environment Note
-
-Some tools are currently installed session-locally rather than globally:
-
-- `black`: `/private/tmp/black-install/bin/black`
-- `robot`: `/private/tmp/robot/bin/robot`
-
-The setup helper already knows to search those directories. If you move to another machine or a new environment, either reinstall those tools or provide extra tool directories through:
-
-```bash
-FORMALLY_BMAD_EXTRA_TOOL_DIRS=/path/to/tools1:/path/to/tools2
-```
-
-## How Verification Currently Uses Tools
-
-The MVP verification workflow routes checks conservatively by logic family:
-
-- SMT obligations: `z3`, then `cvc5`, then `cvc4`
-- first-order obligations: `vampire`, then `eprover`, then `prover9`
-- finite countermodel attempts: `mace4`
-- SAT-oriented reductions: `kissat`, then `cadical`, then `minisat`, then `glucose`
-- temporal satisfiability and finite-trace consistency: `black`
-- executable temporal/state-model views: `tlc`, then `apalache`, then `alloy`
-- ontology validation and export: `robot`, then `hermit`, `elk`, `jfact`, `factplusplus`, `pellet`
-
-Proof assistants are support-only in the MVP. They are informative, but they are not the primary validation backend.
-
-For implementation-facing verification, the current MVP also supports this contract/tool split:
-
-- Python contracts: prefer `deal` or `icontract` style notation; backends include `crosshair`, `deal`, `nagini`, and `esbmc`
-- C contracts: prefer `ACSL`; backends include `frama-c`, `cbmc`, `esbmc`, and `verifast`
-- Rust contracts: prefer Kani-oriented assertions or proof harnesses, or Prusti/Creusot/Verus/Flux style specifications; backends include `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, and `esbmc`
-
-Pragmatic maturity note:
-
-- good default choices today: `crosshair`, `deal`, `frama-c`, `cbmc`, `esbmc`, `cargo-kani`, `cargo-creusot`
-- advanced or research-heavy options worth supporting explicitly: `nagini`, `verifast`, `prusti-rustc`, `cargo-prusti`, `verus`, `flux`
-
-When one of these language-specific workflows is invoked and no compatible backend is available, the workflow should say so explicitly and may ask whether you want it to install a suitable tool before continuing in degraded mode.
-
-## Recommended Starting Workflow
-
-For a new simple project, use this sequence:
-
-1. Run `formally-bmad-dsl-setup`
-2. Start with either:
-   - `formally-bmad-formal-brainstorming` for a greenfield idea
-   - `formally-bmad-dsl-brainstorming` for the experimental parallel DSL branch after `formally-bmad-dsl-setup`
-   - `formally-bmad-formal-import` if you already have BMad artifacts
-3. Run `formally-bmad-formal-prd`
-4. Run `formally-bmad-formal-architecture`
-5. Run `formally-bmad-formal-epics`
-6. Run `formally-bmad-formal-stories`
-7. Run `formally-bmad-formal-contracts` when implementation-facing contracts are needed
-8. Run `formally-bmad-contract-stubs` to generate reviewable skeletons before implementation
-9. Run `formally-bmad-code-verification` when code exists
-10. Run `formally-bmad-formal-verification` at checkpoints and at the end
-
-The intended call order is strictly sequential once you are in the planning-to-implementation part of the lifecycle:
-
-1. `formally-bmad-formal-prd`
-2. `formally-bmad-formal-architecture`
-3. `formally-bmad-formal-epics`
-4. `formally-bmad-formal-stories`
-5. `formally-bmad-formal-contracts`
-6. `formally-bmad-contract-stubs`
-7. `formally-bmad-code-verification`
-8. `formally-bmad-formal-verification`
-
-`formally-bmad-formal-contracts` does not run in parallel with `formally-bmad-formal-stories`.
-
-Reason:
-
-- `formally-bmad-formal-stories` decides the implementation-facing acceptance criteria and obligations
-- `formally-bmad-formal-contracts` consumes those accepted obligations and refines them into code-level contracts
-- `formally-bmad-contract-stubs` projects those contracts into signatures, types, modules, and contract placement for review
-- `formally-bmad-code-verification` then checks actual code against the approved contracts and stub shape
-
-Use this rule of thumb:
-
-- if you are still deciding what implementation must do, stay in `formally-bmad-formal-stories`
-- if you are deciding how an accepted obligation becomes a checkable Python, C, or Rust contract, move to `formally-bmad-formal-contracts`
-- if you want reviewable code shape before implementation, run `formally-bmad-contract-stubs`
-- if code already exists and you want evidence that it satisfies those contracts, run `formally-bmad-code-verification`
-
-Use `formally-bmad-dsl-agent-steward` whenever you need:
-
-- canonical model status
-- contradiction review
-- provenance/status maintenance
-- consistency guidance across sessions
-
-## Best First Project
-
-Do not start with a large system. The best first adoption is a single-feature project or a single vertical slice.
-
-A good first run is:
-
-1. setup the module
-2. brainstorm one feature
-3. formalize the PRD
-4. run verification immediately
-5. only then continue into architecture and stories
-6. add contract derivation once implementation planning begins
-7. review generated contract-bearing stubs before full code generation
-8. run code verification once real implementation exists
-
-That gives you fast feedback on:
-
-- whether the formalization style is useful
-- whether the generated obligations are understandable
-- whether the chosen solver/tool mix is adequate
-
-## Step-By-Step Instructions
-
-### 1. Prepare a Project Folder
-
-Create or choose a working project directory.
-
-If BMad is not installed yet in that folder, run:
-
-```bash
-npx bmad-method install
-```
-
-or:
-
-```bash
-npx bmad-method@next install
-```
-
-After BMad is installed, the module will create project state under:
-
-```text
-_bmad/formally-bmad
-```
-
-This is where canonical model state, reports, artifacts, provenance, and tool-run records will live.
-
-### 2. Install The Skills And Run Setup
-
-First, copy these directories from this repository:
-
-- `skills/formally-bmad-setup`
-- `skills/formally-bmad-agent-steward`
-- `skills/formally-bmad-formal-brainstorming`
-- `skills/formally-bmad-formal-import`
-- `skills/formally-bmad-ontology-alignment`
-- `skills/formally-bmad-formal-prd`
-- `skills/formally-bmad-formal-architecture`
-- `skills/formally-bmad-formal-epics`
-- `skills/formally-bmad-formal-stories`
-- `skills/formally-bmad-formal-contracts`
-- `skills/formally-bmad-contract-stubs`
-- `skills/formally-bmad-code-verification`
-- `skills/formally-bmad-formal-verification`
-
-Copy them into the target project's active BMad skill location, usually:
-
-```text
-{project-root}/.claude/skills/
-```
-
-Each Formally BMAD skill directory should become a direct child of `.claude/skills/`.
-
-Then run:
-
-```text
-formally-bmad-setup
-```
-
-Setup will:
-
-- register the module
-- merge module configuration into `_bmad/config.yaml` and `_bmad/config.user.yaml`
-- detect available formal tools
-- verify the baseline validation gate
-- create the canonical model structure
-- produce a setup report
-
-If setup blocks, fix the missing baseline tools first. Do not continue formal verification work without passing setup.
-
-### 3. Choose an Entry Point
-
-Use one of these:
-
-`formally-bmad-formal-brainstorming`
-
-- best for new ideas
-- captures assumptions, alternatives, open questions, and candidate concepts
-- keeps things flexible while building traceable formal companions
-
-`formally-bmad-formal-import`
-
-- best if you already have existing BMad Markdown artifacts
-- inventories source files
-- creates import companions and candidate formal deltas
-- preserves source meaning rather than rewriting it prematurely
-
-### 4. Formalize Requirements
+## Setup
 
 Run:
 
-```text
-formally-bmad-formal-prd
-```
+- `formally-bmad-dsl-setup`
 
-This stage should produce:
+This registers the module in the target project and initializes:
 
-- a readable PRD
-- formalized requirements
-- provenance links
-- verification obligations
-- candidate or accepted canonical deltas
+- `{project-root}/_bmad/formally-bmad-dsl/`
+- `{project-root}/_bmad/formally-bmad-dsl/canonical/`
+- DSL module help/config entries under `_bmad/`
 
-Keep requirements readable. Formal detail belongs in companions, not in unreadable source documents.
+Setup is blocked unless at least:
 
-### 5. Formalize Architecture
+- one supported SMT solver is available
+- one supported first-order or SAT solver is available
 
-Run:
+Relevant implementation-facing backend families include:
 
-```text
-formally-bmad-formal-architecture
-```
+- Python: `pyveritas`, `deal`, `crosshair`, `nagini`, `esbmc`
+- C: `frama-c`, `cbmc`, `esbmc`, `verifast`
+- Rust: `cargo-kani`, `prusti-rustc`, `cargo-prusti`, `cargo-creusot`, `verus`, `flux`, `verifast`, `esbmc`
 
-This stage should align architecture with accepted requirements and produce:
+The default Rust verification target for the DSL implementation path is `Kani` unless the project config overrides it.
 
-- component and interface constraints
-- invariants
-- temporal properties where relevant
-- implementation constraints for downstream epics and stories
+## Notes
 
-### 6. Formalize Planning
+- Human-readable artifacts remain Markdown, with formal lineage and verification posture tracked alongside them.
+- Contract scaffolds default to `{project-root}/scaffold/{story-id}/`.
+- Business-logic implementation is gated behind contract derivation, scaffold generation, and explicit scaffold approval.
+- Final sign-off belongs to `formally-bmad-dsl-verification`, after implementation evidence has passed through `formally-bmad-code-verification`.
 
-Run:
-
-```text
-formally-bmad-formal-epics
-formally-bmad-formal-stories
-```
-
-These stages should:
-
-- map requirements to epics
-- expose coverage gaps before implementation starts
-- produce stories with formalized acceptance criteria
-- detect readiness blockers before coding
-
-This is the last stage where you are still defining implementation commitments. Do not start `formally-bmad-formal-contracts` until the relevant stories and acceptance criteria are accepted enough to serve as stable input.
-
-### 7. Derive Code Contracts
-
-Run:
-
-```text
-formally-bmad-formal-contracts
-```
-
-This stage should:
-
-- translate accepted requirements and story criteria into code-contract surfaces
-- choose language-aware notation for Python, C, or Rust
-- record whether each contract is exact, conservative, partial, or not faithfully expressible
-- generate tool-facing contract views rather than leaving contracts as comments only
-
-When this stage begins:
-
-- stories should already exist
-- acceptance criteria should already be formalized
-- the target language and target code surface should be known
-
-This stage is downstream from stories, not a parallel drafting activity with them.
-
-### 8. Generate Contract-Bearing Stubs
-
-Run:
-
-```text
-formally-bmad-contract-stubs
-```
-
-This stage should:
-
-- generate signatures, types, files, modules, or traits with accepted contract placement
-- avoid filling in business logic
-- provide a review checkpoint for names, boundaries, and contract attachment
-- make the user approve code shape before full implementation begins
-
-This is the bridge between contract refinement and full implementation.
-
-### 9. Verify Implementation Against Contracts
-
-Run:
-
-```text
-formally-bmad-code-verification
-```
-
-This stage should:
-
-- check implementation against generated contracts
-- record whether evidence is deductive, symbolic, bounded, runtime, test-based, or manual-review only
-- report failures, degraded checks, and contracts that still lack faithful implementation evidence
-
-Only run this stage after contract stubs have been reviewed and actual code exists. If all you have are comments, docstrings, pseudocode, or unreviewed skeletons, you are still too early for strong code-verification claims.
-
-### 10. Run Verification at Checkpoints
-
-Run:
-
-```text
-formally-bmad-formal-verification
-```
-
-Do not wait until the end. The recommended checkpoint cadence is:
-
-1. after PRD
-2. after architecture
-3. after stories
-4. after contract derivation and stub review when implementation planning becomes concrete
-5. after code verification when implementation exists
-
-This gives early signal on:
-
-- contradictions
-- missing formal coverage
-- traceability gaps
-- obligations that are represented structurally but not yet tool-checkable
-
-## What Good MVP Usage Looks Like
-
-For this version of the module, success looks like:
-
-- setup passes
-- every major artifact gets a formal companion
-- implementation-facing obligations are translated into explicit contracts before strong code-level claims are made
-- verification is run repeatedly, not only at the end
-- degraded checks are reported honestly
-- the canonical model remains the source of truth
-- source artifacts stay readable
-
-## What To Expect From Reports
-
-Setup and verification reports should make these things explicit:
-
-- which tools were detected
-- which baseline checks passed
-- which checks were degraded or skipped
-- which contradictions are blocking readiness
-- which obligations are tool-checkable with the current environment
-- which obligations still need a better backend or a cleaner formal encoding
-- which implementation contracts are only runtime/test-backed rather than tool-backed
-
-## Suggested Workflow For Daily Use
-
-For a small project, this is a good operating rhythm:
-
-1. update the current artifact
-2. submit the new delta through the relevant workflow
-3. check steward status if needed
-4. run formal verification at the end of the checkpoint
-5. resolve blockers before moving to the next lifecycle stage
-
-## Current Status
-
-This MVP currently validates cleanly:
-
-- module validation passes
-- setup-helper tests pass
-- setup detects the current solver/tool environment correctly
-- verification and steward guidance are aligned with the installed toolchain
-
-If you want to extend this later, the natural next steps are:
-
-- permanent installation paths for `black` and `robot`
-- explicit command-level integration of solver runs in verification workflows
-- richer backend support such as `cvc5`, `tlc`, `apalache`, or additional ontology reasoners
+See [docs/formally-bmad-quickstart.md](/Users/dmrpereira/Propostas/bmadOntologies/docs/formally-bmad-quickstart.md) for the concise operator flow.

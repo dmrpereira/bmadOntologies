@@ -2,12 +2,10 @@
 
 ## Purpose
 
-This note defines how the proposed `formally-bmad-dsl-architecture` skill should consume outputs from the upstream DSL branch, especially:
+This note defines how `formally-bmad-dsl-architecture` should consume outputs from the upstream DSL branch, especially:
 
 - `formally-bmad-dsl-prd`
 - and, where needed for grounding, `formally-bmad-dsl-brainstorming`
-
-This contract belongs to the new parallel `formally-bmad-dsl-*` workflow family and must not be assumed to apply to the existing `formally-bmad-formal-*` branch.
 
 ## Design Goal
 
